@@ -73,12 +73,19 @@ public class Level
                 }
                 if(line[x].Contains("*")){
                     actionPoints.Add(pos,MakeActionPoint(pos));
+                    if(line[x][0] != '*'){
+                        actionPoints[pos].num = int.Parse(line[x][0].ToString());
+                    }
                 }
                 if(line[x].Contains("x")){
                     exits.Add(pos,new Exit(pos,gameObject.transform));
                     exits[pos].level = this;
                 }
+                
                 for(var i = 0; i < 4;i++){
+                    if(line[x][0].ToString() == i.ToString()){
+                        continue;
+                    }
                     if(line[x].Contains(i.ToString())){
                         newTile.walls[i] = true;
                     }
@@ -391,8 +398,18 @@ public class Level
     }
     public void RemoveActionPoint(Vector2Int pos){
         changed = true;
-        actionPoints[pos].Destroy();
-        actionPoints.Remove(pos);
+        if(actionPoints[pos].num > 1){
+            actionPoints[pos].num-=1;
+        }else{
+            actionPoints[pos].Destroy();
+            actionPoints.Remove(pos);
+        }
+    }
+    public void AddToActionPoint(Vector2Int pos){
+        changed = true;
+        if(actionPoints[pos].num < 9){
+            actionPoints[pos].num+=1;
+        }
     }
     public void MoveExit(Exit exit, Vector2Int pos){
         changed = true;
@@ -459,7 +476,12 @@ public class Level
         string s = "";
         string[,] tileInfo = new string[extent.x,extent.y];
         foreach(ActionPoint ap in actionPoints.Values){
-            tileInfo[ap.gridPosition.x,ap.gridPosition.y] = "*";
+            string _ap = "*";
+            if(ap.num > 1){
+                _ap=ap.num.ToString()+_ap;
+            }
+            tileInfo[ap.gridPosition.x,ap.gridPosition.y] = _ap;
+            
         }
         tileInfo[startPosition.x,startPosition.y] = "@";
         foreach(Exit exit in exits.Values){

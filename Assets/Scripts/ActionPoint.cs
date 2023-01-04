@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ActionPoint
 {
@@ -11,11 +12,15 @@ public class ActionPoint
     public Player playerHolding;
     public Vector2Int gridPosition;
     public int index;
+    //how powerful it is
+    public int num = 1;
     LineRenderer circle;
+    TextMeshPro text;
     float outerWidth;
     float innerWidth;
     public GameObject gameObject;
     public bool startedAsTurn;
+    public bool createdMidGame;
 
     public ActionPoint(Vector2Int gridPosition,Transform parent){//starts in the level
         this.gridPosition = gridPosition;
@@ -23,6 +28,7 @@ public class ActionPoint
         circle = gameObject.transform.GetChild(0).GetComponent<LineRenderer>();
         outerWidth = circle.startWidth;
         index = -1;
+        text = gameObject.GetComponentInChildren<TextMeshPro>();
     }
     public ActionPoint(int index, Transform parent){//starts already had
         startedAsTurn = true;
@@ -31,6 +37,15 @@ public class ActionPoint
         gameObject = GameObject.Instantiate(Services.GameController.actionPointPrefab,(Vector2)gridPosition,Quaternion.identity,parent);
         circle = gameObject.transform.GetChild(0).GetComponent<LineRenderer>();
         outerWidth = circle.startWidth;
+        text = gameObject.GetComponentInChildren<TextMeshPro>();
+    }
+    public ActionPoint(Transform parent){//created mid-game by pack of points
+        createdMidGame = true;
+        gameObject = GameObject.Instantiate(Services.GameController.actionPointPrefab,(Vector2)gridPosition,Quaternion.identity,parent);
+        circle = gameObject.transform.GetChild(0).GetComponent<LineRenderer>();
+        outerWidth = circle.startWidth;
+        index = -1;
+        text = gameObject.GetComponentInChildren<TextMeshPro>();
     }
     //
     public void Grab(Player player){
@@ -48,16 +63,38 @@ public class ActionPoint
         index = Services.GameController.turnLimitDisplay.Count;
         gameObject.transform.parent = Services.GameController.turnLimitParent;
         Services.GameController.turnLimitDisplay.Add(this);
+        Services.GameController.turnLimit++;
+        if(num > 1){
+            int n = num;
+            while(n > 1){
+                ActionPoint newActionPoint = new ActionPoint(gameObject.transform.parent);
+                newActionPoint.Collect();
+                n-=1;
+            }
+        }
     }
     public void UndoCollect(){
         on = true;
-        Services.Grid.actionPoints.Add(gridPosition,this);
-        collected = false;
-        gameObject.transform.parent = Services.Grid.level.gameObject.transform;
+        if(createdMidGame){
+            GameObject.Destroy(this.gameObject);
+        }else{
+            Services.Grid.actionPoints.Add(gridPosition,this);
+            collected = false;
+            gameObject.transform.parent = Services.Grid.level.gameObject.transform;
+        }
+        
+        
         Services.GameController.turnLimitDisplay.Remove(this);
+        Services.GameController.turnLimit--;
+        
     }
     public void Draw()
     {
+        if(num < 2 || collected){
+            text.text = "";
+        }else{
+            text.text = num.ToString();
+        }
         if(collected){
             circle.startColor = on ? Services.Visuals.actionColor : Services.Visuals.tileColor;
             

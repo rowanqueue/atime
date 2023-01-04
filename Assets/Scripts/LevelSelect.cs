@@ -740,6 +740,8 @@ public class LevelSelect : MonoBehaviour
                             return;
                         }
                         l.AddActionPoint(mouseTilePos);
+                    }else{
+                        l.AddToActionPoint(mouseTilePos);
                     }
                 }else{
                     l.AddTile(mouseTilePos);

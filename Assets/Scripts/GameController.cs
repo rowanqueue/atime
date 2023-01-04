@@ -696,10 +696,14 @@ public class GameController : MonoBehaviour
         }
         if(lastTurn.loop == currentLoop-1){
             //you're going back a loop!
-            turnLimit--;
+            //turnLimit--;
             currentPlayer.Destroy();
             players.RemoveAt(players.Count-1);
+            while(turnLimitDisplay[turnLimitDisplay.Count-1].createdMidGame){
+                turnLimitDisplay[turnLimitDisplay.Count-1].UndoCollect();
+            }
             turnLimitDisplay[turnLimitDisplay.Count-1].UndoCollect();
+            
         }
         foreach(ActionPoint ap in lastTurn.actionPointStates.Keys){
             if(ap.held != lastTurn.actionPointStates[ap].held){
@@ -777,7 +781,7 @@ public class GameController : MonoBehaviour
     void NewLoop(){
         currentLoop++;
         currentTurn = 0;
-        turnLimit++;
+        //turnLimit++;
         foreach(Player player in players){
             player.Reset();
         }
