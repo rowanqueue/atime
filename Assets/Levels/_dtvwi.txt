@@ -1,0 +1,6 @@
+_dtvwi
+-2,2,2
+2,you = future~n~p = past~nyou = ~p~nfuture = past
+_,_,*1,.13,.3,_
+*,@,.,.,.,x
+_,_,.1,*13,.3,_

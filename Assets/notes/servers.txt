@@ -1,0 +1,29 @@
+https - https
+ssl - secure connection
+
+node.js server (he uses it with typescript)
+express for routing
+helmet for security
+heroku app for hosting for free
+(free hobby plan)
+(add for free any type of databse you want)
+(heroku cli for working on)
+
+GIT COMMAND LINE TIME!!
+road to node
+
+work in webstorm (jetbrains for web development)
+
+(lag when you first time access it in a while)
+
+apple authentication
+icloud
+game center
+
+stands assets
+
+you sign in with game center
+
+
+
+capitalize the first letter of each answer choice

@@ -1,0 +1,221 @@
+indie survival skills
+fullbright
+-used money/ideas/skills working on bioshock, formed with coworkers, self-published, used it to fund future stuff
+-lots of planning but also luck
+honeyslug
+-small freelance flash games, PSP small, hohokum
+-up front funding by micropublishers and sony
+-oppurtunistic around where the market is going
+stephen lavelle
+-made hundreds of free and open-source, only one commerical
+-all games are idiosyncratic
+-survive on donations (patreon) and comissions
+-lives frugally af
+nina freeman
+- works nights, but also works at fullbright
+-designs have to be small, and sometimes has to stop working
+-works financially, hard personally
+kitfox games
+-opportunistic development: kickstarter, work-fore-hire, grants, pitch competitions
+-strong focus on branding nad community development
+-one person handles running studio/biz dev
+
+how can the idea fit in with indie
+-low risk, high-revenue
+-scalable design
+-learn your platform and audience
+-commit to games based on evidence: prototypes or free versions, fans, sequels
+funding
+-small-midsize publishers will publish indie
+-platform holder will publish indies first-party when new service
+-budget exceeds funds, publisher gives you advance
+-publisher handles marketing, PR, support, platform relations, certification
+-marketing commitment weak?
+publishers
+-find specialized publisgher
+-many are okay with cold email intros with or without pitches
+-get an intro from someone who's already been published
+-you'll need an estimate of a monthly budget
+-ift hey like it, negotiate
+-contract, see if you have leverage
+-advance comes out of royalties, don't ask for more than you need
+without publisher
+-private investors or investment, but they wanta % (indie fund)
+-kickstarter, but rabid fans
+-grant-funding bodies (like ny state)
+day job
+-don't get a job where they own whatever i make
+
+contractors
+-common for music or voice acting or porting code, less comon for art or sfx
+-art tests before hiring
+-be careful of offering %revenue
+
+contracts
+-docontract.com
+-needs to answer major unknowns
+
+if project isn't going well
+-kill it
+-sunken cost falacy
+
+releasing
+marketing
+-dopresskit.com
+-start now
+-festivals like Fantastic Arcade and compeittions like IGF are cheap
+-paid advertising can work (use conversion tracking)
+
+social media
+-design game to be shared on social media
+-share excitement
+
+networking
+-word of mouth is superpower
+-just being friendly
+-help other people with their games
+showing your game
+-igf booth, pax, magfest, indiecade, evo, indie megaboth, or local: playcrafting
+-be with your game constantly
+-have a mailing list
+-say thanks
+-don't scare people off
+
+be different to be successful
+
+exit plan
+-most will not make enough on first to fund their second
+-if you're only ok with making an indie game if it provides sustainable income, don't do it
+-have a plan for release with no money: another game that seeks funding or a job
+
+robert
+-weird experimental stuff
+-for donations on itch
+-3-400 a month and thats like the highest
+ways to work
+-be rich
+-get married and take turns
+-be a super commerical indie who treats its like a business by seeking funding
+-day job
+-survive on instant ramen and die
+karina popp
+-stugan
+-multiple adjunct positions
+-commissions
+greg/ cosmo d.
+-off-peak
+-the norwood suite
+-foundation of music into games
+-financial foundation
+-community
+
+identity of indie
+- robert is noncommerical so he feels like he isn't
+- noncommerical again
+
+
+nyu incubator hooked me up with a good lawyer on the 80 page contract
+
+lots of different publisher relationships
+publisher is like dating
+
+bring lowest 1099 to financial aid person at hospital to get medicaid
+
+50-50 after recup is fair
+publishers want tangible/playable/viewable (proof of concept)
+
+
+
+alternate paths
+you know how to be a digital product generalist
+rapid prototyping
+rapid playtesting
+
+frank wanted to be a painter
+frank "knew" to separate art and work
+frank got fired after having his child
+frank learned photoshop in 3 days, made portfolio, in his neighbor's apartment
+frank had a friend
+frank interned for free learning digital design more deeply
+frank got a real job there
+frank's company started doing more internet based stuff
+frank helped start the interactive division in RGA
+frank did interaction design
+frank occasionly made games
+frank hired eric zimmerman
+frank was convinced by eric to do games - gearheads, robot club
+frank's stomach hurt 
+frank quit RGA
+eric had left and done gamelab
+lot of flash games were being made
+frank freelanced
+frank did lego shit at gamelab?
+frank did weird giant games
+frank made area/code
+frank did 5/6/7 games a year
+frank was design/dev, his partner kevin was biz dev
+frank was paid upfront to make experimental stuff
+frank said setting up a business is hard, but what do you do with it if you succeed?
+frank shifted into the gamecenter
+frank felt bad since it'd been so long, so he made hobo solitaire
+frank then made universal paperclips
+frank is now starting a company with his family, to make games, everybody house games
+
+
+studio week
+AAA
+interview process, what to do with an offer
+don't submit??
+do i want _that_ job?
+larger scale means your contribution is less
+can be frustrating to work at low-level after working at high-level here
+seniority transfers!!
+nothing is more powerful than an organic connection
+have opinions about the studio's games
+read interviews of their devs
+research their products and cultures
+what roles make up teams?
+^ look at credits
+know how the business works? - how do they sustain themselves and grow?
+aaaah
+start applying in april
+portfolio: things that feel complete
+interview
+most likely on-site, all day interview
+come prepared
+ask about interview schedule
+sincere questions for interviewers
+only enter 10 minutes earlier
+dress as yourself, dress one notch above what you see people in the studio wearing
+follow up to recruiter: mention things you learned that excited you
+got an offer
+make sure offer is reasonable and within industry norms (compared to igda salary survey)
+think about benefits
+don't worry about their toys
+develop life outside of your organization
+relocation costs? (pretty much only if more experience)
+how often is salary reviewed?
+what opportunities for growth?
+what turnover?
+negotiate
+accept with conditions, decline unless terms
+play offers against each other
+saying no, say no, no ghosting
+get the job
+do your work
+ask questions
+seek to understand your responsibilties
+ask for job description
+exceed expectations
+don't overuse internal social media (slack)
+
+finding people who are excited about mentoring folks inside the organization
+automate tasks
+identify other work
+
+working in games industry has always been bad
+-job instability
+-low pay/long hours
+-unpleasant work conditions
+
+winnie says:

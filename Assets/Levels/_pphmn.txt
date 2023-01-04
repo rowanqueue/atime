@@ -1,0 +1,7 @@
+_pphmn
+-2,1,2,1
+2,this many ~p feels like a party~nif only ~a tasted good
+.,x2,_,*1,*3
+.2,.02,*,.,.2
+*0,.012,@3,.1,.03
+.,.0,.,.,.

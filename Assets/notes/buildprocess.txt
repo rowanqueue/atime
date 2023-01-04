@@ -1,0 +1,1 @@
+-timer does not wait until end of clip to start (ex: a node set on a .5s timer plays .5s into the node that primes it

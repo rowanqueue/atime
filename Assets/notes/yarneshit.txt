@@ -1,0 +1,127 @@
+BIG TODO
+- bring new level select system to yarne
+- desktop: move camera by putting mouse at edge of screen
+- mobile: move camera by swiping
+- but like do this in a way it doesnt wipe saves lol 
+- ok but how does going to other menus work if they're movement based
+
+
+
+TALK TO PARKER 4/5
++ armorgames update it with current format but updated graphics/palettes/levels/tutorial
++ woovit yes, maybe ads later 
++ how do we add levels to the game in a non-linear format? this is a post 50 problem
+-roadmap
+- steam achievements
+- resolution resizer
+- cloud saves
+- better exit process (button)
+- trading cards
+
+ARMORGAMES
+- post updated tutorial levels
+- talk to parker about updating it
+
+MARKETING
+- woovit
+- youtubers!!
+- maybe pay for ads? (like ~$400?)
+
+NEXT UPDATE
+- erase big save
+- reset level save
+- put a world name as the level name in level select mode
+- resolution scaling
+- better exit process? (button)
+- right click needs to be taught better
+- accessibility to make it so you don't have to hold down your mouse
+- accessbility : more obvious walls
+- more intricate volume settings
+- credits button on menu
+- steam achievements
+-- page 1/2/3/4
+-- certain number of moves
+-- if we add separate saves, speedrun >:)
+
+UI/MENU OVERHAUL
+- reset level button (you unlock it so players dont become degens)
+
+
+- power button
+- clear your progress (potentially multiple saves?)
+- more intricate volume settings
+- credits from menu
+- resolution resizer (maybe just fullscreen/not with a resizable window?) ( we can save the size of their window for when they boot up)
+
+
+
+DREAMS
+- final palette thats unlocked by doing everything
+- level editor (how to have N levels?)
+- palette editor (how to have N paletttes?)
+
+MOBILE MAY 10thish
+- deal with phone resolutions
+- how to make mobile attractive to steam customers?
+- replace mouse animation with finger animation
+- release same time as endless mode on pc
+- set up landscape mode in a way that permits playing from a portrait perspective
+
+
+
+
+
+
+
+- default
+- purple meadow
+- martin
+- trans pride flag
+- sandy stone
+- halloween
+- salmon lava
+- cam palette
+
+ALL THREE
+- meet up to work out palette stuff
+
+modes
+- levels
+- zen : peaceful endless
+- marathon : hardcore endless
+- level editor + play other people's levels
+
+
+
+
+LINES
+-- mirror line where its two of the shape in the middle and you drag them and they both go (one is mirrored)
+-- mirror but its just for individual moves (less like mirror, more like sprouts out of the same opening?)
+-- dashed line (you can intersect some)
+-- spiky line (it has to end where another one starts?)
+-- wavy line (it it can only make 2 degree turns)
+-- double strong shape (you have to strecth it twice to go down one side)
+-- explosion (when it ends, it covers every other connection in the hex)
+-- line that when pull it in a direction it either:
+	1. cant go the same direction for the next move
+	2. makes a WALL in that direction
+EDGES
+-- walls (you can't go through that)
+-- holes (you can go through, but can't stop?)
+-- terminators (you can end on it only)
+-- arrow edge (you are pushed through the hex)
+-- warps (teleport from one edge to another unconnected edge)
+-- one way edges
+-- key edge that when fulfilled opens all other edges in tile
+-- grower edge
+-- goal edge (you HAVE to go through it to satisfy the level)
+TILES
+-- inner walls blocking certain connections
+-- tiles that need to be filled >= or <= to be satisfied
+-- splitter tile (splits into 2)
+-- lock and key tiles (not touching)
+-- walls between vertices that split tile into 2
+-- tunnel in the middle of a tile
+VERTICES
+-- a vertex that has to be surrounded
+

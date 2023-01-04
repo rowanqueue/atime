@@ -1,0 +1,189 @@
+youre an AI crashed on a ?planet? with a single drone surrounded by ?magic crystals? (they're red and kinda like bumi's magic rocks) that put you in a time loop. your original goal was to scan planets and see if they're suitable for human life, which you must do (scan plants/animals/etc.). your goal is to make a rocket (since you need to launch a package of information about the planet) and get rid of the loop by destroying all the crystals on the planet (crystals are the ?only? consistent thing between loops).  your robots have to stay connected with you through their cables and their cables can't cross. they can build other robots (the hex they are built on is the one they're always connected to) robots can also build buildings that process resources. the goal is to make a time loop that lasts long enough to send the AI core into orbit.
+
+"factorio time loop"
+
+permanent progress:
+- length of loop (put quartz in the core, compact it to get more oomph out of each quartz)
+- map
+- research
+- plans/blueprints (aka when the loop restarts your robots go through the plan you've given them)
+
+nonpermanent progress:
+- resources (iron, copper, etc.)
+- buildings
+- robot upgrades
+-- cable length
+-- arm strength
+-- carry capacity
+
+
+game loop
+send robot to get resources to extend the time loop so you can send it further to get more resources (and then process those resources to build htings) (build more robots)
+
+robots travel along lines that you directly move. when selecting a robot you can see a list of their commands. you can pause, fast-forward/rewind step by step, and more to edit their commands to your liking. 
+
+overall, since you know exactly how long the loop is, its fine to pause fast forward rewind and edit it to your pleasing without it actually running. then when its actually running you can fast-forward/rewind/pause but you only get whatever you obtain when/if the loop ends.
+
+lets literally make the resources/buildings at first just factorio's, but simpler. (NO BELTS!! ROBOTS CARRY THINGS)
+
+RESEARCH is literally based on the idea that the longer the loop is, the more info (like bytes) you can get from your bigger brain in space (light delay and all that), so breaking crystals is basically also research points once you can build a radio antenna? idk
+
+classes:
+- hex
+-- neighbors
+-- inner points (whats in them)
+-- known
+- drone
+-- location (hex,innerpoint)
+-- cable (connector points)
+-- inventory (probably a hex's (6 stacks) or it just can carry 1 stack of things)
+-- abilities (maybe you craft upgrades to them that fit in their inventory slots)
+- thing in a hex
+--types
+--- drone,obvi
+--- drone cable
+--- resource node (if multiple of the same type are in a hex or in neighboring hexes, they're visually connected BUT ARE STILL INTEGER VALUES)
+--- buildings (can take up anywhere from 1-6 inner points)
+
+INVENTORY IDEA
+ok so basically think of triangles as containers of 3 that each are capable of holding something. a drone has an inventory of max 6 things that are arranged in this for clarity. (you hover over a drone and see its inventory pop up above it)
+
+
+ok so game:
+- send out your drone to explore, discover time loop somehow
+- find crystal, quest tells you to take it back to the core for analysis
+- figure out that getting rid of the crystals lengthens the loop
+- figure out that if you even further refine the broken crystals the loop gets longer, so you need to develop machines to do that (so you need to make machines and stuff)
+- part of your job is to also scan flora and fauna for human habitability, which leads you to discovering new ways of handling the loop (such as being able to send more and more (but still a very small amount) of things back in the loop)
+- you're also working on getting the infrastructure developed to launch a rocket so you can deliver your report
+
+CODE THE GAME
++ make a quick prototype without the loop, where its literally you getting drones to follow commands to move, pick up, and place things. also make it so the drone can build another drone. (code this so that it runs similarly to red rover in that it does the command then waits) (no inventory yet)
+- once drones are functioning properly. get the loop working. (the loop is an exact amount of turns)
+- once the loop works, get resources (wood, iron, crystals, etc.)
+- once resources work, get buildings (furnace,  compacter, grinder)
+- REASSESS (i want to get to this point before showing it to people)
+
+every resource you can grind, compact, and burn
+grinding turns into its individual parts (grind iron you get pure iron ore and trash rock)
+
+compacting turns it into something the same size but more dense (usually better for moving around) (like you compact iron ingots to make sturdier iron plates but also you can grind iron plates to get iron ingots back)
+
+burning irreversibly converts a resource (iron ore to ingot, organic to charcoal
+
+each building has the 6 part inventory and you can put things in their proper slots and then press the button to make it do its thing. 
+
+
+NATURAL RESOURCES
+- organic (fuel comes from plants and animals)
+- iron (crafting/building)
+- copper (crafting)
+- tin (alloying/coating) NOT IN PROTOTYPE
+- loop crystals (used for lengthening loop and creating loop-breaking equipment)
+
+CRAFTED RESOURCES
+- iron ingots
+- copper ingots
+- ^ dust (used for module upgrades to drones)
+- sawdust
+- circuits (technology lol) (iron + copper)
+
+
+BUILDINGS
+- furnace (burns things when you have fuel)
+-- organic -> carbon (pure)?
+-- any ore -> any ingot
+
+
+
+
+
+
+COMMANDS
+- move (whether this be to a new tile or back along your cable)
+-- specify direction
+- obtain <item> from inner point (tell it to pick up <item> if its not in that hex, its a wasted turn (if its harvestable, it harvests)
+-- specify item to be picked up
+- drop off <item> at inner point (either drops on ground or in building/container)
+-- specify item to be dropped (prioritizes buildings?)
+- build <thing> at inner point (uses items in inventory, then hex to try to build specified thing)
+-- specify building, its built in the next hex over, starting from the opposite innerpoint of yours
+
+
+inside traits:
+-- solid (can you exist on top of it?)
+-- pickupable (can you pick it up)
+-- breakable (can you mine it?)
+-- has space for an item
+Inside
+-- Empty
+-- Drone
+-- Cable
+-- Item
+
+basically there are drones, buildings, and natural resources
+
+
+
+NODES:
+-nodes have a certain amount of a resource that when you harvest you pick up
+-they all get reset except for the time quartz node
+- node is destroyed (becomes empty) when the final resource is mined
+
+
+YOU GET MORE TURNS
+- putting quartz in the core (its not 1:1) 
+theres a algorithm for how much quartz is needed to get another turn
+
+LIMITS
+- how many turns you have
+- how long your cables are
+- how fast/strong your drones can harvest
+- how fast your buildings can compact/grind
+- getting through your drones, cables, items, and buildings
+
+
+
+turn order:
+-- drones
+-- items (i dont think any need updates tho)
+-- buildings
+-- research
+-- animals??
+
+todo:
+++ make processors take N turns
+++ make processors cabapable of holding items
+++ maybe just change how items work?
+++ replace alt-select with right click-select
+++ make quartz
+++ mae buildings all have an input (it can be the same as the output)
+++ have dronecore's input be quartz to lengthen the loop
+++ make it so buildings can take items from a drone/ put an item on a drone
+++ figure out a way to make quartz not be affected by the loop
+-- make items (and nodes) show how much is in them
+-- make buildings require resources to build
+-- make it so you need a drill to get access the node (basically you have to make an upgrade using metal)
+
+
+ITS LESS OF A LOOP AND MORE OF A LIMIT
+items can be held by drones, nodes, buildings OR on the ground in a tri
+
+"items" are technically stacks of items btw
+
+
+
+
+LESS OF A LOOP AND MORE OF A LIMIT
+but its not factorio, its just movement lol
+no grinding!
+you want to get out of the room, but its 10 steps away and you only have 5 steps before time freezes. you have to crush crystals to up that time limit
+
+game loop:
+solve puzzle to get to the next puzzle
+
+
+
+
+
+

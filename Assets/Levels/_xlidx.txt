@@ -1,0 +1,5 @@
+_xlidx
+2,-1,4,1
+2,do you have patience?~ndo you like to ~w?~nis that why you are here?
+@,*
+.,x

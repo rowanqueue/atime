@@ -1,0 +1,37 @@
+clay!
+this is a game celebrating clay and its transformative properties
+you are playing a little guy TM
+you start as a just your head and as you collect more clay you get larger and heavier
+at a certain point, you can transform from your ball shape into your tube shape (tube is the beginning of your torso)
+ball mode: you're bouncy (no fall damage), you're slow, you roll
+tube mode: you're twisty, you can reach, you're faster bc you can move like heave ho
+child mode: you can carry things, you can jump
+dog mode: 
+bird mode: 
+
+OK what if you're adding mass to the head until you decide cool thats the diameter of the head and the torso is a fraction then you enter tube mode
+then in tube mode, when you collect matter it makes your tube longer based on the diameter of the tube until you decide enough is enough and then you can enter child mode and your arms/legs pop out and now you can walk around
+
+so like you could be super small and light but still enter child mode, but then you can't carry anything
+
+and then _maybe_ you unlock other modes based on the type of clay you get? its almost like you're playing a chao?
+
+ok what if you could instantly switch between any adjacent modes if you have enough clay, so if you had enough for boymode, then you could just suck up your arms/legs, then your torso, then you're back to ball mode but you're really big!!
+
+OOH so if the arms/legs are procedurally generated, then there could just be a way to determine which ones you want to excrete
+
+so
+ball mode: no fall damage, smoosh around, only way to pick up more clay? (all about inertia and stuff)
+pseudopod mode: move like heave ho/octodad/ape arms game, but with one arm! (climbing time) (move x/z with wasd, move upwards y by holding down button)
+humanoid mode: use arms to interact/pick up, run (fastest on land)
+
+pseudopod mode: no fall damage, smoosh around, only way to pick up more clay
+arm mode: octodad/ape arms movement, just arms sticking out of a blob, unwieldly but better at climbing
+humanoid: arms pick up, legs to run, very fast
+
+ball <--> pseudopod <--> boy
+
+
+ball mode: roll around, collect clay like a snowball, no fall damage (only way to collect stuff)
+amoeba mode:  pull yourself around, but slow (good at climbing), slidey
+boy mode:  arms and legs. carry things? most stable

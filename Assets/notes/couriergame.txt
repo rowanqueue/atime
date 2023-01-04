@@ -1,0 +1,44 @@
+its like that rabbit carrying bunnies game
+
+its like a metroidvania where you can only have a certain number of abilities at a time (its like if you could only carry a few charms at a time in hollow knight) (you have to get to a checkpoint to swap out abilities)
+
+you physically hold the abilties in your hands (you get more hands to be able to use more abilities at the same time)
+
+some charms you have to physically create by bringing together multiple pieces in one place or refining a material somewhere
+
+NOTHING YOU PLACE IS PERMANENT! only permanent changes can be made by denizens of the dream (dreamizens)
+
+abilities
+ -pushing things
+ -throwing things
+ -dashing
+  -balloon (floaty dash modifier)
+ -heavy (a bunch of weight)
+ -sprinting
+ -carry more
+  -carry objects (fire torch, ice torch, ladder)
+ -astral project (you can leave your body and fly for recon)
+
+obstacles
+ -pit(you can dash over or push a block into it)
+ -block(you can push it or later destroy it or even later astral dash
+  -heavy block(you need to be heavier to push it)
+  -wooden block(you burn it if you have fire)
+ -water(you can dash over or push a block or freeze)
+  -river(moving water) if you block or freeze, it can "overflow" and       knock you off
+  -wooden bridge? carry a torch over it and it burns
+
+THERE IS NO WAY TO GO HIGHER besides terrain (ladder/ramp/stairs)
+
+ideas
+ -the heavier you are (from carrying more charms/cargo), the slower you   go
+ -some things you carry have time limits (ice/fire?), so you want to be   faster 
+
+everything has simple traits:
+ -temperature: you can freeze water or burn
+its top down and you can dash over pits
+
+similar level setup to worble!
+maps gonna be crazy, it automatically places the links (which are neurons) for the player
+
+the player can tag different chunks with ability tags

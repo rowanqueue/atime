@@ -1,0 +1,75 @@
+social game
+its people in rooms
+you have to manage your time to talk to people and make friends
+at the end of the day/week you must sacrifice one of your friends to continue
+^ this is a result of a curse
+
+talking to people is represented by a small version of consolidarity
+- radius of 1, so theres 7 tiles
+- each tile represents a point/tenet of the discussion, so you're literally conceding on certain ones to bolster ones you want more (EX: giving up on getting a health bonus to make them like you more)
+- either side wins when they have a majority of the tiles in the game? that might be good BUT also victory changes meaning depending on which tiles you won!
+- each unit/set of units/some units are emobidemnts of your actual friends in the game, their unique characters, that you obtain by befriending them 
+
+your main resources are time, relationships, probably fatigue, and maybe money?
+it all takes places in one map (one city? one town?) where it takes time to go between rooms and so you have to make decisions like (do i stay in this room with people that dont like me or spend time to go to another where they like me more to get better chances)
+
+you obvi sleep each night (maybe theres a push your luck mechanic with sleeping, idk)
+
+people will hate you. especially if/when they learn you're the reason people are being sacrificied. when people hate you, maybe that adds a shittier unit to your set?
+
+tile ideas
+- losing tile makes the convo take more time
+- losing tile makes you lose (more) money (you pay for drinks lol)
+- winning tile makes their friends like you a little more
+- winning tile gives you more friendship points
+- winning tile gives you a special item/bonus/money?
+- winning tile means they owe you a favor 
+
+unit ideas
+- move twice
+- can hop over center?
+- counts as two
+- can push allies/rivals
+- can pull allies/rivals
+- no one new can enter same tile
+- no one can leave same tile
+- the longer it stays in a tile, the more it counts as
+- the less it stays, the more it counts as
+- swap tiles (but not units) across the center
+- unit that can't  stop moving?
+- unit that can't move in the same direction it did last time it moved
+- unit that can't go back to a tile its been in before
+- unit that can only move to the 3 across from the center
+
+basic unit concepts
+- weird movement
+- move others
+- control whether people can enter/leave that tile
+- restrict other's movements
+- length of time in a tile
+
+unit code concepts
+- chosen unit can move to different tiles than normal
+- non-chosen unit can add/remove tiles to where chosen unit can move
+- 
+
+maybe the way active abilities work is that after using it, you can no longer move that unit?
+
+code order
+- 
+
+
+do 2 radius map (maybe start with less tiles and tiles get added by players?)
+maybe befriending people works more like mentors in going under (gives you simplified unit, abilities, tiles) (maybe tiles give you powers?)
+tiles are worth differing points maybe?
+maybe different _end_ condition, then you score the tiles
+new units come in for both sides once per turn
+when a side runs out of units to come in, they've lost
+you have 2 actions per turn
+you can:
+- move a unit
+- activate a tile with a unit
+
+thers also passives
+
+you can probably get rid of enemy units? idk

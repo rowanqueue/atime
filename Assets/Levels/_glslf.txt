@@ -1,0 +1,6 @@
+_glslf
+2,4,3
+3,who is more real?~nyou or ~p?~none stays behind~none goes on
+@,.2,*,.
+_,x0,.,_
+_,_,*,_

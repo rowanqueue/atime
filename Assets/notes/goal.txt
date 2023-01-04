@@ -1,0 +1,386 @@
+- exploration game
+- building game
+
+
+i like:
+- exploring (discovering things)
+- building (interacting with those things, having an impact)
+- being able to just run around, not prompted
+
+
+game where you collect and deliver unique items (THATS IT)
+
+game where you are a photographer trying to survive by selling interesting photos
+
+game where you take people to where they want to die
+
+game where you kill people how they want to be killed
+
+3D comet? lets try it out
+
+
+puyo puyo graphics of 1x1 blocks
+They fall like tetris
+Individual blocks have weight based on color
+Same colors connect forming heavier blocks
+Heavier blocks fall through lighter blocks
+once the whole thing hits the weight limit, it is scored OR you can choose to score anytime
+Score per block is based on weight
+The higher up the block, the more points you get
+
+
+game where you are investigating the situation after you killed future you!
+comet is a von neumann probe
+
+
+
+
+
+
+life cycle game
+-baby 
+-- can crawl (along floor or ceiling)
+-kid
+-- can walk 
+-- can climb
+-adult
+-- can walk
+-- can double jump
+-- can leap
+-elder
+-- can walk
+-- can jump
+-- can throw baby
+
+babies are the only ones who can use ceilings
+kids are the only ones who can climb a wall
+adults are the only ones who can jump around
+elders are the only ones who can toss a baby
+
+
+
+
+the plan: just post a bunch
+
+
+---good backup---
+tme
+dig
+consolidarity
+who u r
+hamletmonkey
+time
+snakety8
+---oomph---
+shape game
+gelatiner
+tchype
+wurm
+bridge game
+villager
+bereft
+---redo---
+scouts
+whosebody
+wallace
+---concept---
+domino
+plant
+
+_actual_ avenues
+more yarne
+pushy
+hexplore
+_nonreal_ avenues
+probably wurm could work
+bereft
+
+time loop
+--your goal is to leave the room youre in but you don't have enough turns to get out, so you need to increase your turn limit
+--you only have n (maybe 3?) turns
+--there are objectives (crystals?) that give you extra turns (probably 1 at a time)
+--after obtaining a crystal, you reset and then a copy of you follows the path you took to get it in the same turn order you did
+--you know have to get the next crystal while avoiding/using the past you's
+
+--before you make a move, past you's make their moves in ascending order (they can push newer versions/current version if they run into them)
+
+arrow keys + x to wait + z to undo 
+and/or
+click adjacent tile to go there  + click yours to wait + undo button
+(undo at the start of a copy to go back to the previous one)
+
+the crystals are action points that then become part of the ui when you pick them up
+
+TODO
+- level exit -> new level
+
+DREAMS
+- level select is discroomesque in that you move around on it with arrow keys and only unlock the open doors in that room
+- level changes in different loops? (like in the second loop a tile goes away or smth)
+
+STUFF
+- tiles that take more than 1 action point to cross
+- tiles that take 0 action points
+- the above concepts but for specific edges (only if walls are along edges)
+- a tile/edge that immediately moves you in a direction for no/1 cost
+- switches! they take an action point to flip? (maybe they're on the wall and you just run into them to flip them?)
+
+- lasers that kill you (turn off with switch) (ooh maybe they fire along edges, not tiles?)
+- 
+
+
+palette?
+- background color
+- tile color
+- player color (self)
+- player future/past colors (grayed out player?)
+- crystal color (goal)
+
+crystal should be a circle with no
+
+game is good bc:
+- you create your own obstacles (yarne-like)
+
+game is bad bc:
+- confusing... time loops.... yuck.....
+
+
+map language
+.  = empty tile
+@ = starting player
+* = crystal
+x = exit
+.-0123 = up to 4 walls lol (same as yarne)
+
+cloneturn -> your turn  you can push your clones
+make it so you can push your guys
+make it so it shows a failed turn (you go halfway then backwards)
+
+undo needs to switch to a system of literally storing the entire board state in an object and putting them in a stack (literally every move across loops and all)
+game state
+- all players status
+-- player status: position, movement that got them there (wait if its after their turn limit)
+- all action points status
+-- on that turn, is it on the board or the UI
+
+
+ok so if any of the clone's first moves are waiting, all future clones have to wait also
+
+
+the game could be you have to make sure your clones get their pips so you have them for that loop but that sounds boring
+the real question:
+- can you keep going in a loop after getting the pip if you have turns left? probably would make it more interesting
+what if you pick up multiple pips in one loop?
+
+sokobond style level select
+
+boot up levels process:
+- convert all the TextAsset levels into Level objects
+- place them all on level select
+- the player enters one, it loads up
+
+todo list in order
+- level select system
+-- show mini version of the level + how many action points
+-- make it super easy to unlock them all
+-- move between with a grid-based cursor
+- level editor
+
+ok so level editor still needs
+- maybe you should click and drag the action points instead of clicking on tiles?
+
+when you exit a level, it needs to turn action points that hve been collected back on 
+
+
+charles options
+- clones just do the things for their loop once
+- clones go trhough their loop over and over resetting during your longer loop
+- clones do their actions of their loop without resetting
+
+BIG IDEA
+- to finish a level, you just need to get to the end, no turn required
+- when you are a clone, you have to put a command for each turn, no matter when you get the new turn (unless you dont have the turn by the end of your loop, then you cant keep going) (ugh this is complicated, going to need a reset button)
+- you can spend a turn going in a direction you're incapable of going?
+
+OPEN QUESTION
+- how does picking up work?
+- infinite push?
+- ending on exit holding a point?
+
+clone loops but you keep going
+what if there was a different goal?
+- what if its trying to get to each tile(maybe during one loop?)
+what if no loops, just clones??
+"naturally limiting your moves bc you need to time them properly"
+GOAL: you have to grab all the points (therefore making all of the clones) and then get "a" clone to the exit
+
+goal? touch every tile 
+
+TEACH players that past yous push future yous accidentally! (think bridge moment)
+
+energy flies into the exit
+
+CONCEPTS:
+- past you pushes future you
+- future you pushes past you
+- waiting
+
+THINGS TO TEACH
+- you can move
+- you can undo
+- you can wait/activate the exit
+- you need 1 energy ball to exit the level (gotta activate the exit)
+- pick up energy ball, then get to the end of time loop, creates clone
+- new clone's loop is 1 turn longer
+- you can push past clones
+- ANY clone can pick up an energy ball
+- past clones can push you
+- you can do moves that are impossible currently but if you're pushed in the next loop you'll move there
+- waiting on spawn makes it so future clones ALSO have to wait
+- past clones can push each other
+- any version of you can activate the exit
+
+THEORETICAL:
+- right now loops let you exist after the others, what if you could exist before them?
+- failure moves count as turns?? lets try that out now actually lol
+
+
+todo:
+- put a spawn icon on spawn
+- ability to rename levels
+- ability to make sections of levels? (these should be saved in the same folder)
+- maybe try making the walls the same style as twinfold's? like with the fake 3d?
+- 
+
+
+make a timeline tracker! it can replace the turn counter
+right now its confusing bc turns go right to left kinda
+so a timeline tracker can be like a horizontal line where it gets longer each loop, and theres a upside down triangle pointer showing the turn you're on
+
+
+
+
+DREAMS:
+- spikes on a wall that moving into them (or being pushed) kills (erases) the body (whether its you or the clone)
+- pressure plates that open "gates" while a clone is on them
+
+- toggle switches that you bump into to toggle
+- pistons : walls that push
+- rotating vertices (a corner rotates the 4 walls connected to it, ITS NOT THE TILE ITS The VERTEX) (i can imagine like a turbine)
+(maybe it doesn't rotate automatically but pushing into it rotates everything its touching??) REVOLVING DOOR!!
+- wall that you run into and break (spend a turn), but then is destroyed and you can walk through that edge freely
+
+broad categories:
+- tiles
+- edges
+- vertices
+- energy points
+- clones
+
+concepts
+- things that move/cycle so you have to plan for them as part of your moves
+
+next steps
+- level editor for a solution to each puzzle (for level design sanity)
+-- completely optional, adds a + and then the moves to the level name
+-- is added to a level by saving when you've won
+-- is erased when you edit the level again
+
+
+PROBLEM: the overlap between holidng a dot and exiting
+- theoretically you should be able to leave holding a dot, right?
+
+the premise is that the GOAL of a level is to "use" the exit
+AKA
+the GOAL is to wait on an exit tile
+THEREFORE
+you can have multiple exit tiles (rework them as goal tiles)
+
+
+next steps:
+- make exit turn off when time limit is up
+- make levels based on waiting on spawn
+- make a restart button that takes you back to the start of the last clone (so if you're on turn 3 of clone 4, it takes you to turn 1 of clone 4, then hit it again and it takes you to turn 1 of clone 3)
+- make it so undo/restart visually undoes (flips spin again, pushes happen, etc.)
+- make it so theres text that appears after you beat the level 
+-- figure out how this affects level flow
+-- figure out where this appears (maybe it appears at the top)
+-- figure out how to edit this (1-2 is current, maybe its 1-3?) (maybe if you start a line with - it knows that everything after that is part of the next text)
+- ooh make a super small string that technically is a save
+
+QUESTIONS
+
+NOTES
+- need a lot of error sounds for when you try to move
+
+- make a section devoted to waiting on the spawn
+- enter back into a level way later and its changed!
+-- start a level as a 2 where the 1 is locked in
+-- player and exit are swapped
+-- just completely different level lol
+-- text is changed
+
+- BIG IDEA:
+-- there should be text thats added when you beat the level
+
+
+NON STUFF ADDITIONS
+- you enter a level and theres already clones (part of the level is figuring out where they're going) (basically there is an unchanging past)
+- UNCHANGING FUTURE
+- what if certain clones when you played them were forced to do certain moves (this could be the first, second, third, etc.)
+but what if the fun of those clones would be that you DONT see them given their commands, not that "you" are forced to give them commands
+
+STUFF ADDITIONS
+- dots that you can't get until turn N
+- walls that you can spend a turn breaking by running into (but player doesn't move)
+-- or just doors that have to be opened
+- walls that you can be pushed through but not walk through (velocity?)
+- buttons: press them then can walk away
+- pressure plates: have to stay on them
+- conveyor belts
+- pistons
+- 
+
+MAIN CONCEPTS
+- get to exit
+- make your clones get dots without blocking the exit
+- push your clones
+-- push clones out of the way
+-- push clones to get dots
+- waiting
+- clones push you
+- clones push clones
+- waiting on spawn
+- preplanning (run into the wall so when you're pushed later you move)
+- clone leaves, not you
+
+LEVEL DESIGN CONCEPTS
+- tight opening
+- tight exit
+- canvas (super empty level)
+
+
+
+-head is ball of clay that moves like slime
+- then get a torso and move like snake
+- then get legs and walk
+- then get arms and climb/carry
+
+THEN MAYBE HOPEFULLY OTHER SHIT
+
+- need to explicitly teach waiting on spawn
+- need to explicitly teach dropping orbs to pick up new orbs
+- need to explicitly teach that a guy can be useless (like you need 1 and 2, but 3 is useless to get to 4 and the win)
+- need to more explicitly use the idea that you can move once you're holding an orb
+- how can i better show the flow of new techniques vs. challenge areas
+- make it so levels have a different way of showing they're completed
+-- only color change in level select
+-- unlock content!!
+- need some way to incentivize going back to previous levels to see how you solved them
+-- need a way to play a recording of your solution to the level
+- better writing lol
+- maybe text htat apperas when you win
+- need to actually let clones win and it finishes the level lol
+- need to ACTUALLY TEACH THAT you make a clone by hitting X when you're out of orbs
+REAL CONTENT NEXT
+- solution requires another clone solving it, not yo

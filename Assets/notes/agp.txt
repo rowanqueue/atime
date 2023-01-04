@@ -1,0 +1,158 @@
+data:
+variable has four things
+public int x = 4;
+- scope (public)
+- type (int)
+- identifier/name (x)
+- value (4)
+TWO DIFFERENT KINDS OF TYPES
+- reference types: point to value (contrusctor)
+--uses new to create value and assign the variable a reference to that value
+--pass by value (new List<T>(oldListName))
+- value types (this is normal) : is the value
+-- simple
+--- integral (sbyte, short, int, long) (byte,ushort,uint,ulong)
+--- floating point (float, double, decimall) only 7 significant digits
+--- char
+--- boolean
+-- enum (you can inherit from byte motherfucker)
+---start with undefined as the 0 value
+-- structs
+
+bitwise operators
+&,I,<<,>>
+<< -  is basically used for multiple by 2^n if << n
+>> - is basically used for divide by 2^n if >> n
+
+delegates
+- its a reference type
+- it refers to a method
+- action is for void
+- func is for returning things
+- Predicate returns bools
+
+callbacks
+- passing delegates to another system to be run based on future state
+
+lambda
+- the data of a function
+
+complexity
+- time complexity/space complexity
+- average vs worst case
+- asymptotic analysis
+- new is slow
+- searching is slow
+- sorting is slow
+- in unity, seeing if a monobehaviour is null is VERY SLOW IT USES GAMEOBJECT.FIND
+-- if(ReferenceEquals(c,null)) is the right way
+
+NETWORKING
+every device has
+- IP address or "logical address" (4 byes)
+- MAC address or "physical address" (your physical device)
+- ports (0-65535)
+
+socket: a single connection is a socket, which is ip address + port
+server: centralized computer desigend to send and receieve information from clients
+client: computers that are trying to get resources from server
+packet: information thats travelling on network
+
+ip layer
+transmits a packet from source to destination
+
+Transport protocols
+TCP:
+- reliable order, slow
+UDP:
+- thin layer above IP, quick
+(if making real-time multiplayer you basically need to amke uDP+) dont do this
+
+Server types
+- dedicated server: simulates game world (run physics, move characters, etc.)
+- relay server: sends and receives information between clients
+- master server: provide clients with information about all dedicated servers
+
+client host sucks
+peer to peer one client is the session host each client runs its own synchronized simulation (you're just sending input back and forth and seeing how it affects each simulation)
+
+NETWORK SERIALIZATION
+little data!
+compressed data!
+serailize to binary, serialize in uniform size as small as possible
+
+HTTP
+enables communication between clients and servers
+
+Unity is single threaded!! but internet takes time!
+oh no coroutine.... for a web request
+heroku
+mobile:
+- smaller bandwidth
+
+BACK TO DELEGATES
+callbacks!
+task pattern
+task runner - takes in tasks to do in some order
+
+comman pattern
+- store the method as an object
+
+
+EACH ONE HAS A QUEST
+
+bush- be in light area
+rabbit - eat two berries
+snake - eat two rabbits
+hawk - eat rabbit, make nest
+squirrel - plant acorn, nest in tree
+tree - survive 3 cycles
+mushroom - eat 2 corpses
+
+bush- eaten by rabbit, has berries
+rabbit - eats berries
+snake - eats rabbit, hides in bush
+tree - drops acorns (maybe takes multiple loops to grow?), shades bush
+hawk - eats snake, rabbits, makes nest in tree
+squirrel - nest in tree, eats acorns, scares hawk
+
+TRAITS
+- plant/animal
+- herb/omn/carn/dead ivore
+- makes nests
+- sneaks
+- digs
+- scared of:
+- likes: 
+
+ok so everything has:::
+- quest to unlock the ability to buy it
+- quest to stay in loop
+- once in loop, quest to get $$$
+
+you spend $$$ on:
+- physically putting something new in the loop (like you're spawning in a new organism as opposed to breeding one)
+- actually buying the new organism
+
+you get $$$ from:
+- completely $$$ quests
+- harvesting something from the loop
+
+whenever you die/get to the end of the loop, you get $$$ depending on what you did
+
+grass gameplay is just like painting the ground with grass lol
+bush goal? just find fertile soil (appears naturally + can be made by dying animals)
+
+
+the whole cool part is that at the end of the loop everything resets! deaths/births don't matter!
+
+ooh what if you're constantly trying to make the loop longer? like it starts out at like a single second and you spend $$$ to make it longer
+
+
+growth persists, death is undone
+you have life force ($$$) that you spend on creating new organisms
+your goal is to collect enough life force to ASCEND LIFE
+part 1: use life force to create simple plants/animals, where their breeding/consumption of each other creates more life force for you to harvest (ex. you plant grass in such a way so that it breeds a bunch, then you can harvest the babies and tada a ROI. Then you make rabbits which eat the grass (eating the grass gives the grass's lifeforce x a modifier), and then rabbits have babies with more life force and you harvest and then this repeats for carnivores and the like). the end of this part is when you make HUMANS
+part 2: HUMANS are different, they kill without consumption, taking life force away from you (they use leather from an animal its no longer part of life force, they use wood from the tree for tehir home, no longer part of life force). They consume your plants/animals from part 1, depending on the technology they develop (like they start cutting down trees then later leather then later kill different animals) and you are trying to ascend the FUCKERS. if they kill you and don't consume you, BAD THINGS MAYBE YOU LOSE???. you are trying to increase their SPIRITUALITY through life force to unlock rituals they can perform to enhance you. the final ritual is True Ascending, permanent death
+(END OF GAME)
+part 3 (basically NG+): the regular game but with permanent death. special ending or something once all life is dead, that leads to part 1 again

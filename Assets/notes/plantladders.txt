@@ -1,0 +1,43 @@
+current:
+-> 2M
+5M -> 1N
+1N -> 50M
+100N 200M -> 125N
+
+HOW TO GET RID OF MOISTURE?
+(basically use rye, but then you use the 20M to get rid of it)
+20M -> (rye killer)
+5N -> 20M
+100M -> 20N
+
+plant that produces 2 things
+5M -> 2N 1M
+
+
+plant that produces 2 things
+2M -> 1N 1S
+2M 2S -> 1N
+2N -> 1M 1S
+
+
+-input/output
+-size
+-reproductive length
+
+-1 big (takes forever) -> 2 small (helps 1 actually grow) -> 1 big
+- takes forever to grow but it keeps getting huge
+- go into competiion more (grass that chokes out)
+- ring something with the only thing that cant beat it
+- same ladder but the bush produces something that kills the buttercups (so you need a sink)
+- difference between cutting something (it comes back next summer) and uprooting (it goes away forever) (can play dormancy)
+- star of the show could be a fragile flower
+zone baseline factors
+- either boosts or hinders progress
+
+rose bushes get harder and harder to get rid of
+
+
+todo friday:
+- send applications
+- buy new computer
+- new zone ladder

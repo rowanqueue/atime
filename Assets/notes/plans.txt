@@ -1,0 +1,25 @@
+ok solar systems have planets
+and the
+
+
+
+infinite runner but text based
+
+you have stamina -- how much energy you have left
+you have speed -- how fast you are running
+
+each turn you can:
+-- increase speed (costs stamina)
+-- decrease speed (gives stamina)
+-- jump
+
+you move your speed each turn
+
+if you hit an obstacle, you die.
+
+for jumps, you jump 2 high and then go 1.5x as far as your speed
+
+
+
+
+you play a worm who eats through materials and once it eats enough it forms a little ball that it can give to a 

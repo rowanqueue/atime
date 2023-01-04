@@ -1,0 +1,23 @@
+- seeing a sick plant and discovering it cares about a factor that it didn't before (or at least you didn't know it cared about it)
+- discovering a new factor and how it affects the rest of your ecosystems
+- discovering a new plant species growing in your forest that you didn't plant (was dormant in soil)
+- engineering a trio of plants that balance each other out but support a bunch of each other
+- plant A supports plant B a little, hurts plant C. plant C support plant B a lot. cut down plant As to support plant C
+- plant that you originally want, then get too much of, making it a weed that you want to get rid of
+- also a weed that eventually becomes useful again
+- plant that takes up a lot of room, but otherwise is good for the environment
+- upgrading a plant to only take up less room, but not change its stats
+- plant that needs a lot of support hurting the plants that support it
+- plant that is really hard to grow as a baby, but is resilient adult
+- opposite of above, easy to grow, hard to maintain (means you need to plant most of them, not rely on them reproducing)
+- plant with only inputs and no factor-based outputs (you get something else from it in the world like traversal or upgrades)
+- what about a zone that can never have more than just grass? like you can never support bigger plants
+- zones where a certain factor is constant (dark cave, wet riverside, etc.)
+- bugs that come in and help/hinder different plants, eating a certain amount
+- blight that spreads across plants killing them, but those that survive and their children are stronger
+- big unique projects you can sink resources into to affect landscape and factors (fix/tear down dam, irrigation, wind turbine to power desalination machines, etc.)
+- plants don't decompose properly until the zone is at a certain point of health, so you have to manually do it until you can automate it through bugs/fungus/machines
+- some plants are too fragile to handle too much of a factor, how does affect how ecosystems can be designed?
+- refactoring an ecosystem after a plant has been upgraded (basically you can kill a bunch? weird)
+- purposefully putting more trash/pollution into the environment so you can harvest it later
+- discovering variant strains of plants based on unique ecosystems (sets of factors) that you grow them in

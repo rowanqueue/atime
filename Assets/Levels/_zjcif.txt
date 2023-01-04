@@ -1,0 +1,7 @@
+_zjcif
+2,3,3,2
+2,you think of ~p before they exist~nthen ~p think of ~p~nthey never think of you
+@,.,.
+.,*,.2
+*1,.3,*0
+_,x,_

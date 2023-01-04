@@ -1,0 +1,218 @@
+<blackness>
+Travel mode disengaged. [Sydney] should regain conciosness in 3...2...
+~I'm already awake. [groggy]
+<eyes open to view inside cryochamber>
+<cryochamber slowly opens accompanied by Geva's voice>
+Welcome, Sydney to ReGen Station #1457. I am Geva, your trusted AI companion.
+~Hi?
+Hello. Before I begin, do you remember why you are here?
+~Yeah.... I signed up for the rewilding gig. I'm gonna plant some trees and save the planet, right?
+You are going to plant many species of plants, but yes you will plant trees, Sydney. I am glad you are not feeling too unwell from the transport tranquilizers, they have been known to cause memory loss.
+~Oh, tranqs? I thought I was frozen? Aren't I going to be put into cryo for a few years?
+ReGen sent you here with their Amazon Prime One Day shipping subscription, but you were not placed into cryostasis. That will be used later to ensure that you can survive to see your plants grow. Please exit the cryochamber.
+<syd steps out of the pod [groggy] and is a little faint like you feel after taking a nap>
+~I don't know, I feel like I just woke up from being a popsicle.
+Walking around should help. Please walk to the center console. <waypoint>
+<console has the zone map>
+~o....k? what is all this, Geva?
+<console adds a hologram of the tree>
+Your job as the rewilder of this station is to fill your alloted space with trees.
+~Yep. I'm excited.
+However, trees require a certain level of environmental factors  that are not currently present in the local ecosystem. To simplify the more complex interactions, you need to add more nitrogen and moisture.
+~Ok, how do I do that? You have compost and a hose?
+No. You will plant these.
+<console switches to holograms of the buttercup and rye, buttercup highlighted>
+This is the buttercup. <sci fi jargon translate: it produces moisture>
+This is the rye. It takes moisture and produces nitrogen. Using these two plants, you will create an environment where a tree can grow.
+~Alright. Do you have seeds? Those seem simple enough.
+No. You have a ReGenTM bio-printer, a device capable of converting biomass into Sprouts.
+~Sprouts? Like a baby plant?
+SproutsTM are a new invention by ReGen. Certain patents prevent me from telling you the process by which Sprouts are created.
+~Ok, so I can just... make plants.
+ReGen can make plants. You can plant them. Now, please go enter the airlock and put on your suit. <waypoint>
+~Suit? I hate wearing a uniform.
+<clicks on suit>
+The ReGen Bio-Suit is designed to protect you from air pollution and the harsh rays of the sun. It also provides you with breathable air.
+~It looks like a spacesuit.
+Fun fact: The Regen Bio-Suit is a spacesuit [rewrite this] Now, please exit the airlock. <waypoint>
+<Step out of dome day 1>
+~wow. there's... nothing.
+for now. you're here to fix that.
+~good point.
+click to plant wherever you choose.
+<after does it>
+good job! now that I know you can handle planting, please right click and select your other plant, the rye.
+<after does it>
+good job! now plant either plant to your best intentions.
+<day 1 convo>
+~y'know, this is nothing like the vert farm back home.
+excuse me, vert farm? what is that?
+~it's... y'know its a vert farm! I used to work in the one below the grocery store by my apartment. all the plants are stacked in these big hydroponic cubes, and...
+oh, hydroponics? you won't be doing that here
+~i get that. I guess I just never realized that dirt was so.... *sigh* dirty
+<a beat>
+~so, geva, right? you're like a robot?
+I am not a robot. I am your trusted AI companion designed to help you survive the following centuries rewilding this area.
+~are AIs not robots?
+No. Calling me a robot would be like calling you an ape.
+~Hmm. touchy subject?
+My job is twofold. First I must inform you of all the facts you need to perform your job.
+~Seems fair enough.
+Second, I must maintain [protect] your mental wellbeing so that you can continue to perform your job.
+~Oh. well I'm doing fine, you can just stick to the first part.
+I will continue to do my job and care for your wellbeing.
+<end day 1 convo>
+
+<runs out of biomass>
+Alright, you are now out of biomass, the material used to create your plants. It is time to reenter the dome and go into cryo sleep, where you will be woken up in a month's time.
+~oh yeah, I remember reading about that in the brochure. "A month in a moment" Sounds kinda fun.
+I have never experienced it, but my records show that it causes humans some amount of distress.
+~oh. sounds a little less fun then.
+Please get into the pod. I will wake you up in a month's time so you can continue your task.
+~sweet. i wonder if i'll dream about anything?
+You will not. Prepare for freezing.
+<end biomass>
+
+<2nd wake up, super groggy>
+Thawing complete. Sydney, are you awake?
+~oh....
+Sydney, are you ok?
+~oh.... my.... god
+My scans are showing that your vitals are normal, and you are healthy. can you confirm you are ready to work?
+~no... this sucks.... so much
+<chamber opens>
+That must be awful. Maybe leaving the pod will make you feel better?
+<stumbles out of the pod, falls down>
+~some amount, geva?
+Yes, Sydney?
+~you said it would be "some amount of distress"
+Correct. That is exactly what my....
+~this is way worse than "some amount"
+Can you stand?
+<stands shakily>
+~I guess? barely? I think I'm feeling a little better.
+Can you walk? Go look at the center console.
+<slow walking speed, maybe stumbling?>
+<waits until player gets to console>
+~Jesus. I assume the green is good?
+Close. The green is plants.
+~<beat> Yeah. makes sense.
+Alright, time to work! Please put on your suit and exit the airlock.
+<waypoint for suit>
+~Ugh. Can I at least have breakfast first?
+All of your nutrional requirements are met during your cryostasis.
+~Really? What about the... err.. other end?
+All of your nutrional requirements are met during your cryostasis.
+~Got it. 
+<end wakeup2 convo>
+
+<outside day 2 convo>
+~wow! they really grew! these flowers are beautiful!
+Good.
+<if player needs to plant more buttercups>you need to plant more of them, you're low on moisture</end>
+<if player needs to plant more rye>however, you should turn your attention to the rye. you need more nitrogen if we're going to plant a tree soon.</end>
+~Got it. <beat> Hey, if you're just going to tell me what to plant then why did the ad say they wanted people with plant experience? This is just grunt work.
+This first step of the process is very simple and is guaranteed to function in all 2388 ReGen locations. I can simulate all aspects. Eventually there will be issues I cannot simulate, thats where you come in.
+~Hmm. So you're saying I'm smarter than you?
+I am incapable of reasoning. I know and find information, and I just relay it to you.
+~Sounds dumb.
+<after player plants a few plants>
+Good news! Based on my simulations, next month you will be able to plant the tree.
+~Sweet! That was fast.
+Unfortunately, you will not have enough biomass to plant the tree and the other supporting plants. Fortunately, the dome comes with a ReGenTM recycler. You can collect the trash over there <waypoint>.
+~Cool! That trash was really bothering me. <beat> Wait, how are you going to turn these into biomass?
+You are going to place them into the recycler. Then they are going to go through the ReGenTM patended recycling process and become usable biomass.
+~Really? You can tell me, I won't tell on you.
+I have already told you. I am incapable of breaking any patents. Please do not ask again.
+~Fine.
+<got enough trash>
+~Got the trash! Where's the recycler?
+Here <waypoint>. Place it and then head inside.
+<end outside day 2 convo>
+So, Geva, you can't break your patents, but can I break my, well not patents, but NDAs with you? You're not exactly human, are you, so it doesn't count?
+I am not "not exactly human." I am not human at all.
+~So I can tell you secrets and you won't tell anyone?
+Correct. Also there is no one else I communicate with here.
+~Sweet. Well, when I was telling my old boss that I got this job...
+Sydney.
+~What?
+Can you please enter the cryosleep chamber? 
+~<beat> oh. yeah, I guess. we can.. uh.. talk tomorrow?
+Next month, yes.
+<end day 2>
+Good morning, Sydney.
+~blaaaaaar
+How are you doing?
+<chamber opens>
+~ugh. like a thousand bricks. 
+<waypoint to console>
+~More green, I see.
+Correct. Today you will be able to plant a tree. How exciting! Please make your way outside.
+~Yes.... very excited. Uh, Geva, is there any chance I can get, like, just one cup of coffee?
+All of your nutrional requirements are met during your cryostasis.
+~Thats exactly what I thought you'd say.
+<outside day 3>
+~wow! thats.. thats a lot of plants!
+How exciting!
+<this is where geva says what you should do next based on your previous actions>
+~Yep. Sounds good. <beat> So, Geva, about my old boss.
+Yes, Sydney?
+~Well, actually that reminds me, Geva, I've been meaning to tell you...
+Yes, Sydney?
+~Can you call me Syd? I kind of... just hate being called Sydney.
+Of course, Syd! Please tell me if any of my communications cause you distress.
+~Thanks, Geva. I just really never liked my name, but I do like "Syd". How about you? How do you feel about "Geva"?
+I am not sure I know what you mean. I have no opinion on being referred to as my designation, Geva.
+~Sure thing, Greta.
+My name is not Greta, Syd.
+~So you do care.
+Perhaps
+<when player finishes planting other plants>
+Alright, Syd, it is time to plant the tree. You can put it anywhere.
+~Anywhere? Really? I feel like its pretty important where to put it.
+No. So long as it remains within the same ecological zone as the other plants here it will have no biological difference on its growth.
+~Well, I mean, I can't just throw it anywhere. It's going to be the first tree here in... How long?
+200 years.
+~Exactly! That's a big deal!
+<player plants it>
+~That's going to be a tree?
+Yes, Syd.
+~It's just... so small.
+That is the nature of saplings.
+~Alright, well for once I am excited to cryosleep. I can't wait to see it get bigger.
+Good mindset, Syd. Although you will have to wait, since it will take at least 10 months for the tree to grow to full height.
+~It's a saying, Geva. It means I'm excited for whatever I'm talking about.
+Interesting. I can't wait until you to go to sleep, Syd.
+~Rude. Good night, Geva.
+Good night, Syd.
+<end day 3>
+<for the purposes of the demo, we are going to skip 30 minutes/12 months ahead>
+<day 4 wakeup>
+How are you feeling, Syd?
+~You know, I could get used to this
+<chamber opens>
+~Urrrrgh. No, thats the worst part.
+I'm sorry to hear that. I can't wait for you to check out the console for updates.
+~Geva, I can't wait until you understand how to use that.
+Hmm. Well, I can't wait for you to see the tree outside.
+~Good one! Lets go check it out!
+<exit dome>
+<when tree is in view>
+~wow! that thing is huge!
+Syd, that's a tree
+~I... I know, Geva. 
+You need to assess its health, now that its fully grown.
+~Sure. 
+<When close>
+~Geva, I can't believe this is the same tree I planted. It feels like it was just moments ago.
+It might feel that way, but it was actually a year.
+~Yeah, I think I'm starting to get what that actually means. <beat> Can I... can i touch it?
+Of course you can touch the tree. Why would you not, are you feeling unwell?
+~No? Won't it disturb its... development? Or the science?
+You touching the tree will not disturb its ability to absorb carbon and release breathable air.
+~Fair. Well, let me see how it feels.
+<narrative button on tree, then syd reaches out and touches the tree>
+~It feels rough, I guess. I wish I could take off my suit and actually feel it.
+Syd, I can't wait for you to grow more trees. Then you can take off your suit and actually feel the tree. [awkward]
+~Me too, Geva. Me too.
+<end>

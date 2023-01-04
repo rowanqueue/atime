@@ -1,0 +1,36 @@
+one screen zeldalike
+- only movement
+- 10x10 screen
+- you have health (HP) but each turn you move takes away 1 HP
+- you're trying to get to the exit
+- if you die, you respawn at the start and board state resets
+- you go out but a ghost of what you did also goes out
+- you/ghost pick up stuff when they run into it (but if you pick it up on turn 5, die, then ghost picks it up on turn 5 in your next run)
+PICKUPS: more health, equipment, etc.
+- its all about getting equipment so you can traverse better as well as maintaing your health
+- there are enemies which hurt you for HP
+- if you have a weapon, you can hurt them back (basically remove them? maybe they have variable HP?)
+EQUIPMENT IDEAS
+- sword (lets you attack enemies for 1 HP)
+- shield (takes away 1 HP from attacks)
+- jumpy boots (you can jump over walls/ledges)
+- floaty cape (you can fly over holes?)
+- PICKUPS
+-- more health
+
+todo:
+- make a grid
+- make a player move
+- player health + obstacle takes away health
+- player die reset
+- player ghost
+- ghost pick up
+- work on pick ups
+- work on exit
+
+
+
+asteroid digging hex game (kinda like motherload)
+gravity is the center of the asteroid
+lets explore this movement/grid system, then figure out game 
+- what if its like... use the whole asteroid to make a little garden so you can escape (use gravity to water plants, maybe?)

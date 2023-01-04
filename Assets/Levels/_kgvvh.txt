@@ -1,0 +1,7 @@
+_kgvvh
+1,1,5
+3,sometimes ~p wants ~t too~n~p still needs to get ~a though
+_,*
+@,.
+_,.
+_,x

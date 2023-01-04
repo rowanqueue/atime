@@ -1,0 +1,160 @@
+WORLD IS MADE UP OF TILES AND ENTITIES
+tiles and entities have traits (dirt is dirty, plants are natural, etc.)
+you take photos which are essentially just clumps of traits (ooh you took a picture of a dirty cat in the rain? its dirty/cute/wet)
+
+people like certain traits in their photos and you can trade photos they like for other goods! barter only! the more traits they like in the photo, the more they'll trade you for it!
+
+if the traits of a photo combine in a certain way (sandy + aquatic = beach) that makes a THEME, which is worth the same as if you matched all 3 traits they like (but the 3 traits they like are usually not the same requirements for the theme they like)
+
+
+gameplay is:
+- figure out what someone (who has stuff you want) likes, then go manipulate/explore the world to get a photo of it (maybe get one that multiple people like!!)
+- take a photo and then find someone who wants it
+- figure out what traits make up a theme (you get a journal that lists them)
+- figure out what traits things have! (you only learn their traits once you take a picture, otherwise it says TRAIT -- ???)
+
+GAMEPLAY
+- taking photos
+- exploring the world to find good things to take photos of
+- avoid hazards/nuisances/environmental hazards in the world while trying to get the perfect picture? (danger like thorns,mud, rain, etc.) avoid some of these issues by wearing better clothing
+- manipulating the world to create better photos
+- talking to people to figure out what they like
+- trading photos to people for things that make the verbs easier/more interesting
+
+
+VERBS
+- take photo
+- explore
+- manipulate
+- talksplore
+- barter
+
+photos (in code) are essentially lists of their attributes:
+
+photos are actually just lists of traits! and then a theme is when the traits match a combo (kinda like little inferno) and tiles/entities are just sets of traits that you can look at (a cat could be cute/wild)
+
+people like 3 traits and 1 theme
+you learn one of these just by talking to them
+you learn more by showing them photos (but theres a cooldown). if you show them a photo with something they like, you learn they like it. if you show them something thats the opposite (traits) of what they like, they say so. if you've shown them N(say 2) photos and learned nothing, they just tell you lol
+
+you only have limited storage space on your camera (like you start out with only 1 picture saved at a time at the start) so you have to limit yourself.
+
+EQUIPMENT:
+- camera: take pictures! upgrade this to be able to take more pictures/better pictures (with more traits)/ maybe bigger pictures? (more tiles means more traits ooh)
+- journal: keeps track of THINGS you've seen and their TRAITS permanently
+- journal 2: also lets you tag people and keep track of their INTERESTS
+
+
+
+
+
+
+
+
+
+
+
+1
+
+
+
+
+
+
+
+
+ok so
+laser game
+your goal is to get a laser to a specific crystal (its to power it)
+powering the crystal does a thing (such as open a door, uncover some blocks, etc.)
+ok so you obviously place mirrors and such
+each mirror has a "cost" (completely refundable) and you have to laser little bits to get that currency (get a bunch when going to a new room, optional goal in room to get more)
+you select a type then click on the tile to place it, tap on mirror to rotate, long press to delete
+incentive to find the cheapest solution
+there are obstacles in each room
+there is color mixing and refracting but very simple
+ (like c_red simple)
+you unlock new types of mirrors/blocks to place down
+TILES:
+- empty (can place anything, laser can go)
+- filled (can't place, laser can't)
+- 1 way tunnel (laser can go one dimension)
+- 2 way tunnel (can't go, laser can tho)
+- mirror 90 degrees (laser turns)
+- 2 sided mirror (laser turns)
+- color mixer (up to 3 lasers turn into 1)
+- color splitter (1 laser splits into 3)
+player can place:
+- mirror, 2-sided, blocker, mixer, splitter
+
+lasers have the following traits:
+- color (int) [literally color lol]
+- strength (int) [width of laser]
+
+
+
+
+
+
+
+
+
+
+ok so
+bereft current gameplay
+
+you're changing your mass -> changing gravity
+this makes it difficult to move
+
+how to maximize the fun of this??
+
+CONSTRAINTS
+- no death
+
+rn you are just aiming for portals and keys to portals
+the game is basically a test of execution
+what if you had to do something in that level to open the portal?
+- you have to touch all the planets to turn on the portal
+- you have to connect the planets? somehow?
+- you have to change the planets? somehow?
+- you have to go through certain hoops?
+
+okay what if
+doing a full orbit adds a planet to a constellation
+you need to make the planets into a constellation where the line never intersects
+
+
+
+
+ok now fix worm lol
+mechanics rn
+you are a worm with gravity
+you eat food and dirt
+eating food makes you longer (up to a point, then you carry it)
+eating dirt makes you shorter (or consumes the food inside you?)
+you're trying to get somewhere?
+the hardness of the dirt/block determines how much length it takes away
+the goodness of the food determines how much length it adds
+you can find items/use food to upgrade?
+- make your mining more powerful
+- increase line of sight?
+lets say it works like steamworld dig where the world is procgen but with standard points for progression
+the gameplay loop is making decisions on eating/digging so you can get to a checkpoint, otherwise you gotta go find and eat your dead body
+checkpoints will put you back at your standard length if you're less than
+
+fix GELATINER
+get an artist lol
+
+
+
+
+
+
+
+
+ok new game
+skyblock the game basically
+
+
+
+

@@ -1,0 +1,78 @@
+ok so 2d platformer sokoban
+
+MOVEMENT
+-player can walk left/right
+-player can jump 1 up
+-once the player jumps, they hang in the air one turn and can go left/right before falling until they hit ground
+-there are 1way platforms the player can jump through and stand on
+- player can go up/down ladders
+- player can ground pound by jumping up then down in-place
+ABILITIES
+- coyote time: when you walk left/right off the edge, it acts as if you had just jumped
+- double jump: you can jump once in air
+- wall grab: if you jump and then move into the wall you grab onto it and stay without ground
+- ceiling grab: you can grab the ceiling
+- grab falling rocks: you can grab falling rocks WHEN YOURE STANDING ON FIRM GROUND
+- grab two rocks?
+- throw rock! (it goes forward one extra tile when you place it)
+- dash! : go two tiles, has cooldown
+
+ROCK TYPES
+- regular rock: falls!
+- bigger rocks? (1x2,2x1,2x2,L shape) that'd be interesting? maybe you can rotate them
+- ladders! (scaffolding?) you can walk up/down them! also if we're rotating things you can make a bridge (they won't fall if they're rotated and touching ground/ladder on one edge)
+- balloon! makes it so you only fall 1 at a time and can move left/right every step, has a string that works like a ladder
+- treasure! carry it somewhere for uh some reason
+- bomb, when it triggers it makes an explosion which pushes you
+- CART! a little cart that you can push that can carry stuff
+
+BLOCK TYPES
+- AIR: you can move through this 
+- GROUND: you cannot move through this
+- DESTRUCTIBLE GROUND: you can destroy this.... somehow? maybe you have to drop something onto it
+- NONGRIPPABLE GROUND: you can't grab onto this ground
+- WATER: you can move through this, you only fall one at a time and can move freely
+- RUNNING WATER: this pushes you in a direction
+- CONVEYOR: this pushs if you're on it, maybe better than running water
+- ELEVATOR
+- GENERIC MOVING PLATFORM
+
+
+maybe its like a game where youre looking for stuff and then you can eat things you pick up and then regurgitate them at will (bigger stomach sizes)
+
+your goal is to explore the <BLANK>! you're an explorer and you want to find the <MACGUFFIN> in the lost land of <BLANK>. you have a little map and your arms and you're ready to explore
+
+the main puzzle is that you're trying to carry SOMETHING SOMEWHERE
+for example maybe the whole game is like:
+- bring THING to PLACE
+(i can imagine the demo goal is a map like shrubnaut where your goal is to literally just carry 4 things to 4 locations) (maybe youre a deliveryperson) (maybe youre trying to repair a broken down GIANT machine-city (flying city, space station, etc.))
+(maybe youre exploring under a small rustic (abandoned?) town (nice moment of like accidentally breaking into a basement or a well) and the mountain next to it and you find an underground launch facility for an ancient rocket with the ultimate goal of powering it and flying away) (MAYBE THE WHOLE MOUNTAIN IS ACTUALLY PART OF THE ROCKET!!)
+
+the important idea is that its an abandoned town next to a mountain and you're exploring up, down, and to the right
+
+maybe its like a mountain village and you're delivering things to people and they're all under a quantum curse and your goal is to free them by ultimately bringing your package to the heart of the mountain? but your main goal is to explore the mountain and find the person you're supposed to deliver your package to, while making other deliveries along the way to get abilities/find people who will help you find the person you're delivering to, who just so happens to be the conciousness of the mountain itself (you speak to it at the top of the mountain and then have to deliver the package to its heart with the TWIST being that everyone is actually the same mind speaking to you and everything you've done is to better yourself so you can ethereal like the mountain) (this is symbolism for helping community -> helping yourself)
+
+
+the first section of the game is you being dropped off by plane (or airship) and then using your package you're delivering to get into town
+
+ok so there are CHUNKs of a certain size (say 16x16) and each has a defined BIOME
+a BIOME is basically a tileset for the game to draw the world with
+
+WORKFLOW
+- make a csv with types of things (i.e. all ground is the same value)
+- convert it in unity to a csv where it converts them all to the index in the spritesheet (so ground is now split into which exact sprite should be there)
+- runtime: player uses original csv for collision, converted csv for visuals
+
+unity tilemap only reads 3x3 chunks at a time for player to interact with
+
+
+
+
+
+
+
+
+
+
+
+

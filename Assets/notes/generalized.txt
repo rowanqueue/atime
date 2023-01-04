@@ -1,0 +1,60 @@
+the idea is the game is full of unique agents who have different desires based on their relationships with other agents. you play as one of them. you get POINTS by playing fulfilling your agent's desires you spend POINTS to swap into another agent. 
+
+every agent has:
+- desires
+- relationships with other agents
+- agents/items/adjectives they love
+- agents/items/adjectives they hate
+- adjectives that describe them
+- actions they can perform
+- actions that can be performed on them
+
+
+mouse
+- favored agents: 
+- favored items: cheese
+
+
+then the _things_ are:
+- agent (human, bear, dog, etc.)
+- items
+- actions (skins for the 4 main actions)
+- adjective (slimy, rough, shiny, etc.)
+- adverbs?
+
+4 types of actions
+- hurt (lowers your energy,lowers their energy,lowers their opinion of you)
+- help (lowers your energy,raises their opinion of you)
+- get help (raises your energy, lowers their opinion of you)
+- 
+
+direction: ->/<- 
+behaviour: :)/:( or (constructive/destructive)?
+target: agent/item
+:) -> agent : you heal/help somebody
+:) <- agent : you ask somebody to heal/help you
+:( -> agent : you attack somebody
+:( <- agent : you defend yourself against somebody?
+:) -> item : you drop item
+:) <- item : you pick up item
+:( -> item : you destroy item
+:( <- item : you consume item
+
+relationships
+- i hate them, i want to hurt them (cat eats mouse)
+- i hate them, i want to avoid them (cat runs from dog)
+- i hate them, i want to annoy them (dog chases cat)
+- i love them, i want to help them 
+- i love them, i want them to help me
+- i love them, i want them to like me
+responses:
+- attack
+- avoid
+- nothing
+- help
+desires
+- i want that goat to like me.
+- i want to eat that goat
+- i want to kill that goat
+- i want to that goat to give me stuff
+- 

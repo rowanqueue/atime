@@ -1,0 +1,295 @@
+airplane roguelike
+you have a limited amount of turns in the air
+each tile can have a wind direction that moves you along your normal move
+you can make up to a 90 rotation in one turn
+you land on the tile you're facing
+you're trying to find treasure to upgrade your airplane so that you can go further
+(the area is an archipelago)
+(little airfields are like checkpoints)
+
+you can pick up missions at different stations
+- delivery (deliver BLANK to a specific station)
+- pickup (get specific order from another place)
+- find missing thing (go to last known location and try to find the thing)
+
+TILES
+- land or water
+-- land
+--- empty
+--- airport
+-- water
+--- empty
+- weather
+-- wind direction
+-- storm
+
+a medium island is around 6-8 tiles
+
+plane stats:
+- battery: how much energy can you take
+- engine: how much you can carry for one energy
+- cargo hold: how much you can carry TOTAL
+
+
+your WEIGHT LIMIT is how many pounds you can carry per unit of energy.
+ex. say your engine can carry 25lbs/1L of fuel. if your weight is 25 or less you only need 1L to move, but if its higher it's going to cost more fuel (1.5? 2?) to make each move
+
+WAYS TO "LOSE" (RESET RUN)
+- run out of energy
+-- in air, you crash
+-- on land, you have to pay to get your plane to the nearest station
+- run out of supplies (only checked at the end of each day (a day is just going from taking off to landing))
+-- if not at a station, you have to distress to nearest station
+- crash - wake up at center base with 10% money gone lol
+
+ELECTRIC PLANE
+
+you fly out of the center base to find stations/scout the world to find money through treasure or doing jobs. you spend that money on upgrading your plane so you can go further and do more things.
+
+RESOURCES
+- fuel - you need this to keep your plane in the air
+- supplies - you need this to advance a day outside of center base
+- treasure - sold/used for more complicated upgrades
+- parcels - you deliver these!
+^ these take up weight
+
+- money - you need this to buy things (like all the other resources and upgrades)
+
+
+SETTING
+you're on a sea city (think solarpunk) in the middle of the ocean, trying to make a living using the only thing you own, an old glider
+
+
+GAMEPLAY
+- explore new places to uncover wind patterns 
+- chart paths and make/change plans to avoid moving storms
+- find treasure/secrets on undiscovered islands/man-made places
+- make deliveries to stations
+- upgrade your plane to be able to go further and carry more!
+
+
+------
+math patterns
+- constant addition (+1,+2,+n) ex. 1,2,3,4,5
+- constant subtraction (-1,-n) ex. 10,8,6,4,2,0
+- constant multiplication (x2,x3,xn) ex 1,2,4,8,16
+- constant division (/2,/n)
+------
+SHIT THAT FALLS
+CURRENT DESIGN
+colors 1-5
+same colors can combine
+when they combine, each individual piece weighs the same as the number of pieces in the group
+everything crushes weight -1
+board has a weight and height limit
+if you reach the height limit, you lose
+if you reach the weight limit, you lose layers until you're under the weight limit, then weight limit continues (this is like levelling up basically)
+
+WORST PART? the way things combine
+what if falling pieces are goop and then they solidify (crystallize?) in some way
+what if once there is a group of 3 it crystallizes the first turn its not touched again
+non-crystallized blocks are their weight and not special
+crystallized blocks are solid and can only move down if all the bottom blocks can move (weight is the combined weight), and can only be crushed by something heavier than its combined weight, and it cracks and breaks the whole crystal
+
+
+a 7x7 grid
+you morph grids into you
+your "health" is how many blocks you are
+you lose blocks from "attacks"
+
+tile-based mushroom 11
+
+ok its twinfold but you're trying to get to the other block to add it to your group without losing too many blocks
+
+no enemies, only environmental things
+
+you WILL always lose blocks, you're trying to lose the least
+
+twinfold but its all about weird lines between grid points
+
+concepts:
+- empty
+- wall :blocks you
+- thorns: hurts
+- river: takes you to the end of it
+- 
+ yeah so you start as one block and then blocks are destroyed by environmental effects and its assumed you will lose one trying to get one (MAINTAIN), and you gain gain more by getting them in different ways
+
+so the basic idea is that the level changes and you now see your goal and you have to get to it and so you navigate in a way that hopefully only removes one of your blocks
+
+example of destruction obstacles:
+- wall/tile that destroy blocks that go through/land on them
+- moving entity(not enemy) that destroys blocks
+- block stealers!
+- player can manually cut off blocks and they become obstacles after a certain time
+- holes the player can fall in if their whole body is over them
+
+there are different types of obstacles
+- collision: this prevents the player from moving
+- destruction: this destroys a block
+-- cut/remove: this removes a block
+- rotation: this rotates the player
+- reposition: this moves a specific block on the player
+- 
+
+ooh fun effects
+- reposition parts of your body (BUT THE REPOSITIONING HAS RESTRICTIONS)
+
+literally twinfold in that its 4 directions + special powers (BUT THE SPECIAL POWERS ARE The BLOCKS You GET)
+
+the grid is made up of
+
+
+ok so you each room is a 5x5 grid and each time it respawns theres an extra wall
+
+there is a shape on the ground that if you eyeball is on and you double tap, you enter the next room where the wall number resets and only goop thats on the 
+
+IDEAS:
+- the next room is below you, so you go downwards through a drain marked on the floor
+its really not that fun to make yourself match a certain shape
+
+it is fun to have to manuever yourself to attach all the pieces
+what if different pieces had different effects?
+what if its like a deckbuilder
+each turn 2 blocks spawn and you choose which one to add
+theres victory blocks that you can use to reset the wall number
+theres special ability blocks (rotate self, swap eye position, destroy wall)
+theres negative blocks
+
+
+goal: fill entire board with yourself
+when you fill up, the whole grid you were in becomes one grid in the next grid
+
+everytime all the bits are attached, walls reset and add one
+
+you can reduce wall number by sacrificing good blocks
+
+wall number is also reset when you enter the new grid
+
+whats different about different grids?
+
+levers
+- wall number
+- types of goop that spawn
+-- positive
+-- negative
+-- neutral
+- obstacles
+-- walls
+--- walls that block movement
+--- walls that allow movement, but block connection
+-- tiles
+--- tiles that do weird stuff
+
+
+
+what if you could pick up a ball and move it around in your goop and get it to a specific position
+
+what if its spelunky?
+filling up a grid is a region, then the next region is designed around different obstacles and abilities
+
+possible abilities
+- move the eye
+- freeze 1 cell before next movement
+- reduce wall number by 3 (basically it stops being cost efficient the 2nd/3rd time you use it)
+- destroy wall
+- destroy unconnected bit
+
+abilities increase their cost each time they use it, reset at grid reset
+ability costs are the number of times you've used it that region +1, plus a certain amount of extra based on the ability
+
+
+goop ideas
+- goop with different values for abilities
+- goop with different defence (fire, ice?)
+- goop that makes certain abilities cheaper
+
+
+
+loop
+a cell pops up and you grab it and when all cells are attached, walls reset +1
+once you fill up the entire grid, grid becomes a single cell, wall number resets, player gets new ability
+
+simplest version
+2 goop spawn with new walls, eat one, other poofs, wall number++
+do this until you fill the entire grid
+now wall number resets, you choose an ability and an obstacle to start appearing
+you can only use an ability if you've eaten one of its goop since the last time you used it + the other goop needed for its cost
+
+
+what happens if the player hits both goop at the same time? they get both! (you always want to do this lol)
+
+abilities you're able to do appear at the bottom, greyed out if you can't do them yet
+
+simplest loop
+goop spawn, eat one, wall number++
+kill goop, reset wall number (try to go as long as possible without doing this to get more points)
+fill up, new grid, wall number resets, choose new obstacle, repeat above
+
+player actions:
+- swipe to move
+- sacrifice a cell to reduce wall number (the number of cells you crush goes up until you fill the grid)
+- undo
+
+wall ideas
+- normal wall
+- sieve wall (stuff goes through but disconnects)
+- snake wall (a wall of length (3-5) that moves around like the game snake)
+- bouncy wall (if goop tries to go through wall, it tries to move opposite direction)
+
+tile ideas
+- hole (if more of you is over a hole than not, all of you over the hole falls in) (if you cover the hole completely, everything over the hole falls in)
+- rotating tiles (so their walls change basically)
+- trap! (you hit it and it becomes enclosed on 4 sides until you hit the pressure plate that opens it)
+- ice tile that makes goop slide
+- sticky (that goop doesn't move until next wall reset)
+
+either?
+- portal wall or tile would be interesting
+- diagonal wall (pushes the piece diagonally?)
+- diagonal wall (pushes the piece perpendicular)
+- goop wall (wall that connects to connected goop)
+
+lets actually try
+- sieve wall
+- bouncy wall
+- moving wall (maybe snake, maybe it just goes in a straight line?)
+- rotating tile
+- slidey tile
+- sticky tile
+
+
+ok so
+- non-player goop that is connected (harder to get)
+- think more about the base walls
+
+maybe unconnected goop becomes sentient after a while?
+
+
+ok so either
+1. there is a BAG and the player is choosing what to add to that bag
+2. there are REGIONS and the player is choosing which region to go to next
+
+what about 1 themed like 2?
+BAG has 16 walls, 16 tiles
+each region end gives you 2 or 3 options for what to add to the bag
+either
+1. add new thing
+2. increase chance of old thing
+
+
+lets start with pre-determined
+before weird walls, you need walls
+before rotator, you need walls
+
+CHOICES
++ WALLS
++ STICKY
++ SPIN
++ PONGWALL
++ GOOPWALL
++ SLIDEY
+
+
+
+

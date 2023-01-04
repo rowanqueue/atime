@@ -1,0 +1,6 @@
+_pvxxg
+4,1,1
+2,i am going to tell you my secret
+*2,*,*2
+.0,@2,.0
+.,x0,.

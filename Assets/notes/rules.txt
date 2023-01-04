@@ -1,0 +1,16 @@
+there is a clear difference between prototype ideas and marketable ones
+
+1. gameplay loop done in a day to make sure the concept works before putting a lot of time into it
+2. players can play without me for a nontrivial amount of time to prove that its not too out there and the time spent making to time spent playing ratio isn't crazy
+3. steam page (not actually) in a month! (basically at this point i need to decide whether its worth it to make the minimum viable product and start pitching to publishers) if im not confident that the game could go on steam by this point, i should immediately try to finish within a week and put on itch
+
+
+DAY: gameplay loop
+WEEK: independent player for 10 minutes and wants more
+MONTH: steam page or bust 
+
+
+actionable:
+- make yarne more successful by updating to at least 1.3 on steam and putting on mobile
+- get a game past the MONTH stage
+- release it lol

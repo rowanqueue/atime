@@ -1,0 +1,216 @@
+for next week
+optimize a little bit (game can't handle 200 plants updating their connections so that needs to like... be more optimized)
+(based on edges and nearby things)
+change adjacency from binary to gradual (bool to fl
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+work on bereft (fezvania)
+triggers: hitting space, holding space, hitting object hitting object while holding space,
+bouncing on other object then hitting object, not holding space, getting into orbit
+events: they move/still, become solid/transparent, deadly/not, switch orbital direction, rotate object
+
+-------------
+caravan idle game?
+you're setting up caravans between places
+you have an HQ in the middle of nowhere with lots of DIRT
+gotta upgrade your HQ to get more caravans
+caravans have:
+- destinations (where they go)
+- goods (what they buy and sell)
+- defense (how they protect themselves)
+
+you choose where it goes and what it sells then it comes back
+things ALWAYS sell but they sell at marketplace which is KNOWN
+you are TRADING, so you are exchanging GOODS for other GOODS
+
+so goods can be COMPRESSED in a chain,
+125 dirt -> 1 rock
+1 rock -> 100 dirt
+construction: dirt -> rock -> ingot
+water: rads -> unpotable -> potable
+food: bugs -> bread -> meat
+weave: thread -> rags -> cloth
+
+
+goods:
+- dirt
+- water
+- plants
+
+destinations
+- market for products (changes and shit)
+- safety rating (will your caravan get hurt on the way)
+-- this being higher will increase prices, more risk more reward
+
+you have to buy
+- equipment
+- employees
+- goods
+- unlocks
+- upgrades
+
+you unlock
+- more goods
+- more destinations
+- more caravans
+
+equipment
+- vehicle type
+- weapons/armor for defense
+-------------
+1:60 degrees SW 140p
+6: 70 degrees SW 170p
+4: 75 degrees SE 175p
+5: 30 SW 100p and 55 SE 180p
+7: ^+180 and 55 SE
+2: 40 SW 114p and ^+180
+-------------
+game with a gun where wherever you shoot makes gravity in that direction
+-------------
+flywrench
+sunburn!
+celeste
+void golf
+-------------
+shooting stars!!
+more stuff
+-------------
+students++ : money++ ratio--
+teachers++ : money-- quality++ ratio++
+buildings++ : money-- quality++
+dorms++ : money-- quality++
+grants++ : money-- students++ quality++
+
+price++ : desire-- (money++)
+quality++ : desire++
+ratio++ : desire--
+--------------
+you have to match velocity with asteroids
+then you land on them
+then you extract resources
+then you take off and do it again
+--------------
+idle git 
+you are a coder, but not yet
+you are trying to get the most money from this code as possible
+you must train in your coding ability
+stats:
+- effort: how much effort can you put in?
+- coding ability : how well can you code?
+- social skills : can you atlk to people?
+- coder clout: how famous are you as a coder
+objects:
+- cash: $$$$$$$$$$$$$$$$$
+- job: work that gives you $$$$
+-- day job: turn effort into $$$$
+-- code job: turn code into $$$$
+-- manage job: turn effort into your coders coding more
+- products: coded projects that give you money
+actions:
+- work day job: put effort into your day job so you can stay alive
+- code: write some fucking code
+-- choose what project yo're coding on
+---some train you better, some get you money better, some get you products better
+- go out: level up them social skills
+
+options:
+- code for someone else's company
+- code on random repo's (to get clout)
+- code on your own repo to make a product
+--------------
+indicator to show input with heavy momentum
+--------------
+who you are
+need:
+--to think about artstyle!!
+--better controls
+---if computer: mouse based selected
+---if mobile: tapping, but then how do you move?
+----what about... like sliding your finger?
+--better sounds
+ITD BE AMAZING IF THE PEOPLE INTERACTED WITH EACH OTHER
+yeah you're at a party!! and you're doing cute little stuff but you also just have no idea who you are
+--------------
+
+
+size: plant affect, plant need, time-to-grow, seed-cost, plant-price
+s:  3, 	0,  1,  1,  1
+m:  2, 	5,  2,  3,  5
+l:  1, 	10, 3,  5,  15
+
+dig hole, plant 1 of 3 seeds, water them, sleep to grow
+harvest grown plants to get $
+
+plant's effects are 0.5x if they are still growing
+
+if plant has their need, they go up a grow-stage, if their grow-stage is their max, they are grown
+if plant does not have their need or are not watered
+	-if they are not wilted, they go down a grow-stage. they become wilted.
+	-if they are wilted, they die
+
+puffs just wander around within a path and nourish plants grown in the area
+
+
+----------------
+I shake in my seat as my ship descends through the atmosphere. I begin to feel heavier and heavier as the gravity of the situation hits me. There is a large thud as I make contact with the ground, and then I stand and stretch. The Ship AI tells me to put on my suit, and that my DOME is only a short walk from the ship. I don my suit for the first time and crank open the airlock door. I step through the threshold into what appears to be a desolate rock. There are patches of some dull-green moss clinging to stone, but besides that I don't see much. I make my way into the pre-prepared DOME and step inside.
+
+I take stock of the DOME as I enter, and the DOME's AI (named DOME) begins introducing me to the program. On the far wall is the databoard that keeps track of how the rewilding is going. It notes that there are trace elements of simple moss, but DOME notes that this will not be accurate until I conduct my own scans. DOME says that this is the data that will be sent to the BOARD every REVIEW PERIOD. I ask if I'm really expected to wait that long between human contact. DOME expresses surprise that I didn't know about the length of the project, and points out the cryochamber. Ah, yes. I had almost forgotten that I had set aside this much of chronological life for this project.
+
+Finally, DOME shows me the final wall where the bio-printer is. It tells me that here is where I will recycle junk biological material into useful organic objects (like seeds and fertilizer) and objects made of bio-plastic (like fences and shovels). It recommends I put in a print order for a packet of moss feed and a water sprayer. After putting in the order, I tell DOME that I'm ready to go out and investigate the island. DOME regrets to inform me that to save costs, the airlock is built in such a way that it can only regulate twice a CYCLE, meaning that if I left now I couldn't come back until CYCLE was over. Scoffing, I follow DOME's advice to enter cryo-sleep.
+
+CYCLE 2
+I wake up and DOME informs me that everything is ready for my first day out. It reminds me that my goal is to get a good scan of the environment, Iand encourage new growth. I grab the packets of moss feed and the water sprayer, put on my suit, and exit through the airlock.
+
+Outside looks the same, like a big old dead rock. I make my way to the moss and notice that the ground here is less hard, and a quick scan with my suit's scanner shows that to be most likely the result of the moss. I throw done some of the feed and spray all of the moss with my sprayer. I then make my way to the other patches and do the same, hoping that they will actually keep growing. 
+
+I'm almost done with the last patch when I hear a deafening noise coming the SHIP. I watch in awe as it slowly begins its ascent, but then notice a blur of movement as something rushes away from its base. I rush over to find it and catch a gimplse of some... ball entering a hole in the ground. I run a scan and it says that whatever the ball is, its biological. An animal? Alive? Here? I look across the horizon and can't even begin to wonder how. According to the program, animals aren't supposed to be introduced until a few years in.
+
+I hear a chittering behind me, and I slowly turn to see one of the creatures menacingly glaring at me. Before I can do anything, I hear the same type of chittering come from the hole in return. The creature in front of me noticingly relaxes. They... can communicate? The creature begins chuffing at me, looking like its going to rush me at any moment. I have an idea. I take the scan of the creature from before, and do a playback of the chittering sound. I play it through the suit's mic and the creature blinks in surprise. It gives me an odd expression, before rushing inside the hole. I hear a mess of chittering once they're both inside. I play my recording once more before I head back to the DOME.
+
+Once inside, I take off my suit and tell DOME about what happened. DOME congratulates me on introducing animals so early, but is concerned about their viability. I am too. I can't even imagine what they're eating. I put in an order for some animal feed, hoping that they'll still be there when I wake up again. I also put in an order for digitaria seeds, some of the soil that was loosened by the moss seemed ready for it. DOME informs me that while the program did give me a large starting store of bio, I will soon need to start producing some myself if the project is going to work here. I hunker down into my cryo bed and pass out.
+
+
+---------------------
+assume humans walk 3mph
+the island is:
+- circle
+	-diameter: 792 ft
+	-radius: 396 ft
+	-area: 492,652 ft2
+	-max time distance from central DOME: 1.5 minutes
+	-max time distance from "corner" DOME: 3 minutes
+-square
+	-length: 792 ft
+	-diagonal-length: 1120 ft
+	-area: 627,264 ft2
+---------------------
+topics of discussion:
+length of time between play days
+overall length of day
+size of area
+what ecosystem are we trying to model
+what form of ecological succession are we trying to model
+room for AI assistant in (time) budget?
+toki pona as language inspo?
+parenting as it relates to the environment
+RELATIONSHIPS BETWEEN PLANTS AND THEIR NEEDS
+----------------------
+maintaining is just doing what plants do for each other when those plants are unavailable
+idle fucking game

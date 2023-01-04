@@ -1,0 +1,136 @@
+open world puzzle game
+sokoban
+player can move in 4 directions
+player can pick up ends of rope (all rope is at least 2 tiles long
+rope end states
+FREE: connecting to nothing, can freely move
+STATIC: fixed to something that cannot move
+ATTACHED: fixed to something that can move
+FIXED: refers to STATIC or ATTACHED
+if player is moving with rope and the other end is FREE, it follows along snake-like
+if the other end is STATIC, it stays in place and the player is unable to keep moving past max length
+if the other end is ATTACHED, it stays in place until the player is at max length, then the object is pulled by the rope (again, snake-like)
+if both ends of the rope are FIXED, the player can walk across it, tight-rope style, but cannot cross it
+
+there is a minor z axis element, the player can hop up or down 1 at a time, nothing else
+
+STUFF MECHANICS:
+- a rotation thing where you tie the rope to one end and then pull to make it rotate (what happens to the rope tho)
+- using a solid obstacle to bend the rope around to get to max length with less space
+- using the rope on a pulley to lift things
+- tying ropes together/cutting ropes to change their size
+- tying ropes along their length to make knots (you can grab knots as if they're another end to make taut ropes that aren't straight lines?
+
+prototype
+- tile-based movement based on unity's 1-unit tile
+- let me load in a level from a .csv
+- add obstacles
+- add ropes
+-- pick up an end
+-- move and it drags the free end
+-- attach rop
+
+
+
+maybe the game is actually just like 3dish yarne
+like you move around a little guy who is spreading these lines out but they're not allowed to cross (apply the crossing mechanic in hex yarne to squares) (SOME OF THE LINES ARE ALREADY THERE AND PERMANENT) (IF YOU MOVE A LINE INTO THE START OF ANOTHER, IT ADDS TO THE NEW LINES LENGTH) (MAYBE THEY __HAVE__ TO END ON A START THATS THE ACTUAL PUZZLE)
+
+the guy can't cross the lines
+he can enter at the start of a line and follow it through to the end tho, so you have to basically make a line that ends in a new area to continue
+he can enter at the start and then if its not all the way he can walk and pull it along him but can only get off at an end (either a new one or go back to the old)
+ending a line at another end adds whatever is left to that end?
+
+YOUR GOAL IS TO JUST MAKE A LINE CONNECTING THE WHOLE WORLD
+
+
+
+
+
+rules:
+- you can move around in 4 directions
+- there are blocks you cannot pass
+- you cannot cross lines (you can meet with them)
+- you can enter a Line
+- when in a line, you can drag it to its max length
+- you can only exit a line on a node
+- when dragging a line, you can cross any block besides other lines
+- when leaving a line, it adds its number to the node you're under (maybe if you get pushed(?), you move without spreading?)
+
+interesting concepts:
+- you can move through empty tiles when you're in a line
+- you can "cross a line" if its through a node
+- negative nodes (nodes that start negative)
+- you can leave a line anytime, you just appear at the end of it
+- you can walk on lines but it slides you to the end
+
+WHAT IF
+- when you end a line perpendicular to another line, you can enter the other line?
+
+TODO
++ test out being able to walk off lines when on the ground
+- make the lines into rugs
+
+concepts are like areas like monster's
+CONCEPT IDEAS (BASE MECHANICS)
+- having to pull back lines
+- ending lines on the same tile
+- lines that are too long! (you gotta curve 'em)
+- lines that are too short (you gotta chain 'em)
+- lines that are too short (you gotta add 'em)
+- obstacles! fun!
+- parallel lines
+- using lines from multiple islands
+- reusing lines from solved puzzles
+CONCEPT IDEAS (NEW MECHANICS)
+- already semi-stretched lines for you to manuever 
+- already finished line (they're locked in tho)
+
+
+NEW CONCEIT
+youre a giant making transit for little people. you start just trying to find some food, but eventually you're helping out a little community. they build their houses and stuff after you make roads.
+
+
+
+ELEMENTAL SKYBLOCK DWARF FORTRESS
+you set tasks and your people do them
+CONCEIPT: your goal is to create the ULTIMATE MATTER. 
+RESOURCES
+-- land -> gives you space to do more things
+-- energy -> needed to get your pawns to do stuff
+-- pawns -> literal units able to do stuff
+-- materials -> needed to create things
+HUD RESOURCES : energy
+WORLD RESOURCES: land, pawns, materials
+PAWNS can only do the following TASKS
+-- eat: eats resources MASS -> ENERGY
+-- create(poop?): ENERGY -> MASS
+-- smash: changes form of mass
+-- combine: changes form of mass
+-- build: creates landscape things (land, buildings)
+-- think: creates research points based on MATERIALS
+
+SYSTEMS
+- discover new materials by smashing/combining
+-- materials have different properties
+-- such as different energy levels when eaten
+-- you can use them to build different things
+- convert pawns into different types by having them eat different thing then THINK
+- build more land and buildings to make STUFF more efficiently
+
+
+
+GAMEPLAY
+player starts with a single pawn set to eating and creating. player sets down a zone for eating air (pawn will eat all air in this zone). pawn eats air until it has enough energy to create solid. the player puts down a creating area. if there is enough energy, the pawn will create solids in that area. then the player can say the pawn can eat air and solid. they click the eating area then they can click those resources to have the pawn be allowed to eat those things. 
+
+
+
+
+nodes convert resources into others.(ex. seed -> berry). resources are delivered to a node by a PAWN. some nodes require a PAWN to convert the resources. nodes only request/convert when their output is below the quota (demo is whenever empty) for every delivery/work by a PAWN, their energy decreases until they go to a rest area and convert (food->energy). you can assign a pawn to N nodes to have them prioritize delivering TO these nodes.
+
+so this version doesn't have lines (maybe there are desire paths?), it just has the pawns navigate from node to node. when pawns are not working, they slowly regain energy. energy is one of the only floats in the game probably. 
+
+
+
+
+
+

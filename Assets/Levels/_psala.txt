@@ -1,0 +1,6 @@
+_psala
+-2,0,7,1
+2,you don't have enough ~a~npick up another one and ~w~nthat should help you out
+*,_,_
+.,_,_
+@,.,x

@@ -1,0 +1,77 @@
+hex based grid
+you play a team of scouts
+MAJOR GAMEPLAY
+-choosing your scout team
+--they need to be paid
+--you want their desires to match yours
+-taking care of their wants and needs
+--they need rations, morale, health
+-exploring on the map
+-- fog of war as a base
+-- events can pop up?
+-- interact with other units on the map?
+-- discover RESOURCES, NATURAL LANDMARKS, SETTLEMENTS
+-MINI EXPLORING
+-- you zoom into a location and then perform actions there for a goal
+-- EXAMPLE: you must climb a mountain to be able to claim it/see further/obtain items
+-- EXAMPLE: you investigate a village and talk to its people to learn about them and buy goods
+-- EXAMPLE: you find samples of a resource (like ore) and where to mine for your Empire
+-sending info back to the civilization to get money for your next excursion
+
+TIME SCALE
+Each turn is a week
+Each month is 4 weeks
+Each year is 4 months
+So 16 turns is a year? Yikes
+maybe the scouts want to be paid monthly?
+maybe you have to pay a fee monthly?
+maybe you have to report something monthly?
+Assume the average number of years someone would work is 30 total, thats 480 turns which is a standard game of civ v so probably like 10 hrs??
+
+MAJOR GAMEPLAY
+-exploring world AND MAPPING IT
+-managing team
+-deciding what info to sell to your Empire
+
+RESOURCES
+-rations: feed your bois, they each eat 1 a week
+-money: gotta pay for equipment, and pay your bois before and after your expedition
+--TRAIT IDEA: scout who wants all money up front (reduced cost) or at the end (extra cost)
+-paperwork: used to "map" things, needed to show the Empire what you found
+
+
+SCOUTS
+-to deal with encounters, you choose which scout to solve the challenge. the scout will solve it however their personality deems fit, and use their traits/quirks to solve it
+-TRAIT: abilities that this scout has that will help them through problems
+--TOUGH: can be used for more than one PHYSICAL challenge
+--
+-pay is based on experience bc MERITOCRACY
+-QUIRK: weird things about them that affect gameplay
+-scouts have PERSONALITIES, DESIRES, TRAITS, and QUIRKS
+-PERSONALITY:
+--
+--DESIRE: what their current goal in Life is (ex: discover a mountain, name it after themself)
+---They get new ones when they complete their old one and it gives them TONS of experience points!
+---DISCOVER LANDMARK (mountain,valley,dungeon,sea,river,island)
+---DISCOVER BIOME
+---INTERACT WITH NEW PEOPLE
+--LIKE: equipment, events, or places that they enjoy and increases their morale (ex: they like deserts! they like leather! they like helping wounded animals)
+--DISLIKE: opposite of LIKE (ex: they hate the rain!)
+QUIRK:
+-LOVES/HATES WATER: relates to coasts and rivers
+-LOVES/HATES CIVILIZATION/NATURE
+-LOVES/HATES FOREIGNERS
+-LOVES HEAT/LOVES COLD
+-LOVES/HATES ANIMALS
+-LOVES/HATES RELICS
+
+EXAMPLE GAMEPLAY
+
+
+BIOMES
+-plains - green grass
+-hills - any color, but dirt texture
+-desert - yellow sand
+-water - ocean
+-forest - dark green grass
+-mountain - white stone

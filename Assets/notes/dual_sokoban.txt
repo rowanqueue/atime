@@ -1,0 +1,355 @@
+ALREADY PLANTS
+Tree 6N : -2N,Shade
+Bush 4-6W : 1N
+Rye 1N,0-6W : 1W
+Briar 1N,1-4W,S : 2N
+
+TREE 
+
+BUSH 4-6W : 5-
+
+
+
+ok so the idea is that for one tree, the ratio is
+- n Tree : 4+2n Bush : 3 Reed TOTAL: 3n+7
+- n Tree : 2+n Briar : 1 Reed   TOTAL: 2n+3
+
+MY THEORY:
+we can design plants like this^, and then the actual numbers are multiplied by however many plants we think there should be
+EX:
+using those numbers, an ecosystem with a single tree has 10 plants, but if we assumed that bushes are x5 and reeds are x2, then really its 37 plants (wowza) but the underlying math is the same, instead of a bush giving 1N, it gives 0.2N
+
+
+
+CONCEPTS ALREADY LEARNED
+- plants can take away their own support
+- further plants can make it possible to grow better lower plants
+
+
+CONCEPT I WANT TO TEACH
+-POSTIVE FEEDBACK LOOP IS CRAZY
+-The thing that comes before has to die lol
+starting values:
+- 0N, 10W
+TREE 7-10W, 3N : -1N, -1W, Shade
+Cat 5-10W : -2W
+
+NAH MY REAL STANDUP IS:
+- age
+ok so whats a regular amount of days for a plant to live?
+
+Lets say 10 days after maturity
+
+Young: 5 days (yay quick turnover! boo quick death)
+Default: 10 days
+Old: 20 days (yay lasts long! boo hard to keep track of)
+
+when a plant dies, it permanently adds 10% of its nutrients into the soil
+
+
+
+
+- 0N, 10W
+NEW PLANTS:
+TREE Shade, 1N :  +1W
+Cat 5-10W: -2W
+OLD PLANTS:
+Tree 6N : -2N,Shade
+Bush 4-6W : 1N
+Briar 1N,1-4W,S : 2N
+
+ok so you enter a super wet environment and you need to grow a shaded tree!
+the only way to make shade, grow some of your other trees!
+but oh no, how are you going to get nitrogen? there's too much water to grow your regular crops!
+use the CAT! lower the water enough so that you can grow bushes, then grow a tree like you remember
+then shade lets you grow the NEW TREE! but oh no! the new tree leaks water! so you have to grow more cats!
+but good thing you still have the briar!
+
+BADGES
+Plants have four MAIN badges
+UNLOCK: you have to do something to get access to the plant (grow a tree somewhere, upgrade your shovel, idk)
+GROWTH: you have to actually grow N plants to maturity (could be planted or natural, don't have to all be alive at the same time)
+REPRODUCTION: you have a N level descendant grow to maturity
+POPULATION: you have N number of plants currently alive and healthy
+SPECIAL: like a special challenge that some plants have (i.e. grow it somewhere really difficult, spread it really far, plant it near something, etc.)
+
+There are also badges for Concepts, such as Planting, Dying, Factors, Biodiversity, etc.
+
+
+Lets look at the briar
+BRIAR 1N,1-4W,S : 2N
+APPEAR: Have 5 Trees
+UNLOCK: Have 5 Trees
+GROWTH: 
+REPRODUCTION: unlocks soup
+POPULATION: 
+
+Potential bonuses:
+- unlock new plant
+- unlock new tool
+- upgrade tool
+- upgrade its own stats
+-- cost
+-- growth speed
+-- lifespan
+-- sickness speed
+-- reproduction speed
+-- requirements
+-- outputs
+-- death affect
+
+Potential bonus abilities:
+- see more insider information (lifespan, sickness, etc.)
+
+
+
+A PLANT
+FACTORS
+- requirements
+- outputs
+GROWTH
+- days to maturity
+- lifespan (once mature)
+REPRODUCTION
+- days to reproduction
+- min/max reproduction distance
+- reproduction number (how many babies in one go)
+MISC
+- days to sickness
+- distance for same
+- distance for others
+PROGRESSION
+- appear trigger (what causes the player to know it exists)
+- unlock trigger (what causes the player to be able to use it)
+- growth trigger / reward (grow N plants)
+- reproduction trigger /  reward (grow Nth generation plant)
+- population trigger / reward (have N plants alive/healthy at the same time)
+
+
+
+ok we have events from an eventmanager
+
+we need types of events
+<Plant> planted and then it sends the plantpop to be processed by the player state
+
+- google form-like form to send an autoformatted email    with name, contact info, address and what they want
+- before/after pics (put permission for this in the form)
+- background/about us
+- social media feed
+- show availability using google calendar
+- marketing page with way to contact us
+- nice quotes
+
+you SEE the current FACTORS
+based on this, you plant plants. if the factors are GOOD that day, nothing bad should happen
+NEXT DAY
+you see that the factors are NOW bad, if you don't do anything to correct them, this will harm the plants.
+
+OKAY POSSIBLE SOLUTIONS...
+1. hardcode it so that it favors GOOD results and not BAD RESULTS
+2. show both the current factors and the DELTA before they are judged
+
+PROBLEM:
+if you use the current factors for the plants, then you can't fix problems the day they occur (you see that water is too high, you can work against it but the damage will still be done that day. on the other hand there will be no surprise)
+
+if you use the factors as a result of the plants effect, you could cause problems without the player being aware (everything is fine, but then they fuck up)
+
+USE CURRENT:
+- you wake up and notice the water is too high, but nothing is sick yet. you get rid of water. the next day is a healthy range, but your plants are still sicker.
+- everything is fine. you go to sleep. you wake up and nothing is sick. you don't notice. you wake up and things are sicker now.
+
+USE NEXT
+- you wake up and notice the water is too high, plants are sicker. you get rid of water. the next day the plants are healthier.
+- everything is fine. you go to sleep. you wake up and a bunch of things are sick and you had no idea.
+
+THE POINT OF SICKNESS IS TO ALERT THE PLAYER THAT THINGS AREN'T GOING WELL. IF SOMETHING IS WRONG, WE WANT PLANTS TO BECOME SICK AS FAST AS POSSIBLE. SICKNESS ISNT A PUNISHMENT, IT IS AN ALARM
+
+
+
+
+
+- more interesting spatial relations
+-- when a plant has a baby, the baby and whoever is close to it will fight and whoever will make the system get closer to 0 wins
+- system so charles can make plants without art
+
+
+ok so deckbuilder where you're farming cards
+- seed cards
+
+yoou have a space to play 3 seed cards and each seed card has a certain amount of each factor that needs to affect it
+- cactus : needs  2 light effects to grow
+
+on your turn:
+- plant a seed
+- add a seed's resource to a seedling
+- play a fruit card
+
+your goal? clear the field and go to the next one
+
+so basically you have cards that you need to plant, have effects happen to, then you can use them to get more places
+
+so the map is say 4x4 grid
+each tile has a resource already on it
+you put a seed card on a tile and it will grow into a plant when resources are met
+once plant is grown, it has a passive effect on resources/plants near it
+you can also harvest a plant at any time to get fruit cards
+BUT there are also weeds that will grow depending on the resources in empty tiles and potentially choke out and kill your plants
+
+your turn:
+- plant a seed card
+- use fruit card (adds/subtracts resources to a tile)
+- turn fruit card -> seed
+
+ok so you get resources correct, plant the seed, it becomes a plant that has its effect, then once its "done" you harvest its fruit and use it to plant more plants
+
+so there are 3 resources:
+
+its not plants, its creatures
+- seed -> egg
+- fruit -> poop
+- resources are: nutrients and water
+- plant -> creature that can move and eat and poop
+
+turn:
+- first, place something
+-- plant a seed
+-- place an egg
+-- use fruit/poop
+- then, harvest something
+-- pick up poop
+-- harvest fruit from plant
+
+
+
+turn: player has 2 AP
+- plant a seed/egg
+- use poop to add resources
+- rustle in poop for seed/egg
+- eat fruit/creature to get 1 poop
+
+
+seed can only be placed on a tile with at least that amount of resources on it, then plant grows the next turn, then makes fruit the turn after. each plant has different rules on if/when fruit grows back. plants die if the tile they're on goes less than the value they need.
+
+egg is placed, and creature tries to eat every turn. if it doesn't eat for 2 turns, it dies. if it eats on a turn, it poops. that poop becomes a card in the player's deck.
+
+creatures are either herbivores or omnivores. they eat in the order of: lesser creature -> fruit -> plant. 
+
+creatures have a movement speed (how many moves per turn) and up to 2 types of poop they create. 
+
+
+plant:
+- domato : 1N : one fruit : +1 N to self
+- panana : 4N : continuous : -1 N to self, +1N to clockwise neighbor
+- smapple : 6N : one time, 5 fruit : -3N
+poop:
+- plop : +1N, only up to 1N
+- clop: plop in a cross
+- flop: +3N here, -1N adjacent
+- slop: 3x3 plop
+creature:
+- nouse : herbivore : makes plop
+- furl : herbivore : makes flop if fruit, plop if not
+- sat : carnivore : makes clop if nouse, slop if furl
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok so you have life as a currency
+you play a round until you're out of life or out of cards
+at the end of a round, you eat all your stacks, getting the cards back and getting their life back at different multipliers depending on how deep they are
+on a turn, you can either:
+- add life to an empty slot
+- play a card onto a slot
+-- you can only play it on a slot with enough life of the previous level to support your card or a poop
+-- the card has an ability that immediately happens
+at the end of your turn, you discard your rightmost card and draw one card
+when you have no new cards to draw, you must eat a stack, then discard -> draw pile and keep going
+
+
+look at the cards you can place on
+black: >=N
+red: <=N
+ALSO:
+clubs: need to place a red
+spades: must also place card onto another card
+hearts: need to place two cards
+diamonds: need to place a black
+
+
+
+
+
+
+
+
+gridless factorio
+all machines are circles of different sizes
+machines have inputs and outputs (it can hold a stack of each)
+you connect machines together (you can split output so it goes equally to all inputs)
+center machine is human tribe that inputs food and outputs work
+you use work to build machines and connect them
+
+game starts and there is town in empty field, you make a foraging machine that takes work and makes it into berries. then you convert berries into seeds. then farm takes seeds -> berries. berries from either can go to town to feed them to make more work.
+bank work in a shrine to get morale, which lets you build non-buildings
+bank materials in warehouses to store them (take them out of the equation)
+
+work -> wood
+
+ok gridless factorio could be a game tho....
+3 robot game
+actions:
+- move forward, turn left/right, move backward
+- grab(drop same command)
+
+cool gameplay:
+-r1 is linked to r2, r1 turns right, r2 is now moved if possible and then can go forward, pulling r1
+-r1 pushes r2, r2 grabs r3, r3 pulls r2 to where r2 was
+
+player can control
+- what 3 orders each robot does
+- the order the robots go in
+
+goal
+- get all robots to the next level
+- get keys to locks
+
+
+ 
+
+dice farmer
+EVERY TURN: harvest a dice crop, roll it and then do apply it to a tile
+- each number has a different power (1-6)
+
+
+
+
+
+
+
+
+
+
+
+
+
+

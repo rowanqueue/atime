@@ -1,0 +1,8 @@
+_wrcbl
+-2,3,3
+2,poor ~p so close to the ~t~ndo you think ~p knows?
+_,@,_
+*,.,_
+_,*,*
+_,x,_
+_,.,_

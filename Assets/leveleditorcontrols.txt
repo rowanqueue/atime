@@ -1,0 +1,37 @@
+LEVEL SELECT EDITOR
+-left click on level to enter
+-hold left click on level to pick up, then drag to new position to drop it (this swaps if something is there)
+-hold right click to delete level
+
+section editor 
+-ctrl-left click on level to select/create section, then drag to other levels to add to section
+-ctrl-right click on level with section to remove section
+-ctrl-left click on wall between sections to make a tunnel between the two
+-ctrl-q to save section stuff
+
+LEVEL EDITOR
+- left click:
+-- empty: adds tile
+-- tile: adds action point
+-- wall: adds wall
+- right click tile/action point/wall to remove them
+- long press left click to pick up start/exit, then left click any tile to drop it there. right click returns it to where you picked it up
+--shift-left click exit to make a duplicate. shift-right click to destroy exits but it won't let you have less than one
+- press [ to lower turn limit
+- press ] to raise turn limit
+
+LEVEL TEXT EDTIRO
+- 1&2: toggle text editing
+- ~p: person
+- ~
+
+when you make any changes, the level name will haev ** added to it. if you leave the level, it will erase your changes
+- press q to save your changes
+
+
+game controls
+- WASD/arrows
+- x to wait/use/etc.
+- z to undo
+- r to restart
+- escape to leave level

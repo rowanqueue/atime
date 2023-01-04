@@ -1,0 +1,30 @@
+goal of the game is to learn the language and to uncover the secrets of the place and to escape the village
+
+its like heaven's vault meets wandersong!!
+
+you're in a small village inside of a giant animal
+
+you're learning words and then having to use them to ask questions of the creatures in the village
+
+you communicate by changing your head into the glyph you want to use
+
+everything has a name that is stationary and you are able to change them by changing their names (there somsetihng to limit this)
+- people (jan): their names are just jan + mods for them
+- 
+
+you have little magic stone circles that you put the glyph on and then put the circle on the object to change it and you have to take it back to be able to use it again
+
+you get more circles later
+you also either get different sized circles OR all your circles upgrade to be able to put more symbols
+
+you learn symbols by encountering them for the first time
+
+ITS KINDA LIKE BABA IS YOU BUT WITH A STORY AND YOURE LEARNING WORDS
+
+
+TODO:
+- figure out
+-- names?? (for game will not be the usually bar thing)
+-- can you get to every word in 2 steps?
+-- how to gamify
+-- long pi?

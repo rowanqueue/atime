@@ -1,0 +1,48 @@
+4 plants
+Buttercup: -> 2M
+Wild Rye: 5M >0.5L -> 1N
+Dogwood: 1N >0.5L -> 50M
+Tree: 100N 200M -> 125N -0.1L
+
+NEW SYSTEM: Light
+if a plant cares about light, they want a certain number then up to 1 or down to 0
+EX: dogwood needs light, so it wants >0.75
+EX: mushroom needs dark, so it wants <0.25
+
+so, you plant enough buttercups to get wild rye
+use the nitrogen from wild rye to grow some dogwood
+use the nitrogen from wild rye and moisture from dogwood to grow a tree
+tree produces nitrogen and reduces light
+eventually tree makes it impossible for dogwood/rye to grow, meaning you need to replace the moisture you've been getting from the dogwood
+
+ok so the concept is basically that your middle plants start dying and you're running out of moisture to support your trees so you need to replace them
+
+therefore the light problem basically becomes a moisture problem
+fern takes a bunch of nitrogen and makes it into a little bit of moisture
+only problem is that its just a stopgap, it won't actually keep your trees from dying
+thats when it basically becomes a race: can you get enough trees to block out enough light to get mushrooms to feed your ferns so they can make enough moisture for your trees! thats the challenge
+
+2 plants
+Fern 10N <0.5L -> 7M (its really bad at making moisture lol)
+Mushroom 2M <0.25L -> 5N
+
+first beat: growing a tree from scratch requires intermediate plants
+second beat: too much <resource>! 
+suprise second beat: tree erodes its supports by killing them
+
+
+light lets us teach the concept of plants being able to kill each other early on
+
+
+individual zones have a marker where if a factor goes above it it starts killing plants that produce that factor
+
+pollution as a factor
+plants check physical trash gameobjects in a density around them like the adjacency system
+
+ZONE: 1000M, 0N
+too much water, you gotta consume it somehow
+throw down some wild rye
+
+the biomass cost is different than the biomass score, that makes sense!
+
+
