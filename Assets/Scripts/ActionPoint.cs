@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Shapes;
 
 public class ActionPoint
 {
@@ -14,6 +15,7 @@ public class ActionPoint
     public int index;
     //how powerful it is
     public int num = 1;
+    
     LineRenderer circle;
     TextMeshPro text;
     float outerWidth;
@@ -21,6 +23,8 @@ public class ActionPoint
     public GameObject gameObject;
     public bool startedAsTurn;
     public bool createdMidGame;
+    public int timer = 0;
+    public List<LineRenderer> petals;
 
     public ActionPoint(Vector2Int gridPosition,Transform parent){//starts in the level
         this.gridPosition = gridPosition;
@@ -29,6 +33,10 @@ public class ActionPoint
         outerWidth = circle.startWidth;
         index = -1;
         text = gameObject.GetComponentInChildren<TextMeshPro>();
+        petals = new List<LineRenderer>();
+        foreach(Transform child in circle.transform){
+            petals.Add(child.GetComponent<LineRenderer>());
+        }
     }
     public ActionPoint(int index, Transform parent){//starts already had
         startedAsTurn = true;
@@ -46,6 +54,17 @@ public class ActionPoint
         outerWidth = circle.startWidth;
         index = -1;
         text = gameObject.GetComponentInChildren<TextMeshPro>();
+        
+    }
+    public bool CanGrab(){
+        Debug.Log(Services.GameController.currentTurn);
+        Debug.Log(timer);
+        Debug.Log(Services.GameController.currentTurn >= timer);
+        if(Services.GameController.currentTurn >= timer){
+            return true;
+        }else{
+            return false;
+        }
     }
     //
     public void Grab(Player player){
@@ -90,6 +109,40 @@ public class ActionPoint
     }
     public void Draw()
     {
+        if(startedAsTurn == false && createdMidGame == false){
+            int turns_left = timer-Services.GameController.currentTurn;
+            //TODO: when we figure out how to acutally display timers probably want it visbile in level select
+            if(collected || Services.GameController.state == GameState.LevelSelect){
+                turns_left = 0;
+            }
+            if(turns_left<0){
+                turns_left = 0;
+            }
+            if(turns_left == 0){
+                foreach(LineRenderer petal in petals){
+                    petal.SetPosition(1,Vector3.zero);
+                    petal.enabled = false;
+                }
+            }else{
+                while(turns_left > petals.Count){
+                    GameObject newPetal = GameObject.Instantiate(petals[0].gameObject,Vector3.zero,Quaternion.identity,petals[0].transform.parent) as GameObject;
+                    newPetal.transform.localPosition = Vector3.zero;
+                    petals.Add(newPetal.GetComponent<LineRenderer>());
+                }
+                float fraction = (2f*Mathf.PI)/(float)timer;
+                float offset = Mathf.PI*0.5f;
+                float _radius = 0.2f;
+                for(int i = 0; i < petals.Count;i++){
+                    petals[i].enabled = true;
+                    Vector3 targetPosition = Vector3.zero;
+                    if(i < turns_left){
+                        targetPosition = new Vector3(Mathf.Cos(offset+(-i*fraction)),Mathf.Sin(offset+(-i*fraction)))*_radius;
+                    }
+                    petals[i].SetPosition(1,petals[i].GetPosition(1)+(targetPosition-petals[i].GetPosition(1))*0.1f);
+                }
+            }
+        }
+        
         if(num < 2 || collected){
             text.text = "";
         }else{

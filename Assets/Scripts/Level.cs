@@ -30,6 +30,7 @@ public class Level
     public int section;//0 is no section, 1-n is section index
     public int sectionExit;//-1 if pos does not have one lol
     public string spoken = "";
+    public string timer_key = "abcdef";
     public Level(string levelData){
         gameObject = new GameObject();
         gameObject.transform.parent = Services.Grid.transform;
@@ -75,6 +76,11 @@ public class Level
                     actionPoints.Add(pos,MakeActionPoint(pos));
                     if(line[x][0] != '*'){
                         actionPoints[pos].num = int.Parse(line[x][0].ToString());
+                    }
+                    for(int i = 0; i < timer_key.Length;i++){
+                        if(line[x].Contains(timer_key[i].ToString())){
+                            actionPoints[pos].timer = i+1;
+                        }
                     }
                 }
                 if(line[x].Contains("x")){
@@ -405,11 +411,24 @@ public class Level
             actionPoints.Remove(pos);
         }
     }
+    public void RemoveActionPointTimer(Vector2Int pos){
+        changed = true;
+        if(actionPoints[pos].timer > 0){
+            actionPoints[pos].timer-=1;
+        }
+    }
     public void AddToActionPoint(Vector2Int pos){
         changed = true;
         if(actionPoints[pos].num < 9){
             actionPoints[pos].num+=1;
         }
+    }
+    public void AddToActionPointTimer(Vector2Int pos){
+        changed = true;
+        if(actionPoints[pos].timer < 6){
+            actionPoints[pos].timer+=1;
+        }
+        
     }
     public void MoveExit(Exit exit, Vector2Int pos){
         changed = true;
@@ -479,6 +498,9 @@ public class Level
             string _ap = "*";
             if(ap.num > 1){
                 _ap=ap.num.ToString()+_ap;
+            }
+            if(ap.timer > 0){
+                _ap+=timer_key[ap.timer-1];
             }
             tileInfo[ap.gridPosition.x,ap.gridPosition.y] = _ap;
             

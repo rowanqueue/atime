@@ -606,9 +606,11 @@ public class GameController : MonoBehaviour
         if(nextMove > 3){
             //its waiting time!
             currentPlayer.Wait();
+            
             CheckForExit(currentPlayer);
             currentPlayer.AddMove(nextMove);
             currentTurn++;
+            CheckForGrab();
             doClonesMove = true;
             return true;
         }
@@ -636,31 +638,7 @@ public class GameController : MonoBehaviour
             currentTurn++;
             //now check to see if the player ran into an action point
             bool ranIntoPoint = false;
-            foreach(Player p in players){
-                if(Services.Grid.actionPoints.ContainsKey(p.position)){
-                    //ranIntoPoint = true;
-                    bool doNotGrab = false;
-                    foreach(ActionPoint ap in Services.Grid.actionPoints.Values){
-                        
-                        if(ap.gridPosition == p.position){
-                            if(ap.held && ap.playerHolding != p){
-                                doNotGrab = true;
-                            }
-                            continue;
-                        }
-                        if(ap.held){
-                            if(ap.playerHolding == p){
-                                //player is already holding
-                                ap.UnGrab();
-                            }
-                        }
-                    }
-                    if(doNotGrab == false){
-                        Services.Grid.actionPoints[p.position].Grab(p);
-                    }
-                    break;
-                }
-            }
+            CheckForGrab();
             if(ranIntoPoint){
                 //doLoopSoon = true;
                 return true;
@@ -734,6 +712,7 @@ public class GameController : MonoBehaviour
             if(thisMove >= Services.Grid.directions.Length){
                 //wait
                 players[index].Wait();
+                CheckForGrab();
                 CheckForExit(players[index]);
                 return;
             }
@@ -752,10 +731,15 @@ public class GameController : MonoBehaviour
             }
             if(cannotMove){return;}
             players[index].Move(players[index].moves[currentTurn]);
-            foreach(Player p in players){
-                if(Services.Grid.actionPoints.ContainsKey(p.position)){
-                    //doLoopSoon = true;
-                    bool doNotGrab = false;
+            CheckForGrab();
+        }
+    }
+    void CheckForGrab(){
+        foreach(Player p in players){
+            if(Services.Grid.actionPoints.ContainsKey(p.position)){
+                //doLoopSoon = true;
+                bool doNotGrab = false;
+                if(Services.Grid.actionPoints[p.position].CanGrab()){
                     foreach(ActionPoint ap in Services.Grid.actionPoints.Values){
                         if(ap.gridPosition == p.position){
                             if(ap.held && ap.playerHolding != p){
@@ -770,11 +754,13 @@ public class GameController : MonoBehaviour
                             }
                         }
                     }
-                    if(doNotGrab ==  false){
-                        Services.Grid.actionPoints[p.position].Grab(p);
-                    }
-                    break;
+                }else{
+                    doNotGrab = true;
                 }
+                if(doNotGrab ==  false){
+                    Services.Grid.actionPoints[p.position].Grab(p);
+                }
+                break;
             }
         }
     }

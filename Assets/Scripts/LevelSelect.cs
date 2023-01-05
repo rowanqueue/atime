@@ -61,8 +61,13 @@ public class LevelSelect : MonoBehaviour
         Vector2 averageExtent = Vector2.zero;
         Vector2Int maxExtent = Vector2Int.zero;
         int wipLevels = 0;
+        int highestTurnLimit = 0;
         foreach(TextAsset levelAsset in  database.levelTexts){
             Level l = new Level(levelAsset.text);
+            var turnLimit = l.turnLimit+l.actionPoints.Count;
+            if(turnLimit>highestTurnLimit){
+                highestTurnLimit = turnLimit;
+            }
             l.index = levels.Count;
             unlocked.Add(Services.GameController.editMode);
             won.Add(false);
@@ -98,6 +103,7 @@ public class LevelSelect : MonoBehaviour
         Debug.Log("max extent is "+maxExtent);
         averageExtent/=levels.Count;
         Debug.Log("average extent is "+averageExtent);
+        Debug.Log("highest turn limit is: "+highestTurnLimit);
         cursorPosition = startPosition;
         cursor.transform.position = (Vector2)startPosition;
         unlocked[v2Level[startPosition].index] = true;
@@ -741,7 +747,12 @@ public class LevelSelect : MonoBehaviour
                         }
                         l.AddActionPoint(mouseTilePos);
                     }else{
-                        l.AddToActionPoint(mouseTilePos);
+                        if(Input.GetKey(KeyCode.LeftControl)){
+                            l.AddToActionPointTimer(mouseTilePos);
+                        }else{
+                            l.AddToActionPoint(mouseTilePos);
+                        }
+                        
                     }
                 }else{
                     l.AddTile(mouseTilePos);
@@ -770,7 +781,12 @@ public class LevelSelect : MonoBehaviour
             if(clickedWall == -1){
                 if(l.tiles.ContainsKey(mouseTilePos)){
                     if(l.actionPoints.ContainsKey(mouseTilePos)){
-                        l.RemoveActionPoint(mouseTilePos);
+                        if(Input.GetKey(KeyCode.LeftControl)){
+                            l.RemoveActionPointTimer(mouseTilePos);
+                        }else{
+                            l.RemoveActionPoint(mouseTilePos);
+                        }
+                        
                         return;
                     }
                     if(mouseTilePos == l.startPosition){
