@@ -27,6 +27,7 @@ public class Player
     float[] lineWidths = new float[2];
     Player pusher;//player pushing me
     public bool winning;
+    public bool dead;
 
     public Player(Vector2Int pos, Transform parent){
         index = 0;//Services.GameController.players.Count;
@@ -47,6 +48,7 @@ public class Player
         GameObject.Destroy(gameObject);
     }
     public void Reset(){
+        dead = false;
         position = Services.Grid.playerStartPosition;
         gameObject.transform.localPosition = (Vector2)position + Vector2.one*0.5f;
     }
@@ -60,13 +62,25 @@ public class Player
         gameObject.transform.localPosition = (Vector2)position;
     }
     //doesn't actually push, just checks to see if it can be pushed
-    public bool CanPush(int direction){
-        if(Services.Grid.tiles[position].canMove[direction] == false){return false;}
+    public bool CanPush(int direction, int depth){
+        if(Services.Grid.tiles[position].canMove[direction] == false){
+            if(Services.Grid.tiles[position].spikes[direction]){
+                if(depth == 0){
+                    //you're dead!
+                    return false;
+                }else{
+                    //go through!
+                }
+            }else{
+                return false;
+            }
+            
+        }
         Vector2Int newPos = position+Services.Grid.directions[direction];
         foreach(Player p in Services.GameController.players){
             if(p == this){continue;}
             if(p.position == newPos){
-                return p.CanPush(direction);
+                return p.CanPush(direction, depth+1);
             }
         }
 
@@ -115,6 +129,9 @@ public class Player
         moves.RemoveAt(moves.Count-1);
     }
     public void Wait(){
+        if(dead){
+            return;
+        }
         waitingStatus = 1;
         timeTurnStarted = Time.time;
         isMoving =true;
@@ -137,6 +154,8 @@ public class Player
             cloneNumber.text = "<voffset=0.45em><sprite=6>";
             if(Services.GameController.canLoop){
                 cloneNumber.text+="<line-height=80%><voffset=0.6em>\n<sprite=6>";
+            }else if(dead){
+                cloneNumber.text+="<line-height=70%>\nx";
             }
         }else{
             cloneNumber.text+="<line-height=70%>\n";
@@ -144,11 +163,16 @@ public class Player
             if(Services.GameController.currentPlayerIndex > index && Services.GameController.doClonesMove == false){
                 currentTurn++;
             }
-            if(moves.Count-1 >= currentTurn){
-                cloneNumber.text+="<sprite="+moves[currentTurn].ToString()+">";
+            if(dead){
+                cloneNumber.text+="x";
             }else{
-                //cloneNumber.text+="<sprite=4>";
+                if(moves.Count-1 >= currentTurn){
+                    cloneNumber.text+="<sprite="+moves[currentTurn].ToString()+">";
+                }else{
+                    //cloneNumber.text+="<sprite=4>";
+                }
             }
+            
         }
         if(Services.GameController.state == GameState.LevelSelect){
             cloneNumber.text = "";
@@ -236,9 +260,11 @@ public class PlayerState{
     public Vector2Int position;
     public List<int> moves;
     public bool sittingDown;
+    public bool dead;
     public PlayerState(Player player){
         position = player.position;
         sittingDown = player.sittingDown;
+        dead = player.dead;
         moves = new List<int>();
         foreach(int i in player.moves){
             moves.Add(i);

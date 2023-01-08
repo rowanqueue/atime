@@ -600,6 +600,9 @@ public class GameController : MonoBehaviour
         }
     }
     bool DoTurn(){
+        if(currentPlayer.dead){
+            nextMove = 4;
+        }
         if(nextMove < 0){
             return false;
         }
@@ -621,11 +624,16 @@ public class GameController : MonoBehaviour
             //you can move there
             Vector2Int newPos = currentPlayer.position+Services.Grid.directions[nextMove];
             bool cannotMove = false;
-            bool canPush = currentPlayer.CanPush(nextMove);
+            bool canPush = currentPlayer.CanPush(nextMove,0);
             if(canPush){
                 currentPlayer.Push(nextMove);
             }else{
                 cannotMove = true;
+            }
+            if(cannotMove){
+                if(Services.Grid.tiles[currentPlayer.position].spikes[nextMove]){
+                    currentPlayer.dead = true;
+                }
             }
             //if(cannotMove){return false;}
             currentPlayer.AddMove(nextMove);
@@ -661,6 +669,7 @@ public class GameController : MonoBehaviour
                 players[i].changingSitting = true;
             }
             players[i].position = lastTurn.playerStates[i].position;
+            players[i].dead = lastTurn.playerStates[i].dead;
             players[i].moves = lastTurn.playerStates[i].moves;
             if(players[i].sittingDown != lastTurn.playerStates[i].sittingDown){
                 players[i].changingSitting = true;
@@ -709,6 +718,9 @@ public class GameController : MonoBehaviour
     void DoCloneTurn(int index){
         if(players[index].moves.Count > currentTurn){
             int thisMove = players[index].moves[currentTurn];
+            if(players[index].dead){
+                thisMove = Services.Grid.directions.Length;
+            }
             if(thisMove >= Services.Grid.directions.Length){
                 //wait
                 players[index].Wait();
@@ -717,12 +729,15 @@ public class GameController : MonoBehaviour
                 return;
             }
             if(Services.Grid.tiles[players[index].position].canMove[thisMove] == false){
+                if(Services.Grid.tiles[players[index].position].spikes[thisMove]){
+                    players[index].dead = true;
+                }
                 players[index].FailureMove(thisMove);
                 return;
             }
             Vector2Int newPos = players[index].position+Services.Grid.directions[thisMove];
             bool cannotMove = false;
-            bool canPush = players[index].CanPush(thisMove);
+            bool canPush = players[index].CanPush(thisMove,0);
             if(canPush){
                 players[index].Push(thisMove);
             }else{

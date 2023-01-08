@@ -9,6 +9,7 @@ public class Tile
     public Tile[] neighbors = new Tile[4];
     public bool[] canMove = new bool[4]{true,true,true,true};
     public bool[] walls = new bool[4]{false,false,false,false};
+    public bool[] spikes = new bool[4]{false,false,false,false};
     LineRenderer[] edges = new LineRenderer[4];
 
     GameObject gameObject;
@@ -41,6 +42,11 @@ public class Tile
                 edges[i].startWidth = Services.Visuals.edgeWidth*gameObject.transform.parent.localScale.x;
             }
             if(walls[i]){
+                if(spikes[i]){
+                    edges[i].loop = true;
+                }else{
+                    edges[i].loop = false;
+                }
                 bool horizontal = i == 0 || i == 2;
                 Vector2 corner = Services.Grid.corners[(i-1+4)%4];
                 if(horizontal){

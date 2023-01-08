@@ -87,13 +87,17 @@ public class Level
                     exits.Add(pos,new Exit(pos,gameObject.transform));
                     exits[pos].level = this;
                 }
-                
+                //0-3 are walls
+                //4-7 are spikes
                 for(var i = 0; i < 4;i++){
                     if(line[x][0].ToString() == i.ToString()){
                         continue;
                     }
                     if(line[x].Contains(i.ToString())){
                         newTile.walls[i] = true;
+                    }
+                    if(line[x].Contains((i+4).ToString())){
+                        newTile.spikes[i] = true;
                     }
                 }
             }
@@ -480,6 +484,17 @@ public class Level
         tile.neighbors[direction].walls[Services.Grid.opposite(direction)] = true;
         tile.neighbors[direction].canMove[Services.Grid.opposite(direction)] = false;
     }
+    public void AddWallSpike(Vector2Int pos, int direction){
+        Tile tile = tiles[pos];
+        if(tile.neighbors[direction] == null){return;}
+        changed = true;
+        tile.walls[direction] = true;
+        tile.spikes[direction] = true;
+        tile.canMove[direction] = false;
+        tile.neighbors[direction].walls[Services.Grid.opposite(direction)] = true;
+        tile.neighbors[direction].spikes[Services.Grid.opposite(direction)] = true;
+        tile.neighbors[direction].canMove[Services.Grid.opposite(direction)] = false;
+    }
     public void RemoveWall(Vector2Int pos, int direction){
         Tile tile = tiles[pos];
         if(tile.walls[direction] == false){return;}
@@ -489,7 +504,14 @@ public class Level
         tile.canMove[direction] = true;
         tile.neighbors[direction].walls[Services.Grid.opposite(direction)] = false;
         tile.neighbors[direction].canMove[Services.Grid.opposite(direction)] = true;
-
+    }
+    public void RemoveWallSpike(Vector2Int pos, int direction){
+        Tile tile = tiles[pos];
+        if(tile.spikes[direction] == false){return;}
+        if(tile.neighbors[direction] == null){return;}
+        changed = true;
+        tile.spikes[direction] = false;
+        tile.neighbors[direction].spikes[Services.Grid.opposite(direction)] = false;
     }
     public string ConvertLevelToString(){
         string s = "";
@@ -516,8 +538,12 @@ public class Level
             }
             for(int i = 0; i < tile.walls.Length;i++){
                 if(tile.walls[i]){
-                    Debug.Log("wall time");
                     t+=i.ToString();
+                }
+            }
+            for(int i = 0; i < tile.spikes.Length;i++){
+                if(tile.spikes[i]){
+                    t+=(i+4).ToString();
                 }
             }
             tileInfo[tile.position.x,tile.position.y] = t;

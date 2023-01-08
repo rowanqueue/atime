@@ -2529,7 +2529,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 0
   editMode: 1
-  haveToWaitToEnd: 0
+  haveToWaitToEnd: 1
   endFailedLoop: 0
   playerPrefab: {fileID: 7643970248885724665, guid: 8b61d1f04fca1c24a87e99fdfb39bc41,
     type: 3}

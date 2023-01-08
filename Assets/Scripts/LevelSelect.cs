@@ -759,7 +759,12 @@ public class LevelSelect : MonoBehaviour
                 }
             }else{
                 if(l.tiles.ContainsKey(mouseTilePos)){
-                    l.AddWall(mouseTilePos,clickedWall);
+                    if(Input.GetKey(KeyCode.LeftControl)){
+                        l.AddWallSpike(mouseTilePos,clickedWall);
+                    }else{
+                        l.AddWall(mouseTilePos,clickedWall);
+                    }
+                    
                 }
             }
             
@@ -802,7 +807,11 @@ public class LevelSelect : MonoBehaviour
                 }
             }else{
                 if(l.tiles.ContainsKey(mouseTilePos)){
-                    l.RemoveWall(mouseTilePos,clickedWall);
+                    if(Input.GetKey(KeyCode.LeftControl)){
+                        l.RemoveWallSpike(mouseTilePos,clickedWall);
+                    }else{
+                        l.RemoveWall(mouseTilePos,clickedWall);
+                    }
                 }
             }
             

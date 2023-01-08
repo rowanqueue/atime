@@ -158,17 +158,27 @@ public class ActionPoint
             circle.startWidth = outerWidth*gameObject.transform.parent.localScale.x;
             circle.SetPosition(1,Services.Visuals.LerpVector(circle.GetPosition(1),Vector2.zero));
         }
+        
+        
+        if(held){
+            Vector2 targetPosition = Vector2.zero;
+            targetPosition.y = -0.15f+Mathf.Cos(Time.time*3f)*0.04f;
+            circle.startWidth = outerWidth*gameObject.transform.parent.localScale.x*1.2f;
+            gameObject.transform.localPosition = Services.Visuals.LerpVector(gameObject.transform.localPosition,(Vector2)playerHolding.position+targetPosition);
+            circle.sortingLayerName = "Player";
+            circle.sortingOrder = 2;
+        }else{
+            circle.sortingLayerName = "Point";
+            circle.sortingOrder = 1;
+            if(collected){
+                gameObject.transform.localPosition += (new Vector3(index*0.5f,0,0)-gameObject.transform.localPosition)*Services.Visuals.lerpSpeed;
+            }else{
+                gameObject.transform.localPosition += ((Vector3)(Vector2)gridPosition-gameObject.transform.localPosition)*Services.Visuals.lerpSpeed;
+            }
+        }
         circle.endWidth = circle.startWidth;
         circle.endColor = circle.startColor;
-        if(held){
-            gameObject.transform.localPosition = Services.Visuals.LerpVector(gameObject.transform.localPosition,(Vector2)playerHolding.position+Vector2.up*0.5f);
-            return;
-        }
-        if(collected){
-            gameObject.transform.localPosition += (new Vector3(index*0.5f,0,0)-gameObject.transform.localPosition)*Services.Visuals.lerpSpeed;
-        }else{
-            gameObject.transform.localPosition += ((Vector3)(Vector2)gridPosition-gameObject.transform.localPosition)*Services.Visuals.lerpSpeed;
-        }
+        
         
     }
     public void InstantShrink(){
