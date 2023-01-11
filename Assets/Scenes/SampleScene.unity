@@ -1921,6 +1921,11 @@ MonoBehaviour:
   winColor: {r: 0.8352942, g: 0.9490197, b: 0.9333334, a: 1}
   actionColor: {r: 1, g: 0.5803922, b: 0.60784316, a: 1}
   levelSelectShrink: 0
+  angles:
+  - 0
+  - -90
+  - -180
+  - -270
 --- !u!4 &1341170393 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8011707806186935900, guid: 28b534eed87d75746878ea35ad6a47ab,
@@ -2536,6 +2541,8 @@ MonoBehaviour:
   tilePrefab: {fileID: 7867739709629767515, guid: 368f908df1aa5b94aaf5149600e36fde,
     type: 3}
   actionPointPrefab: {fileID: 8105273230570018660, guid: 111024394b9e1634a8703c12dc0c400f,
+    type: 3}
+  pitPrefab: {fileID: 106170599802847062, guid: df341f24b380c8e4bbfe85c0a0ee197b,
     type: 3}
   exitPrefab: {fileID: 6653595287076640719, guid: 664a0c3f3f40fc141ba6734f117c585b,
     type: 3}

@@ -166,7 +166,7 @@ public class ActionPoint
             circle.startWidth = outerWidth*gameObject.transform.parent.localScale.x*1.2f;
             gameObject.transform.localPosition = Services.Visuals.LerpVector(gameObject.transform.localPosition,(Vector2)playerHolding.position+targetPosition);
             circle.sortingLayerName = "Player";
-            circle.sortingOrder = 2;
+            circle.sortingOrder = 5;
         }else{
             circle.sortingLayerName = "Point";
             circle.sortingOrder = 1;

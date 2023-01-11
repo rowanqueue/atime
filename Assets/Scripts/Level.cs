@@ -434,6 +434,14 @@ public class Level
         }
         
     }
+    public void AddPit(Vector2Int pos){
+        changed = true;
+        tiles[pos].AddPit();
+    }
+    public void RemovePit(Vector2Int pos){
+        changed = true;
+        tiles[pos].RemovePit();
+    }
     public void MoveExit(Exit exit, Vector2Int pos){
         changed = true;
         exits.Remove(exit.position);

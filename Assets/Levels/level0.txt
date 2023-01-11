@@ -1,6 +1,6 @@
 level0
 -1,-1,0,1
-2,~a makes ~p?~n~a sends you back in time?~nare you ~p or ~p? or ~p?
+1,~a makes ~p?~n~a sends you back in time?~nare you ~p or ~p? or ~p?
 *,@,.2
 .,.,*0
 .,x,.

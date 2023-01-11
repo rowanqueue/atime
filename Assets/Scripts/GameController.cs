@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject tilePrefab;
     public GameObject actionPointPrefab;
+    public GameObject pitPrefab;
     public GameObject exitPrefab;
     public GameObject linePrefab;
     public bool centerTimeLine;
@@ -600,11 +601,13 @@ public class GameController : MonoBehaviour
         }
     }
     bool DoTurn(){
-        if(currentPlayer.dead){
-            nextMove = 4;
-        }
+        
         if(nextMove < 0){
             return false;
+        }
+        Debug.Log(nextMove);
+        if(currentPlayer.dead){
+            nextMove = 4;
         }
         if(nextMove > 3){
             //its waiting time!
@@ -714,9 +717,15 @@ public class GameController : MonoBehaviour
                 }
             }
         }
+        foreach(Vector2Int pos in lastTurn.pitStates.Keys){
+            Services.Grid.level.tiles[pos].pitFilled = lastTurn.pitStates[pos];
+        }
     }
     void DoCloneTurn(int index){
         if(players[index].moves.Count > currentTurn){
+            if(players[index].inPit){
+                return;
+            }
             int thisMove = players[index].moves[currentTurn];
             if(players[index].dead){
                 thisMove = Services.Grid.directions.Length;
@@ -789,6 +798,11 @@ public class GameController : MonoBehaviour
         foreach(Exit exit in Services.Grid.level.exits.Values){
             exit.TurnOff();
         }
+        foreach(Tile tile in Services.Grid.level.tiles.Values){
+            if(tile.hasPit){
+                tile.UnFillPit();
+            }
+        }
         MakePlayer(Services.Grid.playerStartPosition);
         
     }
@@ -803,6 +817,7 @@ public class TurnState
     public List<PlayerState> playerStates;
     public Dictionary<ActionPoint,ActionPointState> actionPointStates;
     public Dictionary<Exit,bool> exitStates;
+    public Dictionary<Vector2Int,bool> pitStates;
     public TurnState(){
         playerStates = new List<PlayerState>();
         foreach(Player p in Services.GameController.players){
@@ -815,6 +830,11 @@ public class TurnState
         exitStates = new Dictionary<Exit, bool>();
         foreach(Exit exit in Services.Grid.level.exits.Values){
             exitStates.Add(exit,exit.on);
+        }
+        pitStates = new Dictionary<Vector2Int, bool>();
+        foreach(Tile tile in Services.Grid.level.tiles.Values){
+            if(tile.hasPit == false){continue;}
+            pitStates.Add(tile.position,tile.pitFilled);
         }
         turn = Services.GameController.currentTurn;
         loop = Services.GameController.currentLoop;

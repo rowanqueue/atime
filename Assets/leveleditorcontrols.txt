@@ -13,10 +13,16 @@ LEVEL EDITOR
 - left click:
 -- empty: adds tile
 -- tile: adds action point
+-- action point: makes the action point worth more
 -- wall: adds wall
+- ctrl+left click:
+--* tile: adds pit
+-- action point: adds timer
+-- wall: add spikes
 - right click tile/action point/wall to remove them
 - long press left click to pick up start/exit, then left click any tile to drop it there. right click returns it to where you picked it up
 --shift-left click exit to make a duplicate. shift-right click to destroy exits but it won't let you have less than one
+--* shift-left click to duplicate the player to make clones that start in level. RN only corpses.
 - press [ to lower turn limit
 - press ] to raise turn limit
 

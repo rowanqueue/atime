@@ -11,8 +11,12 @@ public class Tile
     public bool[] walls = new bool[4]{false,false,false,false};
     public bool[] spikes = new bool[4]{false,false,false,false};
     LineRenderer[] edges = new LineRenderer[4];
-
     GameObject gameObject;
+
+    public bool CanWalk => !hasPit || (hasPit && pitFilled);
+    public bool hasPit = false;
+    public bool pitFilled = false;
+    GameObject pit;
 
     public Tile(Vector2Int position,Transform parent){
         this.position = position;
@@ -23,15 +27,34 @@ public class Tile
         }
     }
     //only for level editing
+    public void AddPit(){
+        hasPit = true;
+        pit = GameObject.Instantiate(Services.GameController.pitPrefab,gameObject.transform);
+    }
+    public void RemovePit(){
+        hasPit = false;
+        GameObject.Destroy(pit);
+        pit = null;
+    }
+    public void FillPit(){
+        pitFilled = true;
+    }
+    public void UnFillPit(){
+        pitFilled = false;
+    }
     public void Destroy(){
         GameObject.Destroy(gameObject);
     }
+    //end level editing!
     public void SetPosition(Vector2Int pos){
         position = pos;
         gameObject.transform.localPosition = (Vector2)pos;
     }
 
     public void Draw(bool won){
+        if(hasPit){
+            pit.transform.GetChild(1).gameObject.SetActive(pitFilled);
+        }
         for(var i = 0; i < edges.Length;i++){
             edges[i].startColor = won && Services.GameController.state == GameState.LevelSelect ? Services.Visuals.winColor : (canMove[i] ? Services.Visuals.tinyTileColor : Services.Visuals.tileColor);
             edges[i].sortingOrder = (canMove[i] ? 0 : 1);
