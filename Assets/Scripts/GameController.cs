@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
     public GameObject tilePrefab;
     public GameObject actionPointPrefab;
     public GameObject pitPrefab;
+    public GameObject sporesPrefab;
     public GameObject exitPrefab;
     public GameObject linePrefab;
     public bool centerTimeLine;
@@ -609,6 +610,9 @@ public class GameController : MonoBehaviour
         if(currentPlayer.dead){
             nextMove = 4;
         }
+        if(Services.Grid.tiles[currentPlayer.position].hasSpores){
+            nextMove = currentPlayer.moves[currentPlayer.moves.Count-1];
+        }
         if(nextMove > 3){
             //its waiting time!
             currentPlayer.Wait();
@@ -729,6 +733,9 @@ public class GameController : MonoBehaviour
             int thisMove = players[index].moves[currentTurn];
             if(players[index].dead){
                 thisMove = Services.Grid.directions.Length;
+            }
+            if(Services.Grid.tiles[currentPlayer.position].hasSpores){
+                thisMove = players[index].moves[currentTurn-1];
             }
             if(thisMove >= Services.Grid.directions.Length){
                 //wait

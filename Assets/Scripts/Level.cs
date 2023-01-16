@@ -87,6 +87,12 @@ public class Level
                     exits.Add(pos,new Exit(pos,gameObject.transform));
                     exits[pos].level = this;
                 }
+                if(line[x].Contains("u")){
+                    AddPit(pos);
+                }
+                if(line[x].Contains("s")){
+                    AddSpores(pos);
+                }
                 //0-3 are walls
                 //4-7 are spikes
                 for(var i = 0; i < 4;i++){
@@ -442,6 +448,17 @@ public class Level
         changed = true;
         tiles[pos].RemovePit();
     }
+    public void AddSpores(Vector2Int pos){
+        if(tiles[pos].hasSpores){
+            return;
+        }
+        changed = true;
+        tiles[pos].AddSpores();
+    }
+    public void RemoveSpores(Vector2Int pos){
+        changed = true;
+        tiles[pos].RemoveSpores();
+    }
     public void MoveExit(Exit exit, Vector2Int pos){
         changed = true;
         exits.Remove(exit.position);
@@ -541,9 +558,16 @@ public class Level
         }
         foreach(Tile tile in tiles.Values){
             string t = ".";
+            if(tile.hasPit){
+                t = "u";
+            }
+            if(tile.hasSpores){
+                t = "s";
+            }
             if(tileInfo[tile.position.x,tile.position.y] != null){
                 t = tileInfo[tile.position.x,tile.position.y];
             }
+            
             for(int i = 0; i < tile.walls.Length;i++){
                 if(tile.walls[i]){
                     t+=i.ToString();

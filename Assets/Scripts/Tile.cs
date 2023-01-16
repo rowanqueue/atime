@@ -17,6 +17,8 @@ public class Tile
     public bool hasPit = false;
     public bool pitFilled = false;
     GameObject pit;
+    public bool hasSpores = false;
+    GameObject spores;
 
     public Tile(Vector2Int position,Transform parent){
         this.position = position;
@@ -26,7 +28,6 @@ public class Tile
             edges[i] = gameObject.transform.GetChild(i).GetComponent<LineRenderer>();
         }
     }
-    //only for level editing
     public void AddPit(){
         hasPit = true;
         pit = GameObject.Instantiate(Services.GameController.pitPrefab,gameObject.transform);
@@ -42,10 +43,18 @@ public class Tile
     public void UnFillPit(){
         pitFilled = false;
     }
+    public void AddSpores(){
+        hasSpores = true;
+        spores = GameObject.Instantiate(Services.GameController.sporesPrefab,gameObject.transform);
+    }
+    public void RemoveSpores(){
+        hasSpores = false;
+        GameObject.Destroy(spores);
+        spores = null;
+    }
     public void Destroy(){
         GameObject.Destroy(gameObject);
     }
-    //end level editing!
     public void SetPosition(Vector2Int pos){
         position = pos;
         gameObject.transform.localPosition = (Vector2)pos;

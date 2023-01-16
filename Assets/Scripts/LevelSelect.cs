@@ -747,6 +747,8 @@ public class LevelSelect : MonoBehaviour
                         }
                         if(Input.GetKey(KeyCode.LeftControl)){
                             l.AddPit(mouseTilePos);
+                        }else if(Input.GetKey(KeyCode.LeftShift)){
+                            l.AddSpores(mouseTilePos);
                         }else{
                             l.AddActionPoint(mouseTilePos);
                         }
@@ -810,6 +812,12 @@ public class LevelSelect : MonoBehaviour
                     if(l.tiles[mouseTilePos].hasPit){
                         if(Input.GetKey(KeyCode.LeftControl)){
                             l.RemovePit(mouseTilePos);
+                            return;
+                        }
+                    }
+                    if(l.tiles[mouseTilePos].hasSpores){
+                        if(Input.GetKey(KeyCode.LeftShift)){
+                            l.RemoveSpores(mouseTilePos);
                             return;
                         }
                     }
