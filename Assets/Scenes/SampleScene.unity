@@ -2546,6 +2546,8 @@ MonoBehaviour:
     type: 3}
   sporesPrefab: {fileID: 8155515784957997841, guid: ac94733cf2ebcae42abcd33b3ddb2406,
     type: 3}
+  animalPrefab: {fileID: 8600073472003476750, guid: 29e88bbee31e4664b8303d83ddb636f7,
+    type: 3}
   exitPrefab: {fileID: 6653595287076640719, guid: 664a0c3f3f40fc141ba6734f117c585b,
     type: 3}
   linePrefab: {fileID: 7630410347352008073, guid: 28b534eed87d75746878ea35ad6a47ab,

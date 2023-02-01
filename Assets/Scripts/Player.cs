@@ -76,6 +76,10 @@ public class Player
                     return false;
                 }else{
                     //go through!
+                    if(Services.Grid.tiles.ContainsKey(position+Services.Grid.directions[direction]) == false){
+                        //you're dead!
+                        return false;
+                    }
                 }
             }else{
                 return false;
