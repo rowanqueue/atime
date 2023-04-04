@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
     public bool editMode;
     public bool haveToWaitToEnd;//whether you need to actually press the wait button to end a loop
     public bool endFailedLoop;//will it actually loop if you didnt get a dot?
+    public bool cloneCanUseSpawnPortal;
     public List<Player> players => Services.Grid.level.players;
     public Player currentPlayer => players[players.Count-1];
     public GameObject playerPrefab;
@@ -21,6 +22,7 @@ public class GameController : MonoBehaviour
     public GameObject pitPrefab;
     public GameObject sporesPrefab;
     public GameObject animalPrefab;
+    public GameObject spawnPortalPrefab;
     public GameObject exitPrefab;
     public GameObject linePrefab;
     public bool centerTimeLine;
@@ -437,6 +439,7 @@ public class GameController : MonoBehaviour
     //Player stuff
     public void MakePlayer(Vector2Int pos){
         Player p = new Player(pos,Services.Grid.level.gameObject.transform);
+        
         p.index = players.Count;
         players.Add(p);
     }
@@ -617,13 +620,22 @@ public class GameController : MonoBehaviour
         if(nextMove > 3){
             //its waiting time!
             currentPlayer.Wait();
+            if(Services.Grid.tiles[currentPlayer.position].hasSpawnPortal){
+                ActionPoint newActionPoint = new ActionPoint(gameObject.transform.parent);
+                newActionPoint.Collect();
+                NewLoop(currentPlayer);
+                doClonesMove = true;
+                currentPlayerIndex = currentLoop;
+                return true;
+            }else{
+                CheckForExit(currentPlayer);
+                currentPlayer.AddMove(nextMove);
+                currentTurn++;
+                CheckForGrab();
+                doClonesMove = true;
+                return true;
+            }
             
-            CheckForExit(currentPlayer);
-            currentPlayer.AddMove(nextMove);
-            currentTurn++;
-            CheckForGrab();
-            doClonesMove = true;
-            return true;
         }
         //normal movement turn
         Tile currentTile = Services.Grid.tiles[currentPlayer.position];
@@ -677,6 +689,7 @@ public class GameController : MonoBehaviour
                 players[i].changingSitting = true;
             }
             players[i].position = lastTurn.playerStates[i].position;
+            players[i].spawnPos = lastTurn.playerStates[i].spawnPos;
             players[i].dead = lastTurn.playerStates[i].dead;
             players[i].moves = lastTurn.playerStates[i].moves;
             if(players[i].sittingDown != lastTurn.playerStates[i].sittingDown){
@@ -694,9 +707,12 @@ public class GameController : MonoBehaviour
             //turnLimit--;
             currentPlayer.Destroy();
             players.RemoveAt(players.Count-1);
-            while(turnLimitDisplay[turnLimitDisplay.Count-1].createdMidGame){
-                turnLimitDisplay[turnLimitDisplay.Count-1].UndoCollect();
+            if(Services.Grid.tiles[players[players.Count-1].position].hasSpawnPortal == false){
+                while(turnLimitDisplay[turnLimitDisplay.Count-1].createdMidGame){
+                    turnLimitDisplay[turnLimitDisplay.Count-1].UndoCollect();
+                }
             }
+           
             turnLimitDisplay[turnLimitDisplay.Count-1].UndoCollect();
             
         }
@@ -741,6 +757,12 @@ public class GameController : MonoBehaviour
             if(thisMove >= Services.Grid.directions.Length){
                 //wait
                 players[index].Wait();
+                if(Services.Grid.tiles[players[index].position].hasSpawnPortal){
+                    if(cloneCanUseSpawnPortal){
+                        players[index].spawnPos = players[index].position;
+                    }
+                    players[index].inPit = true;
+                }
                 CheckForGrab();
                 CheckForExit(players[index]);
                 return;
@@ -813,6 +835,24 @@ public class GameController : MonoBehaviour
         }
         MakePlayer(Services.Grid.playerStartPosition);
         
+    }
+    void NewLoop(Player _player){
+        Vector2Int pos = _player.position;
+        currentLoop++;
+        currentTurn = 0;
+        //turnLimit++;
+        foreach(Player player in players){
+            player.Reset();
+        }
+        foreach(Exit exit in Services.Grid.level.exits.Values){
+            exit.TurnOff();
+        }
+        foreach(Tile tile in Services.Grid.level.tiles.Values){
+            if(tile.hasPit){
+                tile.UnFillPit();
+            }
+        }
+        MakePlayer(pos);
     }
     //end
 }

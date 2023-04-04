@@ -2536,6 +2536,7 @@ MonoBehaviour:
   editMode: 1
   haveToWaitToEnd: 1
   endFailedLoop: 0
+  cloneCanUseSpawnPortal: 0
   playerPrefab: {fileID: 7643970248885724665, guid: 8b61d1f04fca1c24a87e99fdfb39bc41,
     type: 3}
   tilePrefab: {fileID: 7867739709629767515, guid: 368f908df1aa5b94aaf5149600e36fde,
@@ -2547,6 +2548,8 @@ MonoBehaviour:
   sporesPrefab: {fileID: 8155515784957997841, guid: ac94733cf2ebcae42abcd33b3ddb2406,
     type: 3}
   animalPrefab: {fileID: 8600073472003476750, guid: 29e88bbee31e4664b8303d83ddb636f7,
+    type: 3}
+  spawnPortalPrefab: {fileID: 6973573279723623392, guid: 4e7b3d8ed39cb2443858f0553b4d60ff,
     type: 3}
   exitPrefab: {fileID: 6653595287076640719, guid: 664a0c3f3f40fc141ba6734f117c585b,
     type: 3}

@@ -746,7 +746,7 @@ public class LevelSelect : MonoBehaviour
                             return;
                         }
                         if(Input.GetKey(KeyCode.LeftControl)){
-                            l.AddPit(mouseTilePos);
+                            l.AddSpawnPortal(mouseTilePos);
                         }else if(Input.GetKey(KeyCode.LeftShift)){
                             l.AddSpores(mouseTilePos);
                         }else{
@@ -809,9 +809,9 @@ public class LevelSelect : MonoBehaviour
                         }
                         return;
                     }
-                    if(l.tiles[mouseTilePos].hasPit){
+                    if(l.tiles[mouseTilePos].hasSpawnPortal){
                         if(Input.GetKey(KeyCode.LeftControl)){
-                            l.RemovePit(mouseTilePos);
+                            l.RemoveSpawnPortal(mouseTilePos);
                             return;
                         }
                     }

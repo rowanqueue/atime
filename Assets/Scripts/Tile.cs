@@ -19,6 +19,8 @@ public class Tile
     GameObject pit;
     public bool hasSpores = false;
     GameObject spores;
+    public bool hasSpawnPortal = false;
+    GameObject spawnPortal;
 
     public Tile(Vector2Int position,Transform parent){
         this.position = position;
@@ -51,6 +53,15 @@ public class Tile
         hasSpores = false;
         GameObject.Destroy(spores);
         spores = null;
+    }
+    public void AddSpawnPortal(){
+        hasSpawnPortal = true;
+        spawnPortal = GameObject.Instantiate(Services.GameController.spawnPortalPrefab,gameObject.transform);
+    }
+    public void RemoveSpawnPortal(){
+        hasSpawnPortal = false;
+        GameObject.Destroy(spawnPortal);
+        spawnPortal = null;
     }
     public void Destroy(){
         GameObject.Destroy(gameObject);

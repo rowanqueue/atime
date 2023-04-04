@@ -88,7 +88,7 @@ public class Level
                     exits[pos].level = this;
                 }
                 if(line[x].Contains("u")){
-                    AddPit(pos);
+                    AddSpawnPortal(pos);
                 }
                 if(line[x].Contains("s")){
                     AddSpores(pos);
@@ -458,6 +458,17 @@ public class Level
     public void RemoveSpores(Vector2Int pos){
         changed = true;
         tiles[pos].RemoveSpores();
+    }
+    public void AddSpawnPortal(Vector2Int pos){
+        if(tiles[pos].hasSpawnPortal){
+            return;
+        }
+        changed = true;
+        tiles[pos].AddSpawnPortal();
+    }
+    public void RemoveSpawnPortal(Vector2Int pos){
+        changed = true;
+        tiles[pos].RemoveSpawnPortal();
     }
     public void MoveExit(Exit exit, Vector2Int pos){
         changed = true;

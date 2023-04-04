@@ -6,6 +6,7 @@ using Shapes;
 
 public class Player
 {
+    public Vector2Int spawnPos;
     public Vector2Int position;
     public bool isMoving;
     public bool completedLoop;
@@ -33,6 +34,7 @@ public class Player
     public bool inPit;
 
     public Player(Vector2Int pos, Transform parent){
+        spawnPos = pos;
         index = 0;//Services.GameController.players.Count;
         position = pos;
         gameObject = GameObject.Instantiate(Services.GameController.playerPrefab,(Vector2)position,Quaternion.identity,parent);
@@ -55,7 +57,7 @@ public class Player
     public void Reset(){
         dead = false;
         inPit = false;
-        position = Services.Grid.playerStartPosition;
+        position = spawnPos;
         gameObject.transform.localPosition = (Vector2)position + Vector2.one*0.5f;
     }
     public void UndoReset(){
@@ -297,11 +299,13 @@ public class Player
 }
 public class PlayerState{
     public Vector2Int position;
+    public Vector2Int spawnPos;
     public List<int> moves;
     public bool sittingDown;
     public bool dead;
     public PlayerState(Player player){
         position = player.position;
+        spawnPos = player.spawnPos;
         sittingDown = player.sittingDown;
         dead = player.dead;
         moves = new List<int>();
