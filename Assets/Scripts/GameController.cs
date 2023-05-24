@@ -548,7 +548,7 @@ public class GameController : MonoBehaviour
     }
     void CheckForInput(){
         nextMove = -1;
-        if(editMode && Services.LevelSelect.textEditMode){
+        if(editMode && (Services.LevelSelect.textEditMode || Services.LevelSelect.nameEditMode)){
             return;
         }
         if(currentPlayer.isMoving){
