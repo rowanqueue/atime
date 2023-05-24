@@ -1,0 +1,30 @@
+{
+    "name": "testlevel",
+    "map_pos":{
+        "x": -3,
+        "y": -1
+    },
+    "map_section": 7,
+    "section_exit": 0,
+    "turn_limit": 1,
+    "text": "hello~nmove to the ~t~npress ~w to activate",
+    "start": {
+        "x": 0,
+        "y": 1
+    },
+    "tiles": [
+        {
+            "x": 0,
+            "y": 0,
+            "thing": null,
+        }
+    ],
+    "walls": [
+        {
+            "x": 0,
+            "y": 0,
+            "is_up": false,
+            "type": 0,
+        }
+    ]
+}

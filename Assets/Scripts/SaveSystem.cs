@@ -80,7 +80,7 @@ public class Save
                 if(Services.LevelSelect.won[i]){
                     state = 2;
                 }
-                levelNames.Add(Services.LevelSelect.levels[i].name);
+                levelNames.Add(Services.LevelSelect.levels[i].internal_name);
                 levelWon.Add(Services.LevelSelect.won[i] ? 1 : 0);
             }
         }

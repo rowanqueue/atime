@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 //we take the level data string and make it this class to further process it
 public class Level
 {
+    public string internal_name;
     public string name;
     public int index;
     public Vector2Int gridPosition;
@@ -31,13 +33,17 @@ public class Level
     public int sectionExit;//-1 if pos does not have one lol
     public string spoken = "";
     public string timer_key = "abcdef";
-    public Level(string levelData){
+    public Level(LevelJson levelJson){
+        //this is created only for the new level select
+    }
+    public Level(string levelData,string _internal_name){
         gameObject = new GameObject();
         gameObject.transform.parent = Services.Grid.transform;
         
         this.levelData = levelData;
         string[] lines = levelData.Split('\n');
         name = lines[0].Trim();
+        internal_name = _internal_name;
         gameObject.name = name;
         string[] posInfo = lines[1].Split(',');
         gridPosition = new Vector2Int(int.Parse(posInfo[0]),int.Parse(posInfo[1]));
@@ -88,7 +94,7 @@ public class Level
                     exits[pos].level = this;
                 }
                 if(line[x].Contains("u")){
-                    AddPit(pos);
+                    AddSpawnPortal(pos);
                 }
                 if(line[x].Contains("s")){
                     AddSpores(pos);
@@ -459,6 +465,17 @@ public class Level
         changed = true;
         tiles[pos].RemoveSpores();
     }
+    public void AddSpawnPortal(Vector2Int pos){
+        if(tiles[pos].hasSpawnPortal){
+            return;
+        }
+        changed = true;
+        tiles[pos].AddSpawnPortal();
+    }
+    public void RemoveSpawnPortal(Vector2Int pos){
+        changed = true;
+        tiles[pos].RemoveSpawnPortal();
+    }
     public void MoveExit(Exit exit, Vector2Int pos){
         changed = true;
         exits.Remove(exit.position);
@@ -538,6 +555,92 @@ public class Level
         tile.spikes[direction] = false;
         tile.neighbors[direction].spikes[Services.Grid.opposite(direction)] = false;
     }
+    public void ConvertLevelToJson(){
+        LevelJson json = new LevelJson();
+        Debug.Log(internal_name);
+        Debug.Log(name);
+        json.internal_name = internal_name;
+        json.name = name;
+        json.map_pos = new LevelJson.Position(gridPosition.x,gridPosition.y);
+        json.map_section = section;
+        json.section_exit = sectionExit;
+
+        json.turn_limit = turnLimit;
+        json.text = spoken;
+
+        json.start = new LevelJson.Position(startPosition.x,startPosition.y);
+
+        json.tiles = new List<LevelJson.Tile>();
+        json.walls = new List<LevelJson.Wall>();
+        foreach(Vector2Int _pos in tiles.Keys){
+            LevelJson.Tile _tile = new LevelJson.Tile();
+            _tile.x = _pos.x;
+            _tile.y = _pos.y;
+            if(actionPoints.ContainsKey(_pos)){
+                _tile.thing = "a";
+            }
+            if(exits.ContainsKey(_pos)){
+                _tile.thing = "x";
+            }
+            json.tiles.Add(_tile);
+
+            //walls
+            for(var i = 0; i < 4; i++){
+                if(tiles[_pos].walls[i] == false){
+                    continue;
+                }
+                LevelJson.Wall _wall = new LevelJson.Wall();
+                _wall.x = _pos.x;
+                _wall.y = _pos.y;
+                if(i == 1){
+                    _wall.x+=1;
+                }
+                if(i == 2){
+                    _wall.y-=1;
+                }
+                switch(i){
+                    case 0:
+                        _wall.is_up = true;
+                        break;
+                    case 1:
+                        _wall.is_up = false;
+                        break;
+                    case 2:
+                        _wall.is_up = true;
+                        break;
+                    case 3:
+                        _wall.is_up = false;
+                        break;
+                }
+                bool contains = false;
+                foreach(LevelJson.Wall oWall in json.walls){
+                    if(oWall == _wall){
+                        contains = true;
+                        break;
+                    }
+                }
+                if(contains == false){
+                    json.walls.Add(_wall);
+                }
+                
+            }
+            
+        }
+
+        
+
+        string json_string = JsonUtility.ToJson(json);
+        string path = Application.dataPath+"/_Levels/"+internal_name+".json";
+        if(!File.Exists(path)){
+            System.IO.File.WriteAllText(path,json_string);
+        }else{
+            StreamWriter writer = new StreamWriter(path, false);
+            writer.NewLine = "";
+            writer.WriteLine(json_string);
+            writer.Close();
+        }
+
+    }
     public string ConvertLevelToString(){
         string s = "";
         string[,] tileInfo = new string[extent.x,extent.y];
@@ -603,4 +706,56 @@ public class Level
         GameObject.Destroy(gameObject);
     }
     #endif
+}
+[System.Serializable]
+public class LevelJson{
+    public string internal_name;
+    public string name;
+    [System.Serializable]
+    public class Position{
+        public int x;
+        public int y;
+        public Position(int _x, int _y){
+            this.x = _x;
+            this.y = _y;
+        }
+    }
+    public Position map_pos;
+    public int map_section;
+    public int section_exit;
+    public int turn_limit;
+    public string text;
+    public Position start;
+    [System.Serializable]
+    public class Tile{
+        public int x;
+        public int y;
+        public string thing;
+    }
+    public List<Tile> tiles;
+    [System.Serializable]
+    public class Wall{
+        public int x;
+        public int y;
+        public bool is_up;
+        public int type;
+        public static bool operator ==(Wall a, Wall b)
+        { 
+            if(a.x == b.x && a.y == b.y && a.is_up == b.is_up){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public static bool operator !=(Wall a, Wall b)
+        { 
+            if(a.x == b.x && a.y == b.y && a.is_up == b.is_up){
+                return false;
+            }else{
+                return true;
+            }
+        }
+    }
+    public List<Wall> walls;
+
 }

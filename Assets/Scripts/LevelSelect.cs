@@ -42,6 +42,7 @@ public class LevelSelect : MonoBehaviour
     public float timeHoldStarted;
     public bool rightHold;
     public bool textEditMode;
+    public bool nameEditMode;
     //level editing sections
     public int sectionSelected = -1;//-1 is none...
     public void Initialize(){
@@ -51,7 +52,6 @@ public class LevelSelect : MonoBehaviour
         }
         #if UNITY_EDITOR
         FindAllLevelAssets();
-        
         #endif
         sectionSelected = -1;
         sections = new List<Section>();
@@ -63,7 +63,7 @@ public class LevelSelect : MonoBehaviour
         int wipLevels = 0;
         int highestTurnLimit = 0;
         foreach(TextAsset levelAsset in  database.levelTexts){
-            Level l = new Level(levelAsset.text);
+            Level l = new Level(levelAsset.text,levelAsset.name);
             var turnLimit = l.turnLimit+l.actionPoints.Count;
             if(turnLimit>highestTurnLimit){
                 highestTurnLimit = turnLimit;
@@ -364,7 +364,7 @@ public class LevelSelect : MonoBehaviour
         newLevelString+=pos.x.ToString()+","+pos.y.ToString()+",-1"+'\n';
         newLevelString+="1\n";
         newLevelString+="@,x";
-        Level l = new Level(newLevelString);
+        Level l = new Level(newLevelString,name);
         levels.Add(l);
         v2Level.Add(l.gridPosition,l);
         name2Level.Add(l.name,l);
@@ -647,6 +647,9 @@ public class LevelSelect : MonoBehaviour
         if(Input.GetKey(KeyCode.Alpha1) && Input.GetKeyDown(KeyCode.Alpha2)){
             textEditMode = !textEditMode;
         }
+        if(Input.GetKeyDown(KeyCode.Tab)){
+            nameEditMode = !nameEditMode;
+        }
         Level l = Services.Grid.level;
         if(textEditMode){
             foreach(char c in Input.inputString){
@@ -667,6 +670,23 @@ public class LevelSelect : MonoBehaviour
                 }
         }
         }
+        if(nameEditMode){
+            foreach(char c in Input.inputString){
+                if(c == '1' || c=='2'){continue;}
+                l.changed = true;
+                if(c=='\b'){
+                    if(l.name.Length > 0){
+                        l.name = l.name.Substring(0,l.name.Length-1);
+                        /*if(l.spoken.Length > 0 && l.spoken[l.spoken.Length-1] == '~'){
+                            l.spoken = l.spoken.Substring(0,l.spoken.Length-1);
+                        }*/
+                    }
+                }
+                else{
+                    l.name+=c;
+                }
+        }
+        }
         Vector2 floatMouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         
         
@@ -675,6 +695,9 @@ public class LevelSelect : MonoBehaviour
             levelNameDisplay.text+="**";
         }
         levelNameDisplay.text += l.name;
+        if(nameEditMode){
+            levelNameDisplay.text+="|";
+        }
         if(l.changed){
             levelNameDisplay.text+="**";
         }
@@ -746,7 +769,7 @@ public class LevelSelect : MonoBehaviour
                             return;
                         }
                         if(Input.GetKey(KeyCode.LeftControl)){
-                            l.AddPit(mouseTilePos);
+                            l.AddSpawnPortal(mouseTilePos);
                         }else if(Input.GetKey(KeyCode.LeftShift)){
                             l.AddSpores(mouseTilePos);
                         }else{
@@ -809,9 +832,9 @@ public class LevelSelect : MonoBehaviour
                         }
                         return;
                     }
-                    if(l.tiles[mouseTilePos].hasPit){
+                    if(l.tiles[mouseTilePos].hasSpawnPortal){
                         if(Input.GetKey(KeyCode.LeftControl)){
-                            l.RemovePit(mouseTilePos);
+                            l.RemoveSpawnPortal(mouseTilePos);
                             return;
                         }
                     }
@@ -875,11 +898,11 @@ public class LevelSelect : MonoBehaviour
         levelString+='\n';
         levelString+=l.turnLimit.ToString()+','+l.spoken+"\n";
         levelString+=l.ConvertLevelToString();
-
+        l.ConvertLevelToJson();
 
         levelString = levelString.Trim();
         l.levelData = levelString;
-        string path = Application.dataPath+"/Levels/"+l.name+".txt";
+        string path = Application.dataPath+"/Levels/"+l.internal_name+".txt";
         if(!File.Exists(path)){
             System.IO.File.WriteAllText(path,levelString);
         }else{
@@ -898,7 +921,7 @@ public class LevelSelect : MonoBehaviour
         l.Destroy();
         levels.Remove(l);
         v2Level.Remove(l.gridPosition);
-        Level recreatedLevel = new Level(levelData);
+        Level recreatedLevel = new Level(levelData,l.internal_name);
         recreatedLevel.InstantShrink();
         levels.Add(recreatedLevel);
         v2Level.Add(recreatedLevel.gridPosition,recreatedLevel);
