@@ -9,6 +9,8 @@ public class LevelSelect : MonoBehaviour
 {
     public LevelDatabase database;
     public Vector2Int startPosition;
+    
+    public List<LevelPreview> levelPreviews;
     public List<Level> levels;
     public List<bool> unlocked; public int numUnlocked = 1;
     public List<bool> won; public int numWon = 0;
@@ -21,13 +23,6 @@ public class LevelSelect : MonoBehaviour
     bool levelMovesCursorOn;
     float levelMovesCursorCountdown;
     public Transform borderParent;
-    [System.Serializable]
-    public class TutorialString
-    {
-        public Vector2Int gridPosition;
-        public string text;
-    }
-    public List<TutorialString> tutorialStrings;
     public TextMeshPro tutorialTextDisplay;
     int tutorialIndex;
     float nextLetterTime;
@@ -45,11 +40,15 @@ public class LevelSelect : MonoBehaviour
     public bool nameEditMode;
     //level editing sections
     public int sectionSelected = -1;//-1 is none...
+    public class LevelPreview{
+        public LevelJson data;
+        public GameObject gameObject;
+        public string name = "";
+        public bool won = false;
+        public bool unlocked = false;
+        
+    }
     public void Initialize(){
-  
-        for(int i = 0; i < tutorialStrings.Count;i++){
-            tutorialStrings[i].text = tutorialStrings[i].text.Replace("nn","\n");
-        }
         #if UNITY_EDITOR
         FindAllLevelAssets();
         #endif
@@ -61,9 +60,21 @@ public class LevelSelect : MonoBehaviour
         Vector2 averageExtent = Vector2.zero;
         Vector2Int maxExtent = Vector2Int.zero;
         int wipLevels = 0;
+        levelPreviews = new List<LevelPreview>();
         int highestTurnLimit = 0;
         foreach(TextAsset levelAsset in  database.levelTexts){
-            Level l = new Level(levelAsset.text,levelAsset.name);
+            Level l;
+            if(Services.GameController.useJson){
+                Debug.Log(levelAsset.text);
+                LevelPreview lp = new LevelPreview();
+                lp.data = JsonUtility.FromJson<LevelJson>(levelAsset.text);
+                Vector2Int gridPosition = new Vector2Int(lp.data.map_pos.x,lp.data.map_pos.y);
+                lp.gameObject = GameObject.Instantiate(Services.GameController.levelPreviewPrefab,(Vector2)gridPosition,Quaternion.identity,Services.Grid.transform);
+                lp.name = lp.data.name;
+                l = new Level(lp.data);
+            }else{
+                l = new Level(levelAsset.text,levelAsset.name);
+            }
             var turnLimit = l.turnLimit+l.actionPoints.Count;
             if(turnLimit>highestTurnLimit){
                 highestTurnLimit = turnLimit;
@@ -131,13 +142,13 @@ public class LevelSelect : MonoBehaviour
     public void MoveCursor(int direction){
         Vector2Int newPosition = cursorPosition+Services.Grid.directions[direction];
         if(!Services.GameController.editMode){
-            if(v2Level.ContainsKey(newPosition) == false){
+            /*if(v2Level.ContainsKey(newPosition) == false){
                 return;
             }else{
                 if(unlocked[v2Level[newPosition].index] ==false){
                     return;
                 }
-            }
+            }*/
         }
         cursorPosition = newPosition;
     }
@@ -260,7 +271,7 @@ public class LevelSelect : MonoBehaviour
         
     }
     public string PrintLevelMoves(){
-        return "";
+        //return "";
         bool keepEndButton = false;//whether or not it should symbolize the button to restart the loop
         string s = "<mspace=0.7em>";
         for(int i = 0; i < Services.GameController.players.Count;i++){
@@ -270,8 +281,6 @@ public class LevelSelect : MonoBehaviour
             }else{
                 s+=(p.index+1).ToString();
             }
-            
-            
             for(var j = 0; j < p.moves.Count;j++){
                 /*if(j < Services.GameController.currentTurn || (j == Services.GameController.currentTurn && p.index <= Services.GameController.currentPlayerIndex)){
                     s+="<u>";
@@ -397,7 +406,11 @@ public class LevelSelect : MonoBehaviour
     void FindAllLevelAssets(){
         database.levelTexts.Clear();
         List<DirectoryInfo> directories = new List<DirectoryInfo>();
-        directories.Add(new DirectoryInfo(Application.dataPath+"/Levels"));
+        string folder = "Levels";
+        if(Services.GameController.useJson){
+            folder = "_Levels";
+        }
+        directories.Add(new DirectoryInfo(Application.dataPath+"/"+folder));
         DirectoryInfo[] subDirectories = directories[0].GetDirectories();
         foreach(DirectoryInfo d in subDirectories){
             //Debug.Log("DIRECTORIES");
@@ -405,16 +418,17 @@ public class LevelSelect : MonoBehaviour
         }
         //TextAsset asset = AssetDatabase.LoadAssetAtPath<TextAsset>(info[0].ToString());
         //Debug.Log(asset.name);
-        string mainPath = "Assets/Levels/";
+        string mainPath = "Assets/"+folder+"/";
+        string extension = (Services.GameController.useJson ? ".json" : ".txt");
         foreach(DirectoryInfo d in directories){
             string directoryPath = "";
-            if(d.Name.Equals("Levels")){
+            if(d.Name.Equals(folder)){
             }else{
                 directoryPath = d.Name+"/";
             }
             FileInfo[] info = d.GetFiles("*.*");
             foreach(FileInfo f in info){
-                if(f.Extension == ".txt"){
+                if(f.Extension == extension){
                     string path = mainPath+directoryPath+f.Name;
                     //Debug.Log(f.Name);
                     TextAsset asset = AssetDatabase.LoadAssetAtPath(path,typeof(TextAsset)) as TextAsset;

@@ -35,6 +35,75 @@ public class Level
     public string timer_key = "abcdef";
     public Level(LevelJson levelJson){
         //this is created only for the new level select
+        //this is created only to be PLAYED
+        gameObject = new GameObject();
+        gameObject.transform.parent = Services.Grid.transform;
+        //names
+        internal_name = levelJson.internal_name;
+        name = levelJson.name;
+        gameObject.name = levelJson.name;
+        //TEMPoRARY
+        gridPosition = new Vector2Int(levelJson.map_pos.x,levelJson.map_pos.y);
+        //text
+        spoken = levelJson.text;
+        //turnlimit
+        turnLimit = levelJson.turn_limit;
+        for(var i = 0; i < turnLimit;i++){
+            turnPoints.Add(new ActionPoint(i,gameObject.transform));
+        }
+        //map
+        extent = Vector2Int.zero;
+        //tiles
+        foreach(LevelJson.Tile tile in levelJson.tiles){
+            Vector2Int pos = new Vector2Int(tile.x,tile.y);
+            Tile newTile = MakeTile(pos);
+            tiles.Add(pos,newTile);
+            //player
+            if(levelJson.start.x == pos.x && levelJson.start.y == pos.y){
+                startPosition = pos;
+                players.Add(new Player(pos,gameObject.transform));
+            }
+            //action points
+            if(tile.thing == "a"){
+                actionPoints.Add(pos,MakeActionPoint(pos));
+                //Todo: load special action points
+            }
+            //exits
+            if(tile.thing == "x"){
+                exits.Add(pos,new Exit(pos,gameObject.transform));
+                exits[pos].level = this;
+            }
+            //Todo: load special shit
+        }
+        //walls
+        foreach(LevelJson.Wall wall in levelJson.walls){
+            Vector2Int pos = new Vector2Int(wall.x,wall.y);
+            Tile tile;
+            if(wall.is_up){
+                tile = tiles[pos];
+                if(tile != null){
+                    tile.walls[0] = true;
+                }
+                tile = tiles[pos+Vector2Int.up];
+                if(tile != null){
+                    tile.walls[2] = true;
+                }
+            }else{
+                tile = tiles[pos];
+                if(tile != null){
+                    tile.walls[3] = true;
+                }
+                tile = tiles[pos+Vector2Int.left];
+                if(tile != null){
+                    tile.walls[1] = true;
+                }
+            }
+        }
+        startMark = GameObject.Instantiate(Services.GameController.startMarkPrefab,gameObject.transform);
+        startMark.transform.localPosition = (Vector2)startPosition;
+        FindExtents();
+        FindNeighborsBetweenTiles();
+
     }
     public Level(string levelData,string _internal_name){
         gameObject = new GameObject();
@@ -573,15 +642,31 @@ public class Level
         json.tiles = new List<LevelJson.Tile>();
         json.walls = new List<LevelJson.Wall>();
         foreach(Vector2Int _pos in tiles.Keys){
+            Tile actualTile = tiles[_pos];
             LevelJson.Tile _tile = new LevelJson.Tile();
             _tile.x = _pos.x;
             _tile.y = _pos.y;
             if(actionPoints.ContainsKey(_pos)){
                 _tile.thing = "a";
+                //Todo: save special action points
+                if(actionPoints[_pos].num > 1){
+                    _tile.thing += actionPoints[_pos].num;
+                }
             }
             if(exits.ContainsKey(_pos)){
                 _tile.thing = "x";
             }
+            //Todo: save special shit
+            if(actualTile.hasPit){
+                _tile.thing = "u";
+            }
+            if(actualTile.hasSpores){
+                _tile.thing = "s";
+            }
+            if(actualTile.hasSpawnPortal){
+                _tile.thing = "p";
+            }
+
             json.tiles.Add(_tile);
 
             //walls
@@ -592,6 +677,9 @@ public class Level
                 LevelJson.Wall _wall = new LevelJson.Wall();
                 _wall.x = _pos.x;
                 _wall.y = _pos.y;
+                if(tiles[_pos].spikes[i]){
+                    _wall.type = 1;
+                }
                 if(i == 1){
                     _wall.x+=1;
                 }

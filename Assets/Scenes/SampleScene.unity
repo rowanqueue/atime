@@ -2018,14 +2018,6 @@ MonoBehaviour:
   cursorPosition: {x: 0, y: 0}
   levelNameDisplay: {fileID: 108498532}
   borderParent: {fileID: 810772666}
-  tutorialStrings:
-  - gridPosition: {x: -2, y: -2}
-    text: hello.nnwait [x] on <voffset=-0.1em><size=6><sprite=11></size></voffset>
-      to win. requires <sprite=10>
-  - gridPosition: {x: -1, y: -2}
-    text: out of <sprite=10>?nngrab <sprite=10> and wait to make a loop
-  - gridPosition: {x: -1, y: -1}
-    text: so many <sprite=10>!nnso many <size=6><voffset=-0.1em><sprite=12></voffset></size>!
   tutorialTextDisplay: {fileID: 1187110437}
   movingStartPosition: 0
   movingExit: 0
@@ -2034,6 +2026,7 @@ MonoBehaviour:
   timeHoldStarted: 0
   rightHold: 0
   textEditMode: 0
+  nameEditMode: 0
   sectionSelected: -1
 --- !u!1001 &1777236444
 PrefabInstance:
@@ -2450,6 +2443,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  useJson: 0
   editMode: 1
   haveToWaitToEnd: 1
   endFailedLoop: 0
@@ -2471,6 +2465,8 @@ MonoBehaviour:
   exitPrefab: {fileID: 6653595287076640719, guid: 664a0c3f3f40fc141ba6734f117c585b,
     type: 3}
   linePrefab: {fileID: 7630410347352008073, guid: 28b534eed87d75746878ea35ad6a47ab,
+    type: 3}
+  levelPreviewPrefab: {fileID: 2973143566051012383, guid: 0b436b9a50e647a4d915614c57c534cc,
     type: 3}
   centerTimeLine: 1
   turnLimitParent: {fileID: 650186230}

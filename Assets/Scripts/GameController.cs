@@ -10,6 +10,7 @@ public enum GameState{
 public class GameController : MonoBehaviour
 {
     public GameState state;
+    public bool useJson;
     public bool editMode;
     public bool haveToWaitToEnd;//whether you need to actually press the wait button to end a loop
     public bool endFailedLoop;//will it actually loop if you didnt get a dot?
@@ -25,6 +26,7 @@ public class GameController : MonoBehaviour
     public GameObject spawnPortalPrefab;
     public GameObject exitPrefab;
     public GameObject linePrefab;
+    public GameObject levelPreviewPrefab;
     public bool centerTimeLine;
     public Transform turnLimitParent;
     public Transform timelineArrow;//this is for left timeline
@@ -501,19 +503,15 @@ public class GameController : MonoBehaviour
             return;
         }
         nextMove = currentNode.nodes.Count;
-        Debug.Log(nextMove);
         if(nextMove > 4){
             //you need to do undo again!
             if(currentNode == parentNode){
                 testLevel = false;
-                Debug.Log("Finished test!");
                 string s = "";
                 foreach(int cloneNumber in cloneNum2WinNum.Keys){
                     s+=cloneNumber+" : "+cloneNum2WinNum[cloneNumber];
                     s+="\n";
                 }
-                Debug.Log(s);
-                Debug.Log(Time.time);
                 nextMove = -1;
                 return;
             }
