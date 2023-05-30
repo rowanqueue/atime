@@ -74,6 +74,15 @@ public class Level
                 exits[pos].level = this;
             }
             //Todo: load special shit
+            if(tile.thing == "u"){
+                AddPit(pos);
+            }
+            if(tile.thing == "p"){
+                AddSpawnPortal(pos);
+            }
+            if(tile.thing == "s"){
+                AddSpores(pos);
+            }
         }
         //walls
         foreach(LevelJson.Wall wall in levelJson.walls){
@@ -83,19 +92,31 @@ public class Level
                 tile = tiles[pos];
                 if(tile != null){
                     tile.walls[0] = true;
+                    if(wall.type == 1){
+                        tile.spikes[0] = true;
+                    }
                 }
                 tile = tiles[pos+Vector2Int.up];
                 if(tile != null){
                     tile.walls[2] = true;
+                    if(wall.type == 1){
+                        tile.spikes[2] = true;
+                    }
                 }
             }else{
                 tile = tiles[pos];
                 if(tile != null){
                     tile.walls[3] = true;
+                    if(wall.type == 1){
+                        tile.spikes[3] = true;
+                    }
                 }
                 tile = tiles[pos+Vector2Int.left];
                 if(tile != null){
                     tile.walls[1] = true;
+                    if(wall.type == 1){
+                        tile.spikes[1] = true;
+                    }
                 }
             }
         }
