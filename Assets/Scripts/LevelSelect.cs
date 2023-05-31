@@ -260,7 +260,7 @@ public class LevelSelect : MonoBehaviour
         
     }
     public string PrintLevelMoves(){
-        return "";
+        //return "";
         bool keepEndButton = false;//whether or not it should symbolize the button to restart the loop
         string s = "<mspace=0.7em>";
         for(int i = 0; i < Services.GameController.players.Count;i++){
