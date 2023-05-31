@@ -86,9 +86,9 @@ public class GameController : MonoBehaviour
         state = GameState.LevelSelect;
         Services.LevelSelect.Initialize();
         if(Services.LevelSelect.numUnlocked == 1 && !editMode){
-            Services.Grid.LoadLevel(Services.LevelSelect.cursorPosition);
+            /*Services.Grid.LoadLevel(Services.LevelSelect.cursorPosition);
             Services.LevelSelect.Draw();
-            Services.Grid.level.InstantCenter();
+            Services.Grid.level.InstantCenter();*/
         }
         
         //Services.Grid.MakeGrid();
@@ -123,15 +123,17 @@ public class GameController : MonoBehaviour
         }
         if(Input.GetKey(KeyCode.Alpha1)){
             if(Input.GetKeyDown(KeyCode.Alpha0)){
-                for(int i = 0; i < Services.LevelSelect.unlocked.Count;i++){
+                //todo: unlock all cheat
+                /*for(int i = 0; i < Services.LevelSelect.unlocked.Count;i++){
                     if(Services.LevelSelect.levels[i].careAboutBorders){
                         //Services.LevelSelect.unlocked[i] = true;
                         Services.LevelSelect.WinLevel(Services.LevelSelect.levels[i]);
                     }
-                }
+                }*/
             }
             if(Input.GetKeyDown(KeyCode.Alpha9)){
-                if(state == GameState.LevelSelect){
+                //todo: unlock level cheat
+                /*if(state == GameState.LevelSelect){
                     if(Services.LevelSelect.v2Level.ContainsKey(Services.LevelSelect.cursorPosition)){
                         Level l = Services.LevelSelect.v2Level[Services.LevelSelect.cursorPosition];
                         for(var i = 0; i < 4; i++){
@@ -146,14 +148,14 @@ public class GameController : MonoBehaviour
                                     }
                                 }
                                 if(actuallyUnlock){
-                                    Services.LevelSelect.unlocked[levelToUnlock.index] = true;
+                                    //Services.LevelSelect.unlocked[levelToUnlock.index] = true;
                                     Services.LevelSelect.sections[levelToUnlock.section].visible = true;
                                     Services.LevelSelect.numUnlocked++;
                                 }
                             }
                         }
                     }
-                }
+                }*/
             }
             if(Input.GetKey(KeyCode.Alpha5) && Input.GetKeyDown(KeyCode.Alpha9)){
                 //delete everything
@@ -198,7 +200,7 @@ public class GameController : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Space)){
             if(Services.LevelSelect.CursorOnLevel()){
-                Services.Grid.LoadLevel(Services.LevelSelect.v2Level[Services.LevelSelect.cursorPosition]);
+                Services.Grid.LoadLevel(Services.LevelSelect.v2Preview[Services.LevelSelect.cursorPosition]);
             }else if(editMode){
                 #if UNITY_EDITOR
                 Services.LevelSelect.CreateLevel(Services.LevelSelect.cursorPosition);
@@ -206,9 +208,9 @@ public class GameController : MonoBehaviour
             }
         }
         #if UNITY_EDITOR
-        if(editMode){
+        /*if(editMode){
             Services.LevelSelect.LevelSelectEditorControls();
-        }
+        }*/
         #endif
         Services.LevelSelect.Draw();
     }
@@ -236,7 +238,7 @@ public class GameController : MonoBehaviour
             }while(turns.Count > 0);
             resetting = false;
         }
-        if(Services.LevelSelect.won[Services.Grid.level.index] && winTime >= 0f && Time.time >= winTime+0.33f){
+        if(Services.Grid.levelPreview.won && winTime >= 0f && Time.time >= winTime+0.33f){
             Services.Grid.LeaveLevel();
             return;
         }
@@ -433,7 +435,7 @@ public class GameController : MonoBehaviour
             if(editMode){
                 winTime = -1f;
             }
-            if(Services.LevelSelect.won[Services.Grid.level.index] == false){
+            if(Services.Grid.levelPreview.won == false){
                 Services.LevelSelect.WinLevel(Services.Grid.level);
             }
         }

@@ -75,7 +75,7 @@ public class Exit
             fill.sortingLayerName = "Tile";
             fill.sortingOrder = -10;
             line.enabled = false;
-            if(Services.LevelSelect.won[level.index] == false){
+            if(Services.Grid.levelPreview.won == false){
                 targetColor = Services.Visuals.tileColor;
             }
         }else{
@@ -83,7 +83,7 @@ public class Exit
             if(level != Services.Grid.level){
                 targetColor = Services.Visuals.tileColor;
             }
-            if(Services.GameController.noLimit == false && Services.LevelSelect.won[level.index] == false && Services.GameController.currentTurn >= Services.GameController.turnLimit){
+            if(Services.GameController.noLimit == false && Services.Grid.levelPreview.won == false && Services.GameController.currentTurn >= Services.GameController.turnLimit){
                 targetColor = Services.Visuals.tileColor;
             }else{
                 spinning = true;

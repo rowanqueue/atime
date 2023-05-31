@@ -6,6 +6,7 @@ using UnityEditor;
 
 public static class SaveSystem
 {
+    //todo: redo savesystem
     public static void Save(){
         if(Services.GameController.editMode){return;}
         Save save = new Save();
@@ -13,7 +14,7 @@ public static class SaveSystem
         PlayerPrefs.SetString("save",saveJson);
     }
     public static void Load(){
-        if(PlayerPrefs.HasKey("save") == false){return;}
+        /*if(PlayerPrefs.HasKey("save") == false){return;}
         string saveJson = PlayerPrefs.GetString("save");
         Save save = JsonUtility.FromJson<Save>(saveJson);
         int numWon = 0;
@@ -30,7 +31,7 @@ public static class SaveSystem
         Services.LevelSelect.cursor.gameObject.transform.position = (Vector2)save.cursorPosition;
         Services.LevelSelect.numWon = numWon;
         Services.LevelSelect.numUnlocked = save.levelNames.Count;
-        Debug.Log("loaded save with "+numWon+"/"+save.levelNames.Count);
+        Debug.Log("loaded save with "+numWon+"/"+save.levelNames.Count);*/
     }
     #if UNITY_EDITOR
     [MenuItem("Save/Clear")]
@@ -39,7 +40,7 @@ public static class SaveSystem
         PlayerPrefs.DeleteKey("save");
     }
     public static void ConvertSaveToLetters(){
-        string letters = "";
+        /*string letters = "";
         int index = 0;
         List<bool> collected = new List<bool>();
         while(index < Services.LevelSelect.won.Count){
@@ -61,7 +62,7 @@ public static class SaveSystem
         }
         collected.Clear();
         letters += (char)Services.GameController.saveCharacters[System.Convert.ToInt32(bonary,2)];
-        Debug.Log(letters);
+        Debug.Log(letters);*/
 
     }
 }
@@ -73,7 +74,7 @@ public class Save
     public List<int> levelWon = new List<int>();//0: false, 1: true
     public Save(){
         cursorPosition = Services.LevelSelect.cursorPosition;
-        for(int i = 0; i < Services.LevelSelect.levels.Count;i++){
+        /*for(int i = 0; i < Services.LevelSelect.levels.Count;i++){
             if(Services.LevelSelect.unlocked[i]){
 
                 int state = 1;
@@ -83,6 +84,6 @@ public class Save
                 levelNames.Add(Services.LevelSelect.levels[i].internal_name);
                 levelWon.Add(Services.LevelSelect.won[i] ? 1 : 0);
             }
-        }
+        }*/
     }
 }

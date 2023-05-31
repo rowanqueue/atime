@@ -39,8 +39,13 @@ public class Level
         gameObject = new GameObject();
         gameObject.transform.parent = Services.Grid.transform;
         //names
-        internal_name = levelJson.internal_name;
         name = levelJson.name;
+        internal_name = name;
+        if(levelJson.internal_name != null){
+            internal_name = levelJson.internal_name;
+        }
+        
+        
         gameObject.name = levelJson.name;
         //TEMPoRARY
         gridPosition = new Vector2Int(levelJson.map_pos.x,levelJson.map_pos.y);
@@ -215,12 +220,12 @@ public class Level
         bool[] borderNeeded = new bool[4];
         for(var i = 0; i < 4; i++){
             borderNeeded[i] = true;
-            if(Services.LevelSelect.v2Level.ContainsKey(gridPosition+Services.Grid.directions[i])){
-                if(Services.LevelSelect.v2Level[gridPosition+Services.Grid.directions[i]].section == section || sectionExit == i){
+            /*if(Services.LevelSelect.v2Preview.ContainsKey(gridPosition+Services.Grid.directions[i])){
+                if(Services.LevelSelect.v2Preview[gridPosition+Services.Grid.directions[i]].section == section || sectionExit == i){
                     borderNeeded[i] = false;
                 }
                 
-            }
+            }*/
         }
         for(var i = 0; i < 4; i++){
             if(borderNeeded[i] == false){continue;}
@@ -348,7 +353,7 @@ public class Level
             }
         }else{
             if(Services.GameController.state == GameState.LevelSelect){
-                gameObject.SetActive(Services.LevelSelect.unlocked[index]);
+                gameObject.SetActive(true);
             }else{
                 gameObject.SetActive(false);
             }
@@ -387,7 +392,7 @@ public class Level
             }
         }
         foreach(Tile tile in tiles.Values){
-            tile.Draw(Services.LevelSelect.won[index]);
+            tile.Draw(false);
         }
         foreach(ActionPoint actionPoint in actionPoints.Values){
             actionPoint.Draw();
@@ -740,6 +745,7 @@ public class Level
 
         string json_string = JsonUtility.ToJson(json);
         string path = Application.dataPath+"/_Levels/"+internal_name+".json";
+        Debug.Log(path);
         if(!File.Exists(path)){
             System.IO.File.WriteAllText(path,json_string);
         }else{
