@@ -1,0 +1,7 @@
+Stairs
+0,0,4
+2,are you getting along with ~p?~nare they listening to you?
+_,_,_,*,_
+_,_,*1,.3,_
+_,*1,x13,.3,_
+@,.,.,.,.
