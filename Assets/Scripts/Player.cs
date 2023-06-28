@@ -32,6 +32,8 @@ public class Player
     public bool winning;
     public bool dead;
     public bool inPit;
+    public SpriteRenderer spriteRenderer;
+    public float animIndex;
 
     public Player(Vector2Int pos, Transform parent){
         spawnPos = pos;
@@ -46,6 +48,8 @@ public class Player
         cloneNumber = gameObject.GetComponentInChildren<TextMeshPro>();
         noseCenter = head.transform.GetChild(0).gameObject;
         nose = noseCenter.GetComponentInChildren<RegularPolygon>();
+        spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+        body.transform.gameObject.SetActive(false);
     }
     public void SetPosition(Vector2Int pos){
         position = pos;
@@ -163,6 +167,18 @@ public class Player
     }
 
     public void Draw(){
+        if(isMoving){
+            
+            animIndex+=Time.deltaTime*Services.Visuals.walkAnimSpeed;
+            int flooredIndex = Mathf.FloorToInt(animIndex);
+            Debug.Log(animIndex);
+            Debug.Log(flooredIndex);
+            if(flooredIndex >= Services.Visuals.walkAnimation.Count){
+                animIndex = 0;
+                flooredIndex = 0;
+            }
+            spriteRenderer.sprite = Services.Visuals.walkAnimation[flooredIndex];
+        }
         //nose stuff
         int noseDirection = 2;
         int toCheck = Services.GameController.currentTurn;
@@ -288,7 +304,7 @@ public class Player
             
         }
         
-        gameObject.transform.localPosition += (targetPosition-gameObject.transform.localPosition)*Services.Visuals.lerpSpeed*1.5f;
+        gameObject.transform.localPosition += (targetPosition-gameObject.transform.localPosition).normalized*Services.Visuals.lerpSpeed*Services.Visuals.actualWalkSpeed;
     }
     public void FollowMouse(Vector2 pos){
         Vector3 target = (Vector3)(pos);

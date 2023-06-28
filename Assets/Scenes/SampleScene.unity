@@ -276,7 +276,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &108498531
 RectTransform:
   m_ObjectHideFlags: 0
@@ -465,7 +465,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &189025341
 Transform:
   m_ObjectHideFlags: 0
@@ -736,7 +736,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4
+  orthographic size: 2.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1438,7 +1438,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1129642128
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1619,7 +1619,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1187110436
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1843,6 +1843,19 @@ MonoBehaviour:
   - -90
   - -180
   - -270
+  walkAnimation:
+  - {fileID: 21300000, guid: 20d4d7aaa74050142a42ab562dac3f88, type: 3}
+  - {fileID: 21300000, guid: f188f94247781df4a9bab01497b16931, type: 3}
+  - {fileID: 21300000, guid: b6af2ff1d1019a8499a7a51d1366ae5a, type: 3}
+  - {fileID: 21300000, guid: 2c011f90c93800f4eb865c0ea013144e, type: 3}
+  - {fileID: 21300000, guid: 01abfa8c1a59b924cab447082631b869, type: 3}
+  - {fileID: 21300000, guid: b304b208f4ecbe549b3017fd42fe5f04, type: 3}
+  - {fileID: 21300000, guid: e12a54dcf4a169649845d566c6a681f3, type: 3}
+  - {fileID: 21300000, guid: f8c1988c9d95f454f84bdaf6527caeea, type: 3}
+  - {fileID: 21300000, guid: b3e9fe62d47ef9249a1313fb8c872a64, type: 3}
+  - {fileID: 21300000, guid: a419ce7619adac24ab3693932e42ea53, type: 3}
+  walkAnimSpeed: 20
+  actualWalkSpeed: 0.75
 --- !u!4 &1341170393 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8011707806186935900, guid: 28b534eed87d75746878ea35ad6a47ab,
@@ -2034,6 +2047,7 @@ MonoBehaviour:
   timeHoldStarted: 0
   rightHold: 0
   textEditMode: 0
+  nameEditMode: 0
   sectionSelected: -1
 --- !u!1001 &1777236444
 PrefabInstance:
