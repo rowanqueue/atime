@@ -128,6 +128,9 @@ public class LevelSelect : MonoBehaviour
         foreach(Level level in levels){
             level.ThinkAboutBorders();
         }*/
+        foreach(Level l in levels){
+            l.ConvertLevelToJson();
+        }
     }
     /*void TraverseLevelsToFindConnectionsToOrigin(Vector2Int pos){
         if(v2Level.ContainsKey(pos) == false){return;}

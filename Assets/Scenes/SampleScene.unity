@@ -2443,8 +2443,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  useJson: 0
-  editMode: 1
+  useJson: 1
+  editMode: 0
   haveToWaitToEnd: 1
   endFailedLoop: 0
   cloneCanUseSpawnPortal: 0
