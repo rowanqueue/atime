@@ -1,0 +1,6 @@
+What do you want
+1,0,4
+2,you want ~t~nwhat does ~p want?
+_,*,.,*,_
+@,.,.,.,.
+_,_,x,_,_

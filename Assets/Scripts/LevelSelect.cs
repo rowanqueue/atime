@@ -87,6 +87,9 @@ public class LevelSelect : MonoBehaviour
         foreach(Level level in levels){
             level.ThinkAboutBorders();
         }*/
+        foreach(Level l in levels){
+            l.ConvertLevelToJson();
+        }
     }
     public void MoveCursor(int direction){
         Vector2Int newPosition = cursorPosition+Services.Grid.directions[direction];

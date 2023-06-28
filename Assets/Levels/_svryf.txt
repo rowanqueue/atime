@@ -1,5 +1,0 @@
-_svryf
-2,2,5,1
-2,how can past ~p affect you?~nwhat are you doing?
-x,.2,*,.,.
-_,@0,*,.,.

@@ -1,1 +1,0 @@
-{"internal_name":"_psala","name":"level4baby","map_pos":{"x":-2,"y":0},"map_section":7,"section_exit":1,"turn_limit":2,"text":"you don't have enough ~a~npick up another one and ~w~nthat should help you out\r","start":{"x":0,"y":0},"tiles":[{"x":0,"y":2,"thing":"a"},{"x":0,"y":1,"thing":""},{"x":0,"y":0,"thing":""},{"x":1,"y":0,"thing":""},{"x":2,"y":0,"thing":"x"}],"walls":[]}
