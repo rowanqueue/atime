@@ -2057,6 +2057,7 @@ MonoBehaviour:
   rightHold: 0
   textEditMode: 0
   nameEditMode: 0
+  levelMapAsset: {fileID: 4900000, guid: 36ec59e860b3ac14386ae55bd170a4d8, type: 3}
   sectionSelected: -1
 --- !u!1001 &1777236444
 PrefabInstance:
@@ -2473,6 +2474,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  useLevelSheet: 1
   useJson: 1
   editMode: 1
   haveToWaitToEnd: 1

@@ -38,6 +38,7 @@ public class LevelSelect : MonoBehaviour
     public bool rightHold;
     public bool textEditMode;
     public bool nameEditMode;
+    public TextAsset levelMapAsset;
     //level editing sections
     public int sectionSelected = -1;//-1 is none...
     public class LevelPreview{
@@ -51,6 +52,34 @@ public class LevelSelect : MonoBehaviour
     public void Initialize(){
         #if UNITY_EDITOR
         FindAllLevelAssets();
+        Dictionary<string,Vector2Int> levelsToLoad = new Dictionary<string, Vector2Int>();
+        if(Services.GameController.useLevelSheet){
+            string levelMapString = levelMapAsset.text;
+            string[] lines = levelMapString.Split('\n');
+            for(var y = 0; y < lines.Length;y++){
+                string[] line = lines[lines.Length-1-y].Split('\t');
+                for(var x = 0; x < line.Length;x++){
+                    Vector2Int pos = new Vector2Int(x,y);
+                    Debug.Log(pos);
+                    string level_name = line[x];
+                    if(level_name == ""){
+                        continue;
+                    }
+                    if(levelsToLoad.ContainsKey(level_name)){
+                        continue;
+                    }
+                    if(level_name.Contains("_")){
+                        level_name = line[x].Split('_')[0];
+                    }
+                    if(level_name == "a"){
+                        startPosition = pos;
+                        Camera.main.transform.position = (Vector3)(Vector2)startPosition;
+                    }
+                    levelsToLoad.Add(level_name,pos);
+                }
+            }
+        }
+        
         #endif
         sectionSelected = -1;
         sections = new List<Section>();
@@ -62,11 +91,23 @@ public class LevelSelect : MonoBehaviour
         v2Preview = new Dictionary<Vector2Int, LevelPreview>();
         int highestTurnLimit = 0;
         foreach(TextAsset levelAsset in  database.levelTexts){
+            Vector2Int otherPos = Vector2Int.zero;
+            if(Services.GameController.useLevelSheet){
+                if(levelsToLoad.ContainsKey(levelAsset.name) == false){
+                    continue;
+                }
+                otherPos = levelsToLoad[levelAsset.name];
+                    
+            }
+            
             LevelPreview lp = new LevelPreview();
             lp.data = JsonUtility.FromJson<LevelJson>(levelAsset.text);
             Vector2Int gridPosition = new Vector2Int(lp.data.map_pos.x,lp.data.map_pos.y);
+            if(Services.GameController.useLevelSheet){
+                gridPosition = otherPos;
+            }
             lp.gameObject = GameObject.Instantiate(Services.GameController.levelPreviewPrefab,(Vector2)gridPosition,Quaternion.identity,Services.Grid.levelPreviewParent.transform);
-            lp.name = lp.data.name;
+            lp.name = levelAsset.name;//lp.data.name;
             lp.gameObject.GetComponentInChildren<TextMeshPro>().text = lp.name;
             v2Preview.Add(gridPosition,lp);
         }
@@ -87,9 +128,6 @@ public class LevelSelect : MonoBehaviour
         foreach(Level level in levels){
             level.ThinkAboutBorders();
         }*/
-        foreach(Level l in levels){
-            l.ConvertLevelToJson();
-        }
     }
     public void MoveCursor(int direction){
         Vector2Int newPosition = cursorPosition+Services.Grid.directions[direction];

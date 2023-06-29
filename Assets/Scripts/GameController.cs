@@ -10,6 +10,7 @@ public enum GameState{
 public class GameController : MonoBehaviour
 {
     public GameState state;
+    public bool useLevelSheet;
     public bool useJson;
     public bool editMode;
     public bool haveToWaitToEnd;//whether you need to actually press the wait button to end a loop
