@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Tile
 {
+    public bool actuallyATile = true;
     public Vector2Int position;
     //neighbor stuff
     public Tile[] neighbors = new Tile[4];

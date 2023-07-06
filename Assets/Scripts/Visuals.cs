@@ -21,6 +21,7 @@ public class Visuals : MonoBehaviour
     public List<Sprite> walkAnimation;
     public float walkAnimSpeed = 0.5f;
     public float actualWalkSpeed = 0.5f;
+    public Sprite standingSprite;
 
     public Vector2 LerpVector(Vector2 start, Vector2 finish){
         if(Vector2.Distance(start,finish) < 0.01f){return finish;}

@@ -178,6 +178,8 @@ public class Player
                 flooredIndex = 0;
             }
             spriteRenderer.sprite = Services.Visuals.walkAnimation[flooredIndex];
+        }else{
+            spriteRenderer.sprite = Services.Visuals.standingSprite;
         }
         //nose stuff
         int noseDirection = 2;

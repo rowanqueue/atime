@@ -1844,18 +1844,12 @@ MonoBehaviour:
   - -180
   - -270
   walkAnimation:
-  - {fileID: 21300000, guid: 20d4d7aaa74050142a42ab562dac3f88, type: 3}
-  - {fileID: 21300000, guid: f188f94247781df4a9bab01497b16931, type: 3}
-  - {fileID: 21300000, guid: b6af2ff1d1019a8499a7a51d1366ae5a, type: 3}
-  - {fileID: 21300000, guid: 2c011f90c93800f4eb865c0ea013144e, type: 3}
-  - {fileID: 21300000, guid: 01abfa8c1a59b924cab447082631b869, type: 3}
-  - {fileID: 21300000, guid: b304b208f4ecbe549b3017fd42fe5f04, type: 3}
-  - {fileID: 21300000, guid: e12a54dcf4a169649845d566c6a681f3, type: 3}
-  - {fileID: 21300000, guid: f8c1988c9d95f454f84bdaf6527caeea, type: 3}
-  - {fileID: 21300000, guid: b3e9fe62d47ef9249a1313fb8c872a64, type: 3}
-  - {fileID: 21300000, guid: a419ce7619adac24ab3693932e42ea53, type: 3}
-  walkAnimSpeed: 20
+  - {fileID: 21300000, guid: 5d62f9e09feed5043aba55e92b15a607, type: 3}
+  - {fileID: 21300000, guid: 0278f9af3d579674d8c84dd8d06bc983, type: 3}
+  - {fileID: 21300000, guid: 708b6c2e646c98d44bb6d4d7b7302902, type: 3}
+  walkAnimSpeed: 5
   actualWalkSpeed: 0.75
+  standingSprite: {fileID: 21300000, guid: 566c93c25303fcd4194d32dfb2afb025, type: 3}
 --- !u!4 &1341170393 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8011707806186935900, guid: 28b534eed87d75746878ea35ad6a47ab,
