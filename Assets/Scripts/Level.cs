@@ -14,7 +14,10 @@ public class Level
     public bool on = false;
     public int turnLimit;
     public Vector2Int startPosition;
+    public Tile startTile;
     public Vector2Int extent;
+    public Vector2Int lowest;
+    public Vector2Int highest;
     //things
     public Dictionary<Vector2Int,Tile> tiles = new Dictionary<Vector2Int, Tile>();
     public Dictionary<Vector2Int,ActionPoint> actionPoints = new Dictionary<Vector2Int, ActionPoint>();
@@ -66,6 +69,7 @@ public class Level
             //player
             if(levelJson.start.x == pos.x && levelJson.start.y == pos.y){
                 startPosition = pos;
+                startTile = newTile;
                 players.Add(new Player(pos,gameObject.transform));
             }
             //action points
@@ -259,8 +263,8 @@ public class Level
         }
     }
     void FindExtents(){
-        Vector2Int lowest = Vector2Int.zero;
-        Vector2Int highest = Vector2Int.zero;
+        lowest = Vector2Int.zero;
+        highest = Vector2Int.zero;
         foreach(Vector2Int pos in tiles.Keys){
             if(pos.x < lowest.x){lowest.x = pos.x;}
             if(pos.x > highest.x){highest.x = pos.x;}
@@ -345,8 +349,8 @@ public class Level
         if(on){
             gameObject.transform.localScale = Services.Visuals.LerpVector(gameObject.transform.localScale,Vector3.one);
             Vector2 targetPosition = new Vector3(Camera.main.transform.position.x,Camera.main.transform.position.y);
-            targetPosition.x-=(extent.x*0.5f);
-            targetPosition.y-=(extent.y*0.5f);
+            targetPosition.x-=(extent.x*0.5f)+lowest.x;
+            targetPosition.y-=(extent.y*0.5f)+lowest.y;
             gameObject.transform.position = Services.Visuals.LerpVector(gameObject.transform.position,targetPosition);
             foreach(ActionPoint turnPoint in turnPoints){
                 turnPoint.Show();
@@ -436,14 +440,20 @@ public class Level
         foreach(Exit exit in tempExits){
             exits.Add(exit.position,exit);
         }
-        players[0].SetPosition(players[0].position+change);
-        startPosition+=change;
+        foreach(Player player in players){
+            Debug.Log("aaah");
+            player.SetPosition(player.position+change);
+            player.SetPosition(player.spawnPos+change);
+        }
+        
+        startPosition = startPosition+change;
+        //Debug.Log(startPosition);
         startMark.transform.localPosition = (Vector2)startPosition;
     }
     public void AddTile(Vector2Int pos){
         changed = true;
         Vector2Int originChange = Vector2Int.zero;
-        if(pos.x < 0){
+        /*if(pos.x < 0){
             int add = Mathf.Abs(pos.x-0);
             originChange.x = add;
             pos.x+=add;
@@ -452,9 +462,9 @@ public class Level
             int add = Mathf.Abs(pos.y-0);
             originChange.y = add;
             pos.y+=add;
-        }
+        }*/
         if(originChange != Vector2Int.zero){
-            ReworkOrigin(originChange);
+            //ReworkOrigin(originChange);
         }
         tiles.Add(pos,new Tile(pos,gameObject.transform));
         FindExtents();
@@ -470,7 +480,7 @@ public class Level
         }
         tiles[pos].Destroy();
         tiles.Remove(pos);
-        if(pos.x == 0 || pos.y == 0){
+        /*if(pos.x == 0 || pos.y == 0){
             bool anotherInThisColumn = false;//same x
             bool anotherInThisRow = false;//same y
             Vector2Int originChange = new Vector2Int(100,100);
@@ -501,10 +511,10 @@ public class Level
             if(pos.y == 0){
                 originChange.x*=-1;
             }*/
-            if(originChange != Vector2Int.zero){
+            /*if(originChange != Vector2Int.zero){
                 ReworkOrigin(originChange*-1);
             }
-        }
+        }*/
         FindExtents();
         FindNeighborsBetweenTiles();
     }
@@ -650,7 +660,7 @@ public class Level
         tile.spikes[direction] = false;
         tile.neighbors[direction].spikes[Services.Grid.opposite(direction)] = false;
     }
-    public void ConvertLevelToJson(){
+    public LevelJson ConvertLevelToJson(){
         LevelJson json = new LevelJson();
         Debug.Log(internal_name);
         Debug.Log(name);
@@ -754,6 +764,7 @@ public class Level
             writer.WriteLine(json_string);
             writer.Close();
         }
+        return json;
 
     }
     public string ConvertLevelToString(){

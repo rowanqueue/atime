@@ -2035,7 +2035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 585469d0c7f14e64296e6f9939d07710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  database: {fileID: 11400000, guid: 7261f7e954578484080e8d1fc797e25c, type: 2}
+  database: {fileID: 11400000, guid: 540896025ca16d6499e2001097510168, type: 2}
   startPosition: {x: -3, y: -1}
   numUnlocked: 1
   numWon: 0
@@ -2474,7 +2474,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  useLevelSheet: 1
+  useLevelSheet: 0
   useJson: 1
   editMode: 1
   haveToWaitToEnd: 1

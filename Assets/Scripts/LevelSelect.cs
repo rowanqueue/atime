@@ -690,6 +690,10 @@ public class LevelSelect : MonoBehaviour
     }
     public void SaveLevelChanges(Level l){
         l.changed = false;
+        LevelJson json = l.ConvertLevelToJson();
+
+        v2Preview[l.gridPosition].data = json;
+        return;
         string levelString = l.name+'\n';
         levelString+=l.gridPosition.x.ToString()+","+l.gridPosition.y.ToString()+","+l.section.ToString();
         if(l.sectionExit != -1){

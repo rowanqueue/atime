@@ -11,7 +11,8 @@ public class GameController : MonoBehaviour
 {
     public GameState state;
     public bool useLevelSheet;
-    public bool useJson;
+    [HideInInspector]
+    public bool useJson = true;
     public bool editMode;
     public bool haveToWaitToEnd;//whether you need to actually press the wait button to end a loop
     public bool endFailedLoop;//will it actually loop if you didnt get a dot?
@@ -443,6 +444,7 @@ public class GameController : MonoBehaviour
     }
     //Player stuff
     public void MakePlayer(Vector2Int pos){
+        Debug.Log(pos);
         Player p = new Player(pos,Services.Grid.level.gameObject.transform);
         
         p.index = players.Count;

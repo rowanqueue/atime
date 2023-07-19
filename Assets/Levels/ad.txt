@@ -1,6 +1,0 @@
-_mmjgd
--3,2,2
-2,which came first?~nyou or ~p?~nthere is an answer
-*2,*2,.,_,_
-*01,@03,.2,.,x
-.,.,*0,_,_
