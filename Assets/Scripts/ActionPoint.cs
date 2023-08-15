@@ -25,6 +25,10 @@ public class ActionPoint
     public bool createdMidGame;
     public int timer = 0;
     public List<LineRenderer> petals;
+    public SpriteRenderer leftBehind;
+    public List<SpriteRenderer> sideFlowers = new List<SpriteRenderer>();
+    public float flowerIndex;
+    public SpriteRenderer orb;
 
     public ActionPoint(Vector2Int gridPosition,Transform parent){//starts in the level
         this.gridPosition = gridPosition;
@@ -37,6 +41,21 @@ public class ActionPoint
         foreach(Transform child in circle.transform){
             petals.Add(child.GetComponent<LineRenderer>());
         }
+        leftBehind = gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>();
+        leftBehind.transform.parent = gameObject.transform.parent;
+        leftBehind.transform.localPosition = (Vector3)(Vector2)gridPosition+new Vector3(1f,1f,0f)*0.5f;
+        sideFlowers = new List<SpriteRenderer>();
+        foreach(Transform child in leftBehind.transform){
+            sideFlowers.Add(child.GetComponent<SpriteRenderer>());
+            if(Random.value < 0.15f){
+                child.GetComponent<SpriteRenderer>().enabled = false;
+            }else{
+                if(Random.value < 0.5f){
+                    child.GetComponent<SpriteRenderer>().flipX = true;
+                }
+            }
+        }
+        orb = gameObject.transform.GetChild(2).GetComponent<SpriteRenderer>();
     }
     public ActionPoint(int index, Transform parent){//starts already had
         startedAsTurn = true;
@@ -46,6 +65,10 @@ public class ActionPoint
         circle = gameObject.transform.GetChild(0).GetComponent<LineRenderer>();
         outerWidth = circle.startWidth;
         text = gameObject.GetComponentInChildren<TextMeshPro>();
+        leftBehind = gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>();
+        orb = gameObject.transform.GetChild(3).GetComponent<SpriteRenderer>();
+        //get rid of leftbehind
+        leftBehind.gameObject.SetActive(false);
     }
     public ActionPoint(Transform parent){//created mid-game by pack of points
         createdMidGame = true;
@@ -54,6 +77,10 @@ public class ActionPoint
         outerWidth = circle.startWidth;
         index = -1;
         text = gameObject.GetComponentInChildren<TextMeshPro>();
+        leftBehind = gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>();
+        orb = gameObject.transform.GetChild(3).GetComponent<SpriteRenderer>();
+        //Get rid of leftbehind
+        leftBehind.gameObject.SetActive(false);
         
     }
     public bool CanGrab(){
@@ -70,6 +97,7 @@ public class ActionPoint
     public void Grab(Player player){
         held = true;
         playerHolding = player;
+        player.eating = true;
     }
     public void UnGrab(){
         held = false;
@@ -178,6 +206,35 @@ public class ActionPoint
         }
         circle.endWidth = circle.startWidth;
         circle.endColor = circle.startColor;
+
+        if(collected == false){
+            flowerIndex+=Time.deltaTime*10f;
+            int flooredIndex = Mathf.FloorToInt(flowerIndex);
+            if(flooredIndex >= Services.Visuals.flowerSprites.Count){
+                flowerIndex =Services.Visuals.flowerSprites.Count-1;
+                flooredIndex = Mathf.FloorToInt(flowerIndex);
+            }
+            leftBehind.sprite = Services.Visuals.flowerSprites[flooredIndex];
+            for(int i = 0; i < sideFlowers.Count;i++){
+                int this_index = flooredIndex;
+                if(flooredIndex >= Services.Visuals.sideFlowerSprites[i].Count){
+                    this_index = Services.Visuals.sideFlowerSprites[i].Count-1;
+                }
+                sideFlowers[i].sprite = Services.Visuals.sideFlowerSprites[i][this_index];
+            }
+            if(flooredIndex < 12){
+                orb.enabled = false;
+            }else{
+                orb.enabled = true;
+            }
+        }else{
+            leftBehind.sprite = Services.Visuals.flowerSprites[0];
+            for(int i = 0; i < sideFlowers.Count;i++){
+                sideFlowers[i].sprite = Services.Visuals.sideFlowerSprites[i][0];
+            }
+            orb.enabled = true;
+            orb.sortingLayerName = "UI";
+        }
         
         
     }
@@ -202,6 +259,7 @@ public class ActionPoint
     }
     //only for level editing
     public void Destroy(){
+        GameObject.Destroy(leftBehind.gameObject);
         GameObject.Destroy(gameObject);
     }
 }

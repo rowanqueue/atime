@@ -36,6 +36,12 @@ public class Tile
             visualEdges[i] = gameObject.transform.GetChild(4).GetChild(i).GetComponent<SpriteRenderer>();
         }
         tileVisual = gameObject.transform.GetChild(4).GetComponent<SpriteRenderer>();
+        if(Random.value < 0.5f){
+            tileVisual.flipX = true;
+        }
+        if(Random.value < 0.5f){
+            tileVisual.flipY = true;
+        }
         if(position.x%2 == 0){
             if(position.y%2 == 1){
                 tileVisual.color = new Color(0.5647059f,0.5333334f,0.4901961f);

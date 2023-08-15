@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using System.IO;
 
@@ -22,6 +23,7 @@ public class Level
     public List<Player> players = new List<Player>();
     public Dictionary<Vector2Int,Exit> exits = new Dictionary<Vector2Int, Exit>();
     public GameObject startMark;
+    public Dictionary<Vector2Int,TreeTile> treeTiles = new Dictionary<Vector2Int, TreeTile>();
     //end things
     public string levelData;
     public bool changed;//this was changed in the level editor and its still opened and hasnt been saved
@@ -118,6 +120,36 @@ public class Level
         startMark.transform.localPosition = (Vector2)startPosition;
         FindExtents();
         FindNeighborsBetweenTiles();
+
+        //make the treetiles
+        foreach(Vector2Int pos in tiles.Keys){
+            for(int i = 0; i < Services.Grid.directions.Length;i++){
+                Vector2Int new_pos = pos+Services.Grid.directions[i];
+                if(tiles.ContainsKey(new_pos)){
+                    continue;
+                }
+                if(treeTiles.ContainsKey(new_pos)){
+                    continue;
+                }
+                AddTreeTile(new_pos);
+            }
+        }
+        for(var j = 0; j < 5;j++){
+            List<Vector2Int> _trees = treeTiles.Keys.ToList();
+            foreach(Vector2Int pos in _trees){
+                for(int i = 0; i < Services.Grid.directions.Length;i++){
+                    Vector2Int new_pos = pos+Services.Grid.directions[i];
+                    if(tiles.ContainsKey(new_pos)){
+                        continue;
+                    }
+                    if(treeTiles.ContainsKey(new_pos)){
+                        continue;
+                    }
+                    AddTreeTile(new_pos,j+1);
+                }
+            }
+        }
+        
     }
     //like the borders/lines between levels in leve select
     public void ThinkAboutBorders(){
@@ -344,6 +376,19 @@ public class Level
         players[0].SetPosition(players[0].position+change);
         startPosition+=change;
         startMark.transform.localPosition = (Vector2)startPosition;
+    }
+    public void AddTreeTile(Vector2Int pos,int depth = 0){
+        if(treeTiles.ContainsKey(pos)){
+            if(treeTiles[pos].hideTree == false){
+                treeTiles[pos].HideTree(true);
+            }
+            return;
+        }
+        treeTiles.Add(pos,new TreeTile(pos,gameObject.transform,this,depth));
+    }
+    public void RemoveTreeTile(Vector2Int pos){
+        treeTiles[pos].Destroy();
+        treeTiles.Remove(pos);
     }
     public void AddTile(Vector2Int pos){
         changed = true;

@@ -784,6 +784,14 @@ public class LevelSelect : MonoBehaviour
                         
                     }
                 }else{
+                    if(l.treeTiles.ContainsKey(mouseTilePos)){
+                        if(l.treeTiles[mouseTilePos].hideTree){
+                            l.treeTiles[mouseTilePos].HideTree(false);
+                            return;
+                        }
+                        l.RemoveTreeTile(mouseTilePos);
+                        return;
+                    }
                     l.AddTile(mouseTilePos);
                 }
             }else{
@@ -845,6 +853,8 @@ public class LevelSelect : MonoBehaviour
                         }
                     }
                     l.RemoveTile(mouseTilePos);
+                }else{
+                    l.AddTreeTile(mouseTilePos);
                 }
             }else{
                 if(l.tiles.ContainsKey(mouseTilePos)){

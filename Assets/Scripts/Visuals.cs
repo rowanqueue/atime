@@ -18,10 +18,23 @@ public class Visuals : MonoBehaviour
     public Color actionColor;
     public float levelSelectShrink;
     public float[] angles = new float[]{0f,-90f,-180f,-270f};
-    public List<Sprite> walkAnimation;
-    public float walkAnimSpeed = 0.5f;
+    public CharacterAnimationPack playerPack;
+    public CharacterAnimationPack clonePack;
     public float actualWalkSpeed = 0.5f;
-    public Sprite standingSprite;
+    public List<Sprite> flowerSprites;
+    public List<List<Sprite>> sideFlowerSprites = new List<List<Sprite>>();
+    public List<Sprite> sideFlowerB;
+    public List<Sprite> sideFlowerC;
+    public List<Sprite> sideFlowerD;
+    public List<Sprite> sideFlowerE;
+    public List<Sprite> sideFlowerF;
+    public void Start(){
+        sideFlowerSprites.Add(sideFlowerB);
+        sideFlowerSprites.Add(sideFlowerC);
+        sideFlowerSprites.Add(sideFlowerD);
+        sideFlowerSprites.Add(sideFlowerE);
+        sideFlowerSprites.Add(sideFlowerF);
+    }
 
     public Vector2 LerpVector(Vector2 start, Vector2 finish){
         if(Vector2.Distance(start,finish) < 0.01f){return finish;}

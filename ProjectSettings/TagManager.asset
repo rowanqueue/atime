@@ -41,6 +41,9 @@ TagManager:
   - name: Tile
     uniqueID: 1571582767
     locked: 0
+  - name: Tree
+    uniqueID: 1192657963
+    locked: 0
   - name: Point
     uniqueID: 4035576193
     locked: 0
@@ -49,4 +52,7 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 93987287
     locked: 0

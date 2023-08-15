@@ -15,6 +15,7 @@ public class Player
     public int waitingStatus;//0: not waiting, 1: turning
     public bool sittingDown;
     public bool changingSitting;
+    public bool waitToMoveToUndoSitting;
     float timeTurnStarted;
 
     public List<int> moves = new List<int>();
@@ -34,6 +35,8 @@ public class Player
     public bool inPit;
     public SpriteRenderer spriteRenderer;
     public float animIndex;
+    public bool eating;
+    public bool actuallyEating;
 
     public Player(Vector2Int pos, Transform parent){
         spawnPos = pos;
@@ -59,6 +62,7 @@ public class Player
         GameObject.Destroy(gameObject);
     }
     public void Reset(){
+        sittingDown = false;
         dead = false;
         inPit = false;
         position = spawnPos;
@@ -138,6 +142,7 @@ public class Player
         isMoving = true;
         if(sittingDown){
             changingSitting = true;
+            animIndex = 0;
         }
     }
     public void FailureMove(int direction){
@@ -145,6 +150,7 @@ public class Player
         isMoving = true;
         if(sittingDown){
             changingSitting = true;
+            animIndex = 0;
         }
     }
     public void AddMove(int direction){
@@ -162,25 +168,13 @@ public class Player
         timeTurnStarted = Time.time;
         isMoving =true;
         if(sittingDown == false){
+            Debug.Log("hoohaa");
+            animIndex = 0;
             changingSitting = true;
         }
     }
 
     public void Draw(){
-        if(isMoving){
-            
-            animIndex+=Time.deltaTime*Services.Visuals.walkAnimSpeed;
-            int flooredIndex = Mathf.FloorToInt(animIndex);
-            Debug.Log(animIndex);
-            Debug.Log(flooredIndex);
-            if(flooredIndex >= Services.Visuals.walkAnimation.Count){
-                animIndex = 0;
-                flooredIndex = 0;
-            }
-            spriteRenderer.sprite = Services.Visuals.walkAnimation[flooredIndex];
-        }else{
-            spriteRenderer.sprite = Services.Visuals.standingSprite;
-        }
         //nose stuff
         int noseDirection = 2;
         int toCheck = Services.GameController.currentTurn;
@@ -192,13 +186,110 @@ public class Player
                 continue;
             }
             if(moves[i] <= 3){
-                Debug.Log("B");
                 noseDirection = moves[i];
                 break;
             }
         }
         noseCenter.transform.localEulerAngles = new Vector3(0,0,Services.Visuals.angles[noseDirection]);
         //end nose stuff
+        spriteRenderer.flipX = false;
+        CharacterAnimationPack pack = Services.Visuals.playerPack;
+        if(Services.GameController.currentLoop != index){
+            pack = Services.Visuals.clonePack;
+        }
+        if(actuallyEating == false){
+            if(isMoving){
+                if(changingSitting || (waitToMoveToUndoSitting && sittingDown)){
+                    if(sittingDown){
+                        animIndex+=Time.deltaTime*pack.standUpAnimSpeed;
+                        int flooredIndex = Mathf.FloorToInt(animIndex);
+                        Debug.Log(flooredIndex);
+                        if(flooredIndex >= pack.standUpAnimationDown.Count){
+                            animIndex = pack.standUpAnimationDown.Count-1;
+                            sittingDown = false;
+                            changingSitting = false;
+                            if(waitToMoveToUndoSitting){
+                                waitToMoveToUndoSitting = false;
+                            }
+                            flooredIndex = Mathf.FloorToInt(animIndex);
+                        }
+                        spriteRenderer.sprite = pack.standUpAnimationDown[flooredIndex];
+                    }else{
+                        animIndex+=Time.deltaTime*pack.standUpAnimSpeed;
+                        int flooredIndex = Mathf.FloorToInt(animIndex);
+                        if(flooredIndex >= pack.sitDownAnimationDown.Count){
+                            animIndex = pack.sitDownAnimationDown.Count-1;
+                            isMoving = false;
+                            sittingDown = true;
+                            changingSitting = false;
+                            flooredIndex = Mathf.FloorToInt(animIndex);
+                        }
+                        spriteRenderer.sprite = pack.sitDownAnimationDown[flooredIndex];
+                    }
+                    
+                }else{
+                    if(sittingDown){
+                        spriteRenderer.sprite = pack.sitDownAnimationDown[pack.sitDownAnimationDown.Count-1];
+                    }else{
+                        animIndex+=Time.deltaTime*pack.walkAnimSpeed;
+                        int flooredIndex = Mathf.FloorToInt(animIndex);
+                        if(flooredIndex >= pack.walkAnimationRight.Count){
+                            animIndex = 0;
+                            flooredIndex = 0;
+                        }
+                        switch(noseDirection){
+                            case 0:
+                                spriteRenderer.sprite = pack.walkAnimationUp[flooredIndex];
+                                break;
+                            case 1:
+                                spriteRenderer.sprite = pack.walkAnimationRight[flooredIndex];
+                                break;
+                            case 2:
+                                spriteRenderer.sprite = pack.walkAnimationDown[flooredIndex];
+                                break;
+                            case 3:
+                                spriteRenderer.flipX = true;
+                                spriteRenderer.sprite = pack.walkAnimationRight[flooredIndex];
+                                break;
+                        }
+                    }
+                    
+                }
+                
+                
+            }else{
+                if(sittingDown){
+                    spriteRenderer.sprite = pack.sitDownAnimationDown[pack.sitDownAnimationDown.Count-1];
+                }else{
+                    animIndex+=Time.deltaTime*pack.idleAnimSpeed;
+                    int flooredIndex = Mathf.FloorToInt(animIndex);
+                    if(flooredIndex >= pack.idleAnimationDown.Count){
+                        animIndex = 0;
+                        flooredIndex = 0;
+                    }
+                    switch(noseDirection){
+                        case 0:
+                            spriteRenderer.sprite = pack.standingSpriteUp;
+                            break;
+                        case 1:
+                            spriteRenderer.sprite = pack.standingSpriteRight;
+                            break;
+                        case 2:
+                            spriteRenderer.sprite = pack.standingSpriteDown;
+                            spriteRenderer.sprite = pack.idleAnimationDown[flooredIndex];
+                            break;
+                        case 3:
+                            spriteRenderer.flipX = true;
+                            spriteRenderer.sprite = pack.standingSpriteRight;
+                            break;
+                    }
+                }
+                
+                
+            }
+        }
+        
+        
         if(winning){
             gameObject.transform.eulerAngles += new Vector3(0,0,10f*(Time.deltaTime/0.016f));
             gameObject.transform.localScale += (Vector3.zero-gameObject.transform.localScale)*0.05f*(Time.deltaTime/0.016f);
@@ -246,34 +337,10 @@ public class Player
         cloneNumber.sortingOrder = body.SortingOrder+3;
         nose.SortingOrder = body.SortingOrder+1;
         if(isMoving == false){return;}
-
         if(changingSitting){
-            //you're getting up
-            if(sittingDown){
-                body.transform.localPosition +=(new Vector3(0,-0.1f,0f)-body.transform.localPosition)*Services.Visuals.lerpSpeed*1.5f;
-                legs[0].transform.localPosition +=(new Vector3(-0.1f,-0.2f,0f)-legs[0].transform.localPosition)*Services.Visuals.lerpSpeed*1.5f;
-                legs[1].transform.localPosition +=(new Vector3(0.1f,-0.2f,0f)-legs[1].transform.localPosition)*Services.Visuals.lerpSpeed*1.5f;
-                if(Vector2.Distance(body.transform.localPosition,new Vector2(0,-0.1f)) < 0.01f){
-                    sittingDown = false;
-                    changingSitting = false;
-                }
-            }else{
-                body.transform.localPosition +=(new Vector3(0,-0.2f,0f)-body.transform.localPosition)*Services.Visuals.lerpSpeed*1.5f;
-                legs[0].transform.localPosition +=(new Vector3(-0.1f,0f,0f)-legs[0].transform.localPosition)*Services.Visuals.lerpSpeed*1.5f;
-                legs[1].transform.localPosition +=(new Vector3(0.1f,0f,0f)-legs[1].transform.localPosition)*Services.Visuals.lerpSpeed*1.5f;
-                if(Vector2.Distance(body.transform.localPosition,new Vector2(0,-0.2f)) < 0.01f){
-                    //changingSitting = false;
-                    sittingDown = true;
-                }
-            }
             return;
         }
-        if(waitingStatus == 1 || waitingStatus == 2){
-            if(Time.time > timeTurnStarted+0.13f){
-                waitingStatus = 0;
-            }
-            return;
-        }
+        Debug.Log("A");
         if(ReferenceEquals(pusher,null) == false){
             if(Vector2.Distance(pusher.gameObject.transform.position,gameObject.transform.position) < 0.25f){
                 pusher = null;
@@ -293,7 +360,30 @@ public class Player
         }
         
         if(Vector2.Distance(targetPosition,gameObject.transform.localPosition) < 0.1f){
+            
             gameObject.transform.localPosition = targetPosition;
+            
+            if(eating){
+                if(actuallyEating == false){
+                    animIndex = 0;
+                }
+                actuallyEating = true;
+                animIndex+=Time.deltaTime*pack.chompAnimSpeed;
+                int flooredIndex = Mathf.FloorToInt(animIndex);
+                Debug.Log(flooredIndex.ToString()+" : "+pack.chompAnimation.Count);
+                if(flooredIndex > pack.chompAnimation.Count-1){
+                    Debug.Log("DONE!");
+                    animIndex = pack.chompAnimation.Count-1;
+                    eating = false;
+                    actuallyEating = false;
+                    flooredIndex = Mathf.FloorToInt(animIndex);
+                }
+                spriteRenderer.sprite = pack.chompAnimation[flooredIndex];
+                if(eating){
+                    return;
+                }
+                
+            }
             isMoving = false;
             if(failureDirection != -1){
                 failureDirection = -1;
@@ -302,6 +392,11 @@ public class Player
             if(isMoving == false && sittingDown == false){
                 legs[0].transform.localPosition =new Vector3(-0.1f,-0.2f,0f);
                 legs[1].transform.localPosition =new Vector3(0.1f,-0.2f,0f);
+            }
+            if(waitToMoveToUndoSitting){
+                waitToMoveToUndoSitting = false;
+                changingSitting = true;
+                isMoving = true;
             }
             
         }

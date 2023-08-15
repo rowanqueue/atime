@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Shapes;
 public enum GameState{
     LevelSelect,
     InLevel
@@ -25,6 +26,8 @@ public class GameController : MonoBehaviour
     public GameObject spawnPortalPrefab;
     public GameObject exitPrefab;
     public GameObject linePrefab;
+    public GameObject treeTilePrefab;
+    public GameObject bushPrefab;
     public bool centerTimeLine;
     public Transform turnLimitParent;
     public Transform timelineArrow;//this is for left timeline
@@ -64,6 +67,7 @@ public class GameController : MonoBehaviour
     public Dictionary<int,int> cloneNum2WinNum = new Dictionary<int, int>();
     public int whichDirection = 0;
     float nextMoveTimeAllowed;
+    public Rectangle turnsAmount;
     // Start is called before the first frame update
     void Awake()
     {
@@ -212,6 +216,7 @@ public class GameController : MonoBehaviour
     }
     void InLevelUpdate()
     {
+        turnsAmount.Width = 0.5f+(0.5f*turnLimit);
         if(Services.Grid.level.gameObject.transform.localScale.x > 0.9f){
             Services.LevelSelect.HandleTutorialText();
         }
@@ -453,7 +458,7 @@ public class GameController : MonoBehaviour
         if(centerTimeLine){
             turnLimitParent.localPosition = Services.Visuals.LerpVector(turnLimitParent.localPosition, new Vector3(-0.25f-(currentTurn*0.5f),turnLimitParent.localPosition.y,turnLimitParent.localPosition.z));
         }else{
-            timelineArrow.localPosition = Services.Visuals.LerpVector(timelineArrow.localPosition,new Vector2(currentTurn*0.5f,0f));
+            timelineArrow.localPosition = Services.Visuals.LerpVector(timelineArrow.localPosition,new Vector3(currentTurn*0.5f,0f,10f));
         }
         for(var i = 0; i < turnLimit;i++){
             turnLimitDisplay[i].on = i >= currentTurn;
@@ -552,6 +557,7 @@ public class GameController : MonoBehaviour
             return;
         }
         if(currentPlayer.isMoving){
+            Debug.Log("babab");
             return;
         }
         foreach(Player p in players){
@@ -686,14 +692,15 @@ public class GameController : MonoBehaviour
             //players[i].SetPosition(lastTurn.playerPositions[i]);
             if(players[i].moves[players[i].moves.Count-1] >= 4 && players[i].winning == false){
                 players[i].waitingStatus = 2;
-                players[i].changingSitting = true;
+                //players[i].changingSitting = true;
             }
             players[i].position = lastTurn.playerStates[i].position;
             players[i].spawnPos = lastTurn.playerStates[i].spawnPos;
             players[i].dead = lastTurn.playerStates[i].dead;
             players[i].moves = lastTurn.playerStates[i].moves;
             if(players[i].sittingDown != lastTurn.playerStates[i].sittingDown){
-                players[i].changingSitting = true;
+                players[i].waitToMoveToUndoSitting = true;
+                players[i].animIndex = 0;
             }
             //players[i].sittingDown = lastTurn.playerStates[i].sittingDown;
             players[i].isMoving = true;
@@ -786,6 +793,11 @@ public class GameController : MonoBehaviour
             if(cannotMove){return;}
             players[index].Move(players[index].moves[currentTurn]);
             CheckForGrab();
+        }else{
+            if(players[index].sittingDown == false){
+                players[index].changingSitting = true;
+                players[index].isMoving = true;
+            }
         }
     }
     void CheckForGrab(){
@@ -832,6 +844,9 @@ public class GameController : MonoBehaviour
             if(tile.hasPit){
                 tile.UnFillPit();
             }
+        }
+        foreach(ActionPoint point in Services.Grid.level.actionPoints.Values){
+            point.flowerIndex = 0;
         }
         MakePlayer(Services.Grid.playerStartPosition);
         
