@@ -192,6 +192,11 @@ public class Player
         }
         noseCenter.transform.localEulerAngles = new Vector3(0,0,Services.Visuals.angles[noseDirection]);
         //end nose stuff
+        if(Services.GameController.currentLoop != index && moves.Count <= Services.GameController.currentTurn){
+            spriteRenderer.color = new Color(1f,1f,1f,0.5f);
+        }else{
+            spriteRenderer.color = Color.white;
+        }
         spriteRenderer.flipX = false;
         CharacterAnimationPack pack = Services.Visuals.playerPack;
         if(Services.GameController.currentLoop != index){
@@ -213,7 +218,21 @@ public class Player
                             }
                             flooredIndex = Mathf.FloorToInt(animIndex);
                         }
-                        spriteRenderer.sprite = pack.standUpAnimationDown[flooredIndex];
+                        switch(noseDirection){
+                            case 0:
+                                spriteRenderer.sprite = pack.standUpAnimationUp[flooredIndex];
+                                break;
+                            case 1:
+                                spriteRenderer.sprite = pack.standUpAnimationRight[flooredIndex];
+                                break;
+                            case 2:
+                                spriteRenderer.sprite = pack.standUpAnimationDown[flooredIndex];
+                                break;
+                            case 3:
+                                spriteRenderer.flipX = true;
+                                spriteRenderer.sprite = pack.standUpAnimationRight[flooredIndex];
+                                break;
+                        }
                     }else{
                         animIndex+=Time.deltaTime*pack.standUpAnimSpeed;
                         int flooredIndex = Mathf.FloorToInt(animIndex);
@@ -224,12 +243,41 @@ public class Player
                             changingSitting = false;
                             flooredIndex = Mathf.FloorToInt(animIndex);
                         }
-                        spriteRenderer.sprite = pack.sitDownAnimationDown[flooredIndex];
+                        switch(noseDirection){
+                            case 0:
+                                spriteRenderer.sprite = pack.sitDownAnimationUp[flooredIndex];
+                                break;
+                            case 1:
+                                spriteRenderer.sprite = pack.sitDownAnimationRight[flooredIndex];
+                                break;
+                            case 2:
+                                spriteRenderer.sprite = pack.sitDownAnimationDown[flooredIndex];
+                                break;
+                            case 3:
+                                spriteRenderer.flipX = true;
+                                spriteRenderer.sprite = pack.sitDownAnimationRight[flooredIndex];
+                                break;
+                        }
+                        
                     }
                     
                 }else{
                     if(sittingDown){
-                        spriteRenderer.sprite = pack.sitDownAnimationDown[pack.sitDownAnimationDown.Count-1];
+                        switch(noseDirection){
+                            case 0:
+                                spriteRenderer.sprite = pack.sitDownAnimationUp[pack.sitDownAnimationDown.Count-1];
+                                break;
+                            case 1:
+                                spriteRenderer.sprite = pack.sitDownAnimationRight[pack.sitDownAnimationDown.Count-1];
+                                break;
+                            case 2:
+                                spriteRenderer.sprite = pack.sitDownAnimationDown[pack.sitDownAnimationDown.Count-1];
+                                break;
+                            case 3:
+                                spriteRenderer.flipX = true;
+                                spriteRenderer.sprite = pack.sitDownAnimationRight[pack.sitDownAnimationDown.Count-1];
+                                break;
+                        }
                     }else{
                         animIndex+=Time.deltaTime*pack.walkAnimSpeed;
                         int flooredIndex = Mathf.FloorToInt(animIndex);
@@ -259,7 +307,21 @@ public class Player
                 
             }else{
                 if(sittingDown){
-                    spriteRenderer.sprite = pack.sitDownAnimationDown[pack.sitDownAnimationDown.Count-1];
+                    switch(noseDirection){
+                        case 0:
+                            spriteRenderer.sprite = pack.sitDownAnimationUp[pack.sitDownAnimationDown.Count-1];
+                            break;
+                        case 1:
+                            spriteRenderer.sprite = pack.sitDownAnimationRight[pack.sitDownAnimationDown.Count-1];
+                            break;
+                        case 2:
+                            spriteRenderer.sprite = pack.sitDownAnimationDown[pack.sitDownAnimationDown.Count-1];
+                            break;
+                        case 3:
+                            spriteRenderer.flipX = true;
+                            spriteRenderer.sprite = pack.sitDownAnimationRight[pack.sitDownAnimationDown.Count-1];
+                            break;
+                    }
                 }else{
                     animIndex+=Time.deltaTime*pack.idleAnimSpeed;
                     int flooredIndex = Mathf.FloorToInt(animIndex);
@@ -269,10 +331,10 @@ public class Player
                     }
                     switch(noseDirection){
                         case 0:
-                            spriteRenderer.sprite = pack.standingSpriteUp;
+                            spriteRenderer.sprite = pack.idleAnimationUp[flooredIndex];
                             break;
                         case 1:
-                            spriteRenderer.sprite = pack.standingSpriteRight;
+                            spriteRenderer.sprite = pack.idleAnimationRight[flooredIndex];
                             break;
                         case 2:
                             spriteRenderer.sprite = pack.standingSpriteDown;
@@ -280,7 +342,7 @@ public class Player
                             break;
                         case 3:
                             spriteRenderer.flipX = true;
-                            spriteRenderer.sprite = pack.standingSpriteRight;
+                            spriteRenderer.sprite = pack.idleAnimationRight[flooredIndex];
                             break;
                     }
                 }
@@ -370,15 +432,29 @@ public class Player
                 actuallyEating = true;
                 animIndex+=Time.deltaTime*pack.chompAnimSpeed;
                 int flooredIndex = Mathf.FloorToInt(animIndex);
-                Debug.Log(flooredIndex.ToString()+" : "+pack.chompAnimation.Count);
-                if(flooredIndex > pack.chompAnimation.Count-1){
+                Debug.Log(flooredIndex.ToString()+" : "+pack.chompAnimationRight.Count);
+                if(flooredIndex > pack.chompAnimationRight.Count-1){
                     Debug.Log("DONE!");
-                    animIndex = pack.chompAnimation.Count-1;
+                    animIndex = pack.chompAnimationRight.Count-1;
                     eating = false;
                     actuallyEating = false;
                     flooredIndex = Mathf.FloorToInt(animIndex);
                 }
-                spriteRenderer.sprite = pack.chompAnimation[flooredIndex];
+                switch(noseDirection){
+                    case 0:
+                        spriteRenderer.sprite = pack.chompAnimationUp[flooredIndex];
+                        break;
+                    case 1:
+                        spriteRenderer.sprite = pack.chompAnimationRight[flooredIndex];
+                        break;
+                    case 2:
+                        spriteRenderer.sprite = pack.chompAnimationDown[flooredIndex];
+                        break;
+                    case 3:
+                        spriteRenderer.flipX = true;
+                        spriteRenderer.sprite = pack.chompAnimationRight[flooredIndex];
+                        break;
+                }
                 if(eating){
                     return;
                 }

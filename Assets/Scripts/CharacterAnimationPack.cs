@@ -23,6 +23,8 @@ public class CharacterAnimationPack : ScriptableObject
     public List<Sprite> standUpAnimationRight;
     public List<Sprite> standUpAnimationUp;
     public float standUpAnimSpeed = 20f;
-    public List<Sprite> chompAnimation;
+    public List<Sprite> chompAnimationDown;
+    public List<Sprite> chompAnimationRight;
+    public List<Sprite> chompAnimationUp;
     public float chompAnimSpeed = 5f;
 }

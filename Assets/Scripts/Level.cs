@@ -134,7 +134,7 @@ public class Level
                 AddTreeTile(new_pos);
             }
         }
-        for(var j = 0; j < 5;j++){
+        for(var j = 0; j < 3;j++){
             List<Vector2Int> _trees = treeTiles.Keys.ToList();
             foreach(Vector2Int pos in _trees){
                 for(int i = 0; i < Services.Grid.directions.Length;i++){
