@@ -28,6 +28,7 @@ public class GameController : MonoBehaviour
     public GameObject linePrefab;
     public GameObject treeTilePrefab;
     public GameObject bushPrefab;
+    public GameObject fogPrefab;
     public bool centerTimeLine;
     public Transform turnLimitParent;
     public Transform timelineArrow;//this is for left timeline
@@ -68,6 +69,7 @@ public class GameController : MonoBehaviour
     public int whichDirection = 0;
     float nextMoveTimeAllowed;
     public Rectangle turnsAmount;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -101,6 +103,7 @@ public class GameController : MonoBehaviour
             instructionsCopy[i] = s;
         }
     }
+
     void InitializeServices(){
         Services.GameController = this;
         Services.Grid = GetComponentInChildren<Grid>();
@@ -181,6 +184,7 @@ public class GameController : MonoBehaviour
         }
         instructions.text = instructionsCopy[(int)state];
     }
+
     void LevelSelectUpdate(){
         int moveCursor = -1;
         if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)){
@@ -214,6 +218,7 @@ public class GameController : MonoBehaviour
         #endif
         Services.LevelSelect.Draw();
     }
+
     void InLevelUpdate()
     {
         turnsAmount.Width = 0.5f+(0.5f*turnLimit);
@@ -416,6 +421,7 @@ public class GameController : MonoBehaviour
             Services.Grid.exit.transform.GetChild(0).localEulerAngles+= (Vector3.zero-Services.Grid.exit.transform.GetChild(0).localEulerAngles)*Services.Visuals.lerpSpeed;
         }*/
     }
+
     void CheckForExit(Player player){
         bool allExits = true;
         bool onExit = false;
@@ -441,6 +447,7 @@ public class GameController : MonoBehaviour
             }
         }
     }
+
     //Player stuff
     public void MakePlayer(Vector2Int pos){
         Player p = new Player(pos,Services.Grid.level.gameObject.transform);
@@ -448,6 +455,7 @@ public class GameController : MonoBehaviour
         p.index = players.Count;
         players.Add(p);
     }
+
     void DrawTurnLimit(){
         turnLimitParent.gameObject.SetActive(!noLimit);
         if(noLimit){
@@ -467,6 +475,7 @@ public class GameController : MonoBehaviour
             turnLimitDisplay[i].Draw();
         }
     }
+
     //end player stuff
     //game loop
     void FakeInputForTest(){
@@ -551,6 +560,7 @@ public class GameController : MonoBehaviour
             return;
         }
     }
+
     void CheckForInput(){
         nextMove = -1;
         if(editMode && (Services.LevelSelect.textEditMode || Services.LevelSelect.nameEditMode)){
@@ -611,6 +621,7 @@ public class GameController : MonoBehaviour
             return;
         }
     }
+
     bool DoTurn(){
         
         if(nextMove < 0){
@@ -685,6 +696,7 @@ public class GameController : MonoBehaviour
             return false;
         }
     }
+
     void UndoTurn(TurnState lastTurn){
 
         for(var i = 0; i < lastTurn.playerStates.Count;i++){
@@ -749,6 +761,7 @@ public class GameController : MonoBehaviour
             Services.Grid.level.tiles[pos].pitFilled = lastTurn.pitStates[pos];
         }
     }
+
     void DoCloneTurn(int index){
         if(players[index].moves.Count > currentTurn){
             if(players[index].inPit){
@@ -800,6 +813,7 @@ public class GameController : MonoBehaviour
             }
         }
     }
+
     void CheckForGrab(){
         foreach(Player p in players){
             if(Services.Grid.actionPoints.ContainsKey(p.position)){
@@ -830,6 +844,7 @@ public class GameController : MonoBehaviour
             }
         }
     }
+
     void NewLoop(){
         currentLoop++;
         currentTurn = 0;
@@ -851,6 +866,7 @@ public class GameController : MonoBehaviour
         MakePlayer(Services.Grid.playerStartPosition);
         
     }
+
     void NewLoop(Player _player){
         Vector2Int pos = _player.position;
         currentLoop++;
@@ -871,6 +887,7 @@ public class GameController : MonoBehaviour
     }
     //end
 }
+
 //so this is exactly what the board and state of the game is on one specific turn
 public class TurnState
 {
@@ -907,6 +924,7 @@ public class TurnState
         }
     }
 }
+
 public class TestMoveNode 
 {
     public int move;
