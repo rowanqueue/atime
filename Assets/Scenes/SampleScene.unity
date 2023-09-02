@@ -468,7 +468,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &108498531
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1093,7 +1093,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3
+  orthographic size: 2
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2877,6 +2877,7 @@ MonoBehaviour:
   - -270
   playerPack: {fileID: 11400000, guid: 6942bf624c9580f4e85a4cf537f3c5e1, type: 2}
   clonePack: {fileID: 11400000, guid: 6582b1a36e18c36438e66ee5a2e8811f, type: 2}
+  clone2Pack: {fileID: 11400000, guid: f5187608f538c7c4ea5eab2280c3c1c3, type: 2}
   actualWalkSpeed: 0.75
   flowerSprites:
   - {fileID: 21300000, guid: 1c2b0cf7baf008f46955d6e8cc1d952a, type: 3}

@@ -20,6 +20,7 @@ public class Visuals : MonoBehaviour
     public float[] angles = new float[]{0f,-90f,-180f,-270f};
     public CharacterAnimationPack playerPack;
     public CharacterAnimationPack clonePack;
+    public CharacterAnimationPack clone2Pack;
     public float actualWalkSpeed = 0.5f;
     public List<Sprite> flowerSprites;
     public List<List<Sprite>> sideFlowerSprites = new List<List<Sprite>>();

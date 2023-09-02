@@ -200,7 +200,10 @@ public class Player
         spriteRenderer.flipX = false;
         CharacterAnimationPack pack = Services.Visuals.playerPack;
         if(Services.GameController.currentLoop != index){
-            pack = Services.Visuals.clonePack;
+            pack = Services.Visuals.clone2Pack;
+            if(index == Services.GameController.currentLoop-1){
+                pack = Services.Visuals.clonePack;
+            }
         }
         if(actuallyEating == false){
             if(isMoving){

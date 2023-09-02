@@ -62,7 +62,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a11443457498c6f4f94505bcb3a988f4, type: 3}
   - {fileID: 21300000, guid: 48f12e9a34fccf7439828a6f8072614a, type: 3}
   - {fileID: 21300000, guid: a6d4166d241e388489c629d680370ac0, type: 3}
-  idleAnimSpeed: 3.5
+  idleAnimSpeed: 6
   sitDownAnimationDown:
   - {fileID: 21300000, guid: 06437da483a2f0b439e3ae532c4fe029, type: 3}
   - {fileID: 21300000, guid: b774e61d3b949c848afbfc53bb5841be, type: 3}
