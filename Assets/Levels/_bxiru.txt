@@ -1,7 +1,0 @@
-_bxiru
--1,1,5,3
-1,often we create our own problems~noften we solve our own problems
-_,_,.,_
-*,.,*,_
-.,@,*,x
-*,.,*,_

@@ -1,5 +1,0 @@
-Push
-0,-1,4,3
-2,you can affect past ~p?~nthat is new
-@2,.,*,.,*
-x0,.,_,_,_

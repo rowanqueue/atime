@@ -15,7 +15,10 @@ public class Level
     public bool on = false;
     public int turnLimit;
     public Vector2Int startPosition;
+    public Tile startTile;
     public Vector2Int extent;
+    public Vector2Int lowest;
+    public Vector2Int highest;
     //things
     public Dictionary<Vector2Int,Tile> tiles = new Dictionary<Vector2Int, Tile>();
     public Dictionary<Vector2Int,ActionPoint> actionPoints = new Dictionary<Vector2Int, ActionPoint>();
@@ -37,6 +40,102 @@ public class Level
     public string timer_key = "abcdef";
     public Level(LevelJson levelJson){
         //this is created only for the new level select
+        //this is created only to be PLAYED
+        gameObject = new GameObject();
+        gameObject.transform.parent = Services.Grid.transform;
+        //names
+        name = levelJson.name;
+        internal_name = name;
+        if(levelJson.internal_name != null){
+            internal_name = levelJson.internal_name;
+        }
+        
+        
+        gameObject.name = levelJson.name;
+        //TEMPoRARY
+        gridPosition = new Vector2Int(levelJson.map_pos.x,levelJson.map_pos.y);
+        //text
+        spoken = levelJson.text;
+        //turnlimit
+        turnLimit = levelJson.turn_limit;
+        for(var i = 0; i < turnLimit;i++){
+            turnPoints.Add(new ActionPoint(i,gameObject.transform));
+        }
+        //map
+        extent = Vector2Int.zero;
+        //tiles
+        foreach(LevelJson.Tile tile in levelJson.tiles){
+            Vector2Int pos = new Vector2Int(tile.x,tile.y);
+            Tile newTile = MakeTile(pos);
+            tiles.Add(pos,newTile);
+            //player
+            if(levelJson.start.x == pos.x && levelJson.start.y == pos.y){
+                startPosition = pos;
+                startTile = newTile;
+                players.Add(new Player(pos,gameObject.transform));
+            }
+            //action points
+            if(tile.thing == "a"){
+                actionPoints.Add(pos,MakeActionPoint(pos));
+                //Todo: load special action points
+            }
+            //exits
+            if(tile.thing == "x"){
+                exits.Add(pos,new Exit(pos,gameObject.transform));
+                exits[pos].level = this;
+            }
+            //Todo: load special shit
+            if(tile.thing == "u"){
+                AddPit(pos);
+            }
+            if(tile.thing == "p"){
+                AddSpawnPortal(pos);
+            }
+            if(tile.thing == "s"){
+                AddSpores(pos);
+            }
+        }
+        //walls
+        foreach(LevelJson.Wall wall in levelJson.walls){
+            Vector2Int pos = new Vector2Int(wall.x,wall.y);
+            Tile tile;
+            if(wall.is_up){
+                tile = tiles[pos];
+                if(tile != null){
+                    tile.walls[0] = true;
+                    if(wall.type == 1){
+                        tile.spikes[0] = true;
+                    }
+                }
+                tile = tiles[pos+Vector2Int.up];
+                if(tile != null){
+                    tile.walls[2] = true;
+                    if(wall.type == 1){
+                        tile.spikes[2] = true;
+                    }
+                }
+            }else{
+                tile = tiles[pos];
+                if(tile != null){
+                    tile.walls[3] = true;
+                    if(wall.type == 1){
+                        tile.spikes[3] = true;
+                    }
+                }
+                tile = tiles[pos+Vector2Int.left];
+                if(tile != null){
+                    tile.walls[1] = true;
+                    if(wall.type == 1){
+                        tile.spikes[1] = true;
+                    }
+                }
+            }
+        }
+        startMark = GameObject.Instantiate(Services.GameController.startMarkPrefab,gameObject.transform);
+        startMark.transform.localPosition = (Vector2)startPosition;
+        FindExtents();
+        FindNeighborsBetweenTiles();
+
     }
     public Level(string levelData,string _internal_name){
         gameObject = new GameObject();
@@ -157,12 +256,12 @@ public class Level
         bool[] borderNeeded = new bool[4];
         for(var i = 0; i < 4; i++){
             borderNeeded[i] = true;
-            if(Services.LevelSelect.v2Level.ContainsKey(gridPosition+Services.Grid.directions[i])){
-                if(Services.LevelSelect.v2Level[gridPosition+Services.Grid.directions[i]].section == section || sectionExit == i){
+            /*if(Services.LevelSelect.v2Preview.ContainsKey(gridPosition+Services.Grid.directions[i])){
+                if(Services.LevelSelect.v2Preview[gridPosition+Services.Grid.directions[i]].section == section || sectionExit == i){
                     borderNeeded[i] = false;
                 }
                 
-            }
+            }*/
         }
         for(var i = 0; i < 4; i++){
             if(borderNeeded[i] == false){continue;}
@@ -196,8 +295,8 @@ public class Level
         }
     }
     void FindExtents(){
-        Vector2Int lowest = Vector2Int.zero;
-        Vector2Int highest = Vector2Int.zero;
+        lowest = Vector2Int.zero;
+        highest = Vector2Int.zero;
         foreach(Vector2Int pos in tiles.Keys){
             if(pos.x < lowest.x){lowest.x = pos.x;}
             if(pos.x > highest.x){highest.x = pos.x;}
@@ -282,15 +381,15 @@ public class Level
         if(on){
             gameObject.transform.localScale = Services.Visuals.LerpVector(gameObject.transform.localScale,Vector3.one);
             Vector2 targetPosition = new Vector3(Camera.main.transform.position.x,Camera.main.transform.position.y);
-            targetPosition.x-=(extent.x*0.5f);
-            targetPosition.y-=(extent.y*0.5f);
+            targetPosition.x-=(extent.x*0.5f)+lowest.x;
+            targetPosition.y-=(extent.y*0.5f)+lowest.y;
             gameObject.transform.position = Services.Visuals.LerpVector(gameObject.transform.position,targetPosition);
             foreach(ActionPoint turnPoint in turnPoints){
                 turnPoint.Show();
             }
         }else{
             if(Services.GameController.state == GameState.LevelSelect){
-                gameObject.SetActive(Services.LevelSelect.unlocked[index]);
+                gameObject.SetActive(true);
             }else{
                 gameObject.SetActive(false);
             }
@@ -329,7 +428,7 @@ public class Level
             }
         }
         foreach(Tile tile in tiles.Values){
-            tile.Draw(Services.LevelSelect.won[index]);
+            tile.Draw(false);
         }
         foreach(ActionPoint actionPoint in actionPoints.Values){
             actionPoint.Draw();
@@ -373,8 +472,14 @@ public class Level
         foreach(Exit exit in tempExits){
             exits.Add(exit.position,exit);
         }
-        players[0].SetPosition(players[0].position+change);
-        startPosition+=change;
+        foreach(Player player in players){
+            Debug.Log("aaah");
+            player.SetPosition(player.position+change);
+            player.SetPosition(player.spawnPos+change);
+        }
+        
+        startPosition = startPosition+change;
+        //Debug.Log(startPosition);
         startMark.transform.localPosition = (Vector2)startPosition;
     }
     public void AddTreeTile(Vector2Int pos,int depth = 0){
@@ -393,7 +498,7 @@ public class Level
     public void AddTile(Vector2Int pos){
         changed = true;
         Vector2Int originChange = Vector2Int.zero;
-        if(pos.x < 0){
+        /*if(pos.x < 0){
             int add = Mathf.Abs(pos.x-0);
             originChange.x = add;
             pos.x+=add;
@@ -402,9 +507,9 @@ public class Level
             int add = Mathf.Abs(pos.y-0);
             originChange.y = add;
             pos.y+=add;
-        }
+        }*/
         if(originChange != Vector2Int.zero){
-            ReworkOrigin(originChange);
+            //ReworkOrigin(originChange);
         }
         tiles.Add(pos,new Tile(pos,gameObject.transform));
         FindExtents();
@@ -420,7 +525,7 @@ public class Level
         }
         tiles[pos].Destroy();
         tiles.Remove(pos);
-        if(pos.x == 0 || pos.y == 0){
+        /*if(pos.x == 0 || pos.y == 0){
             bool anotherInThisColumn = false;//same x
             bool anotherInThisRow = false;//same y
             Vector2Int originChange = new Vector2Int(100,100);
@@ -451,10 +556,10 @@ public class Level
             if(pos.y == 0){
                 originChange.x*=-1;
             }*/
-            if(originChange != Vector2Int.zero){
+            /*if(originChange != Vector2Int.zero){
                 ReworkOrigin(originChange*-1);
             }
-        }
+        }*/
         FindExtents();
         FindNeighborsBetweenTiles();
     }
@@ -600,7 +705,7 @@ public class Level
         tile.spikes[direction] = false;
         tile.neighbors[direction].spikes[Services.Grid.opposite(direction)] = false;
     }
-    public void ConvertLevelToJson(){
+    public LevelJson ConvertLevelToJson(){
         LevelJson json = new LevelJson();
         Debug.Log(internal_name);
         Debug.Log(name);
@@ -618,15 +723,31 @@ public class Level
         json.tiles = new List<LevelJson.Tile>();
         json.walls = new List<LevelJson.Wall>();
         foreach(Vector2Int _pos in tiles.Keys){
+            Tile actualTile = tiles[_pos];
             LevelJson.Tile _tile = new LevelJson.Tile();
             _tile.x = _pos.x;
             _tile.y = _pos.y;
             if(actionPoints.ContainsKey(_pos)){
                 _tile.thing = "a";
+                //Todo: save special action points
+                if(actionPoints[_pos].num > 1){
+                    _tile.thing += actionPoints[_pos].num;
+                }
             }
             if(exits.ContainsKey(_pos)){
                 _tile.thing = "x";
             }
+            //Todo: save special shit
+            if(actualTile.hasPit){
+                _tile.thing = "u";
+            }
+            if(actualTile.hasSpores){
+                _tile.thing = "s";
+            }
+            if(actualTile.hasSpawnPortal){
+                _tile.thing = "p";
+            }
+
             json.tiles.Add(_tile);
 
             //walls
@@ -637,6 +758,9 @@ public class Level
                 LevelJson.Wall _wall = new LevelJson.Wall();
                 _wall.x = _pos.x;
                 _wall.y = _pos.y;
+                if(tiles[_pos].spikes[i]){
+                    _wall.type = 1;
+                }
                 if(i == 1){
                     _wall.x+=1;
                 }
@@ -676,6 +800,7 @@ public class Level
 
         string json_string = JsonUtility.ToJson(json);
         string path = Application.dataPath+"/_Levels/"+internal_name+".json";
+        Debug.Log(path);
         if(!File.Exists(path)){
             System.IO.File.WriteAllText(path,json_string);
         }else{
@@ -684,6 +809,7 @@ public class Level
             writer.WriteLine(json_string);
             writer.Close();
         }
+        return json;
 
     }
     public string ConvertLevelToString(){

@@ -39,6 +39,7 @@ public class Player
     public bool actuallyEating;
 
     public Player(Vector2Int pos, Transform parent){
+        Debug.Log(pos);
         spawnPos = pos;
         index = 0;//Services.GameController.players.Count;
         position = pos;

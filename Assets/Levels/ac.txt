@@ -1,6 +1,0 @@
-_xawqf
--3,1,2
-2,you have choices~n~p do not~nwho would you rather be?
-*,_,*1,x3
-.,@,.1,.3
-_,.,*,.

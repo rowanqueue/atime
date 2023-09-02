@@ -1,6 +1,0 @@
-_efept
-2,1,5,2
-3,you affect ~p~ndo ~p affect you?
-_,_,x
-.,.,*2
-.,.,@0

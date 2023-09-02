@@ -9,25 +9,20 @@ public class LevelSelect : MonoBehaviour
 {
     public LevelDatabase database;
     public Vector2Int startPosition;
+    
+    public List<LevelPreview> levelPreviews;
     public List<Level> levels;
-    public List<bool> unlocked; public int numUnlocked = 1;
-    public List<bool> won; public int numWon = 0;
+    public int numUnlocked = 1;
+    public int numWon = 0;
     public GameObject cursor;
     public List<LineRenderer> cursorLines = new List<LineRenderer>();
     public Vector2Int cursorPosition;
-    public Dictionary<Vector2Int,Level> v2Level = new Dictionary<Vector2Int, Level>();
+    public Dictionary<Vector2Int,LevelPreview> v2Preview = new Dictionary<Vector2Int, LevelPreview>();
     public Dictionary<string,Level> name2Level = new Dictionary<string, Level>();
     public TextMeshPro levelNameDisplay;
     bool levelMovesCursorOn;
     float levelMovesCursorCountdown;
     public Transform borderParent;
-    [System.Serializable]
-    public class TutorialString
-    {
-        public Vector2Int gridPosition;
-        public string text;
-    }
-    public List<TutorialString> tutorialStrings;
     public TextMeshPro tutorialTextDisplay;
     int tutorialIndex;
     float nextLetterTime;
@@ -43,61 +38,78 @@ public class LevelSelect : MonoBehaviour
     public bool rightHold;
     public bool textEditMode;
     public bool nameEditMode;
+    public TextAsset levelMapAsset;
     //level editing sections
     public int sectionSelected = -1;//-1 is none...
+    public class LevelPreview{
+        public LevelJson data;
+        public GameObject gameObject;
+        public string name = "";
+        public bool won = false;
+        public bool unlocked = false;
+        
+    }
     public void Initialize(){
-  
-        for(int i = 0; i < tutorialStrings.Count;i++){
-            tutorialStrings[i].text = tutorialStrings[i].text.Replace("nn","\n");
-        }
         #if UNITY_EDITOR
         FindAllLevelAssets();
+        Dictionary<string,Vector2Int> levelsToLoad = new Dictionary<string, Vector2Int>();
+        if(Services.GameController.useLevelSheet){
+            string levelMapString = levelMapAsset.text;
+            string[] lines = levelMapString.Split('\n');
+            for(var y = 0; y < lines.Length;y++){
+                string[] line = lines[lines.Length-1-y].Split('\t');
+                for(var x = 0; x < line.Length;x++){
+                    Vector2Int pos = new Vector2Int(x,y);
+                    Debug.Log(pos);
+                    string level_name = line[x];
+                    if(level_name == ""){
+                        continue;
+                    }
+                    if(levelsToLoad.ContainsKey(level_name)){
+                        continue;
+                    }
+                    if(level_name.Contains("_")){
+                        level_name = line[x].Split('_')[0];
+                    }
+                    if(level_name == "a"){
+                        startPosition = pos;
+                        Camera.main.transform.position = (Vector3)(Vector2)startPosition;
+                    }
+                    levelsToLoad.Add(level_name,pos);
+                }
+            }
+        }
+        
         #endif
         sectionSelected = -1;
         sections = new List<Section>();
         levels = new List<Level>();
-        unlocked = new List<bool>();
-        won = new List<bool>();
         Vector2 averageExtent = Vector2.zero;
         Vector2Int maxExtent = Vector2Int.zero;
         int wipLevels = 0;
+        levelPreviews = new List<LevelPreview>();
+        v2Preview = new Dictionary<Vector2Int, LevelPreview>();
         int highestTurnLimit = 0;
         foreach(TextAsset levelAsset in  database.levelTexts){
-            Level l = new Level(levelAsset.text,levelAsset.name);
-            var turnLimit = l.turnLimit+l.actionPoints.Count;
-            if(turnLimit>highestTurnLimit){
-                highestTurnLimit = turnLimit;
-            }
-            l.index = levels.Count;
-            unlocked.Add(Services.GameController.editMode);
-            won.Add(false);
-            levels.Add(l);
-            v2Level.Add(l.gridPosition,l);
-            name2Level.Add(l.name,l);
-            l.InstantShrink();
-            averageExtent+=l.extent;
-            if(l.extent.x > maxExtent.x){
-                maxExtent.x = l.extent.x;
-            }
-            if(l.extent.y > maxExtent.y){
-                maxExtent.y = l.extent.y;
-            }
-            //section stuff
-            if(l.section < 0){
-                wipLevels++;
-                continue;
-            }
-            bool newSection = true;
-            foreach(Section section in sections){
-                if(section.index == l.section){
-                    section.AddLevel(l);
-                    newSection = false;
-                    break;
+            Vector2Int otherPos = Vector2Int.zero;
+            if(Services.GameController.useLevelSheet){
+                if(levelsToLoad.ContainsKey(levelAsset.name) == false){
+                    continue;
                 }
+                otherPos = levelsToLoad[levelAsset.name];
+                    
             }
-            if(newSection){
-                sections.Add(new Section(l));
+            
+            LevelPreview lp = new LevelPreview();
+            lp.data = JsonUtility.FromJson<LevelJson>(levelAsset.text);
+            Vector2Int gridPosition = new Vector2Int(lp.data.map_pos.x,lp.data.map_pos.y);
+            if(Services.GameController.useLevelSheet){
+                gridPosition = otherPos;
             }
+            lp.gameObject = GameObject.Instantiate(Services.GameController.levelPreviewPrefab,(Vector2)gridPosition,Quaternion.identity,Services.Grid.levelPreviewParent.transform);
+            lp.name = levelAsset.name;//lp.data.name;
+            lp.gameObject.GetComponentInChildren<TextMeshPro>().text = lp.name;
+            v2Preview.Add(gridPosition,lp);
         }
         Debug.Log("there are "+(database.levelTexts.Count-wipLevels)+" levels");
         Debug.Log("max extent is "+maxExtent);
@@ -106,8 +118,7 @@ public class LevelSelect : MonoBehaviour
         Debug.Log("highest turn limit is: "+highestTurnLimit);
         cursorPosition = startPosition;
         cursor.transform.position = (Vector2)startPosition;
-        unlocked[v2Level[startPosition].index] = true;
-        sections[v2Level[startPosition].section].visible = true;
+        v2Preview[startPosition].unlocked = true;
         sections.Sort(Section.SortSection);
         foreach(Section section in sections){
             section.ThinkAboutBorders();
@@ -118,34 +129,25 @@ public class LevelSelect : MonoBehaviour
             level.ThinkAboutBorders();
         }*/
     }
-    /*void TraverseLevelsToFindConnectionsToOrigin(Vector2Int pos){
-        if(v2Level.ContainsKey(pos) == false){return;}
-        for(var i = 0; i < 4; i++){
-            Vector2Int newPos = pos+Services.Grid.directions[i];
-            if(v2Level.ContainsKey(newPos)){
-                if(v2Level[newPos].careAboutBorders){continue;}
-                TraverseLevelsToFindConnectionsToOrigin(newPos);
-            }
-        }
-    }*/
     public void MoveCursor(int direction){
         Vector2Int newPosition = cursorPosition+Services.Grid.directions[direction];
         if(!Services.GameController.editMode){
-            if(v2Level.ContainsKey(newPosition) == false){
+            /*if(v2Level.ContainsKey(newPosition) == false){
                 return;
             }else{
                 if(unlocked[v2Level[newPosition].index] ==false){
                     return;
                 }
-            }
+            }*/
         }
         cursorPosition = newPosition;
     }
     public void WinLevel(Level le){
-        won[le.index] = true;
+        Services.Grid.levelPreview.won = true;
         //le.exit.TurnOn();
         numWon++;
-        for(var i = 0; i < 4; i++){
+        //todo: redo unlock system
+        /*for(var i = 0; i < 4; i++){
             Vector2Int checkPos = le.gridPosition+Services.Grid.directions[i];
             if(v2Level.ContainsKey(checkPos)){
                 Level levelToUnlock = v2Level[checkPos];
@@ -162,11 +164,11 @@ public class LevelSelect : MonoBehaviour
                     numUnlocked++;
                 }
             }
-        }
+        }*/
         SaveSystem.Save();
     }
     public bool CursorOnLevel(){
-        if(v2Level.ContainsKey(cursorPosition) == false){
+        if(v2Preview.ContainsKey(cursorPosition) == false){
             return false;
         }
         return true;
@@ -270,8 +272,6 @@ public class LevelSelect : MonoBehaviour
             }else{
                 s+=(p.index+1).ToString();
             }
-            
-            
             for(var j = 0; j < p.moves.Count;j++){
                 /*if(j < Services.GameController.currentTurn || (j == Services.GameController.currentTurn && p.index <= Services.GameController.currentPlayerIndex)){
                     s+="<u>";
@@ -349,8 +349,9 @@ public class LevelSelect : MonoBehaviour
     }
     #if UNITY_EDITOR
     public void CreateLevel(Vector2Int pos){
+        //todo: redo level creation
         //create a level at the cursor
-        string name = RandomName();
+        /*string name = RandomName();
         int counter = 0;
         while(name2Level.ContainsKey(name)){
             name = RandomName();
@@ -375,17 +376,18 @@ public class LevelSelect : MonoBehaviour
         writer.WriteLine(newLevelString);
         
         writer.Close();
-        AssetDatabase.Refresh();
+        AssetDatabase.Refresh();*/
     }
     public void DeleteLevel(Vector2Int pos){
-        string name = v2Level[pos].name;
+        //todo: redo deleting a level
+        /*string name = v2Level[pos].name;
         string path = Application.dataPath+"/Levels/"+name+".txt";
         System.IO.File.Delete(path);
         AssetDatabase.Refresh();
         v2Level[pos].Destroy();
         levels.Remove(v2Level[pos]);
         v2Level.Remove(pos);
-        name2Level.Remove(name);
+        name2Level.Remove(name);*/
     }
     public string RandomName(){
         string s = "_";
@@ -397,7 +399,11 @@ public class LevelSelect : MonoBehaviour
     void FindAllLevelAssets(){
         database.levelTexts.Clear();
         List<DirectoryInfo> directories = new List<DirectoryInfo>();
-        directories.Add(new DirectoryInfo(Application.dataPath+"/Levels"));
+        string folder = "Levels";
+        if(Services.GameController.useJson){
+            folder = "_Levels";
+        }
+        directories.Add(new DirectoryInfo(Application.dataPath+"/"+folder));
         DirectoryInfo[] subDirectories = directories[0].GetDirectories();
         foreach(DirectoryInfo d in subDirectories){
             //Debug.Log("DIRECTORIES");
@@ -405,16 +411,17 @@ public class LevelSelect : MonoBehaviour
         }
         //TextAsset asset = AssetDatabase.LoadAssetAtPath<TextAsset>(info[0].ToString());
         //Debug.Log(asset.name);
-        string mainPath = "Assets/Levels/";
+        string mainPath = "Assets/"+folder+"/";
+        string extension = (Services.GameController.useJson ? ".json" : ".txt");
         foreach(DirectoryInfo d in directories){
             string directoryPath = "";
-            if(d.Name.Equals("Levels")){
+            if(d.Name.Equals(folder)){
             }else{
                 directoryPath = d.Name+"/";
             }
             FileInfo[] info = d.GetFiles("*.*");
             foreach(FileInfo f in info){
-                if(f.Extension == ".txt"){
+                if(f.Extension == extension){
                     string path = mainPath+directoryPath+f.Name;
                     //Debug.Log(f.Name);
                     TextAsset asset = AssetDatabase.LoadAssetAtPath(path,typeof(TextAsset)) as TextAsset;
@@ -433,213 +440,6 @@ public class LevelSelect : MonoBehaviour
             sections[i].Lower();
         }
         sections.RemoveAt(index);
-    }
-    public void LevelSelectEditorControls(){
-        if(sectionSelected > -1){
-            if(Input.GetMouseButton(0) == false && Input.GetMouseButton(1) == false){
-                Debug.Log("DONE");
-                sectionSelected = -1;
-            }
-        }
-        if(Input.GetKey(KeyCode.LeftControl)){
-            if(Input.GetKeyDown(KeyCode.Q)){
-                foreach(Level l in levels){
-                    if(l.changed){
-                        SaveLevelChanges(l);
-                    }
-                }
-            }
-            //section controls!
-            Vector2Int mouseTilePos = GetMouseTile();
-            if(sectionSelected > -1){
-                //holding something down
-                if(Input.GetMouseButton(0)){
-                    //dragging!
-                    if(v2Level.ContainsKey(mouseTilePos) == false){return;}
-                    Level l = v2Level[mouseTilePos];
-                    Debug.Log("hovering over "+l.section);
-                    if(l.section != sectionSelected){
-                        if(l.section > -1){
-                            sections[l.section].RemoveLevel(l);
-                        }
-                        sections[sectionSelected].AddLevel(l);
-                    }
-                }
-                if(Input.GetMouseButton(1)){
-                    //erasing!
-                    if(v2Level.ContainsKey(mouseTilePos) == false){return;}
-                    Level l = v2Level[mouseTilePos];
-                    if(l.section == -1){return;}
-                    l.sectionExit = -1;
-                    sections[l.section].RemoveLevel(l);
-                }
-            }else{
-                int clickedWall = -1;//did not click wall
-                clickedWall = CheckClickWall(mouseTilePos);
-                if(Input.GetMouseButtonDown(0)){
-                    if(v2Level.ContainsKey(mouseTilePos) == false){return;}
-                    Level l = v2Level[mouseTilePos];
-                    if(clickedWall == -1){
-                        if(l.section < 0){
-                            //make a new section
-                            l.section = sections.Count;
-                            sections.Add(new Section(l));
-                            sections[l.section].ThinkAboutBorders();
-                        }
-                        sectionSelected = l.section;
-                    }else{
-                        //try to make a section exit
-                        Vector2Int checkTilePos = mouseTilePos+Services.Grid.directions[clickedWall];
-                        if(v2Level.ContainsKey(checkTilePos) && v2Level[checkTilePos].section != l.section){
-                            //there is a level that way and its a different section
-                            if(l.sectionExit == -1){
-                                l.changed = true;
-                                v2Level[checkTilePos].changed = true;
-                                l.sectionExit = clickedWall;
-                                v2Level[checkTilePos].sectionExit = Services.Grid.opposite(clickedWall);
-                                sections[l.section].ReThinkBorders();
-                                sections[v2Level[checkTilePos].section].ReThinkBorders();
-                            }
-                        }
-                    }
-                    return;
-                }
-                if(Input.GetMouseButtonDown(1)){
-                    if(v2Level.ContainsKey(mouseTilePos) == false){return;}
-                    Level l = v2Level[mouseTilePos];
-                    if(clickedWall == -1){
-                        if(l.section > -1){
-                            sectionSelected = l.section;
-                            sections[l.section].RemoveLevel(l);
-                            
-                        }
-                    }else{
-                        //try to remove a section exit
-                        if(l.sectionExit != clickedWall){return;}
-                        Vector2Int checkTilePos = mouseTilePos+Services.Grid.directions[clickedWall];
-                        if(v2Level.ContainsKey(checkTilePos)){
-                            //there is a level that way
-                            l.sectionExit = -1;
-                            
-                            v2Level[checkTilePos].sectionExit = -1;
-                            l.changed = true;
-                            v2Level[checkTilePos].changed = true;
-                            sections[l.section].ReThinkBorders();
-                            sections[v2Level[checkTilePos].section].ReThinkBorders();
-                        }
-                    }
-                    return;
-                }
-            }  
-        }else{
-            sectionSelected = -1;
-        }
-        if(holdingLevelDown){
-            if(Time.time > timeHoldStarted+0.33f){
-                //you are carrying this thing
-                if(rightHold){
-                    if(v2Level.ContainsKey(levelHolding)){
-                        DeleteLevel(levelHolding);
-                    }
-                    rightHold = false;
-                    holdingLevelDown = false;
-                }else{
-                    if(v2Level.ContainsKey(levelHolding)){
-                        v2Level[levelHolding].beingCarried = true;
-                        levelNameDisplay.text = v2Level[levelHolding].name;
-                        cursorPosition = GetMouseTile();
-                    }else{
-                        CreateLevel(levelHolding);
-                        holdingLevelDown = false;
-                    }
-                }
-                
-            }
-            if(rightHold && Input.GetMouseButtonUp(1)){
-                rightHold = false;
-                holdingLevelDown = false;
-            }
-            if(rightHold == false && Input.GetMouseButtonUp(0)){
-                if(Time.time > timeHoldStarted+0.33f){
-                    //you're already carrying it, drop it! (swap if something is laready there)
-                    Vector2Int mouseTilePos = GetMouseTile();
-                    Level carriedLevel = v2Level[levelHolding];
-                    int oldSection = carriedLevel.section;
-                    int newSection = -1;
-                    carriedLevel.beingCarried = false;
-                    if(mouseTilePos == levelHolding){
-                        holdingLevelDown = false;
-                        return;
-                    }
-                    if(carriedLevel.section != -1){
-                        sections[carriedLevel.section].RemoveLevel(carriedLevel);
-                    }
-                    
-                    if(v2Level.ContainsKey(mouseTilePos)){
-                        //level at new position's new position is the swapped one's
-                        v2Level[mouseTilePos].gridPosition = levelHolding;
-                        if(v2Level[mouseTilePos].section != -1){
-                            newSection = v2Level[mouseTilePos].section;
-                            sections[v2Level[mouseTilePos].section].RemoveLevel(v2Level[mouseTilePos]);
-                            int carriedExit = carriedLevel.sectionExit;
-                            carriedLevel.sectionExit = v2Level[mouseTilePos].sectionExit;
-                            v2Level[mouseTilePos].sectionExit = carriedExit;
-                        }
-                        if(oldSection != -1){
-                            sections[oldSection].AddLevel(v2Level[mouseTilePos]);
-                        }
-                        
-                        //old one's spot in dictionary is now the new one
-                        v2Level[levelHolding] = v2Level[mouseTilePos];
-                        SaveLevelChanges(v2Level[levelHolding]);
-                    }else{
-                        v2Level.Remove(levelHolding);
-                    }
-                    carriedLevel.gridPosition = mouseTilePos;
-                    if(newSection != -1){
-                        sections[newSection].AddLevel(carriedLevel);
-                        sections[newSection].ReThinkBorders();
-                    }
-                    if(oldSection != -1){
-                        sections[oldSection].ReThinkBorders();
-                    }
-                    
-                    v2Level[mouseTilePos] = carriedLevel;
-                    SaveLevelChanges(v2Level[mouseTilePos]);
-                    holdingLevelDown = false;
-                }else{
-                    //enter
-                    if(v2Level.ContainsKey(levelHolding)){
-                        cursorPosition = levelHolding;
-                        Services.Grid.LoadLevel(v2Level[levelHolding]);
-                    }
-                }
-                holdingLevelDown = false;
-
-            }
-        }else{
-            Vector2Int mouseTilePos = GetMouseTile();
-            cursorPosition = mouseTilePos;
-            if(v2Level.ContainsKey(cursorPosition)){
-                levelNameDisplay.text = v2Level[cursorPosition].name;
-            }else{
-                levelNameDisplay.text = "";
-            }
-            if(Input.GetMouseButtonDown(0)){
-                holdingLevelDown = true;
-                
-                levelHolding = mouseTilePos;
-                timeHoldStarted = Time.time;
-                rightHold = false;
-            }
-            if(Input.GetMouseButtonDown(1)){
-                holdingLevelDown = true;
-                levelHolding = mouseTilePos;
-                timeHoldStarted = Time.time;
-                rightHold = true;
-            }
-        }
-        
     }
     //this is for when you're in a level!
     public void LevelEditorControls(){
@@ -900,6 +700,10 @@ public class LevelSelect : MonoBehaviour
     }
     public void SaveLevelChanges(Level l){
         l.changed = false;
+        LevelJson json = l.ConvertLevelToJson();
+
+        v2Preview[l.gridPosition].data = json;
+        return;
         string levelString = l.name+'\n';
         levelString+=l.gridPosition.x.ToString()+","+l.gridPosition.y.ToString()+","+l.section.ToString();
         if(l.sectionExit != -1){
@@ -927,14 +731,16 @@ public class LevelSelect : MonoBehaviour
         AssetDatabase.Refresh();
     }
     public void ResetLevelChanges(Level l){
-        string levelData = l.levelData;
+        //todo:reset reset
+        return;
+        /*string levelData = l.levelData;
         l.Destroy();
         levels.Remove(l);
         v2Level.Remove(l.gridPosition);
         Level recreatedLevel = new Level(levelData,l.internal_name);
         recreatedLevel.InstantShrink();
         levels.Add(recreatedLevel);
-        v2Level.Add(recreatedLevel.gridPosition,recreatedLevel);
+        v2Level.Add(recreatedLevel.gridPosition,recreatedLevel);*/
     }
     #endif
 }

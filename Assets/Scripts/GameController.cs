@@ -11,6 +11,9 @@ public enum GameState{
 public class GameController : MonoBehaviour
 {
     public GameState state;
+    public bool useLevelSheet;
+    [HideInInspector]
+    public bool useJson = true;
     public bool editMode;
     public bool haveToWaitToEnd;//whether you need to actually press the wait button to end a loop
     public bool endFailedLoop;//will it actually loop if you didnt get a dot?
@@ -28,6 +31,7 @@ public class GameController : MonoBehaviour
     public GameObject linePrefab;
     public GameObject treeTilePrefab;
     public GameObject bushPrefab;
+    public GameObject levelPreviewPrefab;
     public bool centerTimeLine;
     public Transform turnLimitParent;
     public Transform timelineArrow;//this is for left timeline
@@ -88,11 +92,11 @@ public class GameController : MonoBehaviour
         state = GameState.LevelSelect;
         Services.LevelSelect.Initialize();
         if(Services.LevelSelect.numUnlocked == 1 && !editMode){
-            Services.Grid.LoadLevel(Services.LevelSelect.cursorPosition);
+            /*Services.Grid.LoadLevel(Services.LevelSelect.cursorPosition);
             Services.LevelSelect.Draw();
-            Services.Grid.level.InstantCenter();
+            Services.Grid.level.InstantCenter();*/
         }
-        
+
         //Services.Grid.MakeGrid();
         winTime = -1f;
         for(int i = 0; i < instructionsCopy.Length;i++){
@@ -125,15 +129,17 @@ public class GameController : MonoBehaviour
         }
         if(Input.GetKey(KeyCode.Alpha1)){
             if(Input.GetKeyDown(KeyCode.Alpha0)){
-                for(int i = 0; i < Services.LevelSelect.unlocked.Count;i++){
+                //todo: unlock all cheat
+                /*for(int i = 0; i < Services.LevelSelect.unlocked.Count;i++){
                     if(Services.LevelSelect.levels[i].careAboutBorders){
                         //Services.LevelSelect.unlocked[i] = true;
                         Services.LevelSelect.WinLevel(Services.LevelSelect.levels[i]);
                     }
-                }
+                }*/
             }
             if(Input.GetKeyDown(KeyCode.Alpha9)){
-                if(state == GameState.LevelSelect){
+                //todo: unlock level cheat
+                /*if(state == GameState.LevelSelect){
                     if(Services.LevelSelect.v2Level.ContainsKey(Services.LevelSelect.cursorPosition)){
                         Level l = Services.LevelSelect.v2Level[Services.LevelSelect.cursorPosition];
                         for(var i = 0; i < 4; i++){
@@ -148,14 +154,14 @@ public class GameController : MonoBehaviour
                                     }
                                 }
                                 if(actuallyUnlock){
-                                    Services.LevelSelect.unlocked[levelToUnlock.index] = true;
+                                    //Services.LevelSelect.unlocked[levelToUnlock.index] = true;
                                     Services.LevelSelect.sections[levelToUnlock.section].visible = true;
                                     Services.LevelSelect.numUnlocked++;
                                 }
                             }
                         }
                     }
-                }
+                }*/
             }
             if(Input.GetKey(KeyCode.Alpha5) && Input.GetKeyDown(KeyCode.Alpha9)){
                 //delete everything
@@ -200,7 +206,7 @@ public class GameController : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Space)){
             if(Services.LevelSelect.CursorOnLevel()){
-                Services.Grid.LoadLevel(Services.LevelSelect.v2Level[Services.LevelSelect.cursorPosition]);
+                Services.Grid.LoadLevel(Services.LevelSelect.v2Preview[Services.LevelSelect.cursorPosition]);
             }else if(editMode){
                 #if UNITY_EDITOR
                 Services.LevelSelect.CreateLevel(Services.LevelSelect.cursorPosition);
@@ -208,9 +214,9 @@ public class GameController : MonoBehaviour
             }
         }
         #if UNITY_EDITOR
-        if(editMode){
+        /*if(editMode){
             Services.LevelSelect.LevelSelectEditorControls();
-        }
+        }*/
         #endif
         Services.LevelSelect.Draw();
     }
@@ -220,7 +226,7 @@ public class GameController : MonoBehaviour
         if(Services.Grid.level.gameObject.transform.localScale.x > 0.9f){
             Services.LevelSelect.HandleTutorialText();
         }
-        
+
         if(Input.GetKeyDown(KeyCode.R)){
             resetting = true;
             do{
@@ -230,7 +236,7 @@ public class GameController : MonoBehaviour
                 if(lastTurn.forced){
                     UndoTurn(lastTurn);
                 }
-                
+
                 currentTurn = lastTurn.turn;
                 currentLoop = lastTurn.loop;
                 //UndoClonesTurn();
@@ -239,7 +245,7 @@ public class GameController : MonoBehaviour
             }while(turns.Count > 0);
             resetting = false;
         }
-        if(Services.LevelSelect.won[Services.Grid.level.index] && winTime >= 0f && Time.time >= winTime+0.33f){
+        if(Services.Grid.levelPreview.won && winTime >= 0f && Time.time >= winTime+0.33f){
             Services.Grid.LeaveLevel();
             return;
         }
@@ -303,7 +309,7 @@ public class GameController : MonoBehaviour
                     DoCloneTurn(currentPlayerIndex);
                 }
 
-                
+
             }
         }
         //handle going into new loop
@@ -330,9 +336,9 @@ public class GameController : MonoBehaviour
             }else{
                 FakeInputForTest();
             }
-            
+
         }
-        
+
         if(skipTurn){
             nextMove = 4;
         }
@@ -404,9 +410,9 @@ public class GameController : MonoBehaviour
                 NewLoop();
                 doClonesMove = true;
                 currentPlayerIndex = currentLoop;
-                
+
             }
-            
+
         }
         Services.Grid.level.DrawLevel();
         DrawTurnLimit();
@@ -429,22 +435,23 @@ public class GameController : MonoBehaviour
                 }
             }
         }
-        
+
         if(onExit && allExits){
             winTime = Time.time;
             player.winning = true;
             if(editMode){
                 winTime = -1f;
             }
-            if(Services.LevelSelect.won[Services.Grid.level.index] == false){
+            if(Services.Grid.levelPreview.won == false){
                 Services.LevelSelect.WinLevel(Services.Grid.level);
             }
         }
     }
     //Player stuff
     public void MakePlayer(Vector2Int pos){
+        Debug.Log(pos);
         Player p = new Player(pos,Services.Grid.level.gameObject.transform);
-        
+
         p.index = players.Count;
         players.Add(p);
     }
@@ -506,19 +513,15 @@ public class GameController : MonoBehaviour
             return;
         }
         nextMove = currentNode.nodes.Count;
-        Debug.Log(nextMove);
         if(nextMove > 4){
             //you need to do undo again!
             if(currentNode == parentNode){
                 testLevel = false;
-                Debug.Log("Finished test!");
                 string s = "";
                 foreach(int cloneNumber in cloneNum2WinNum.Keys){
                     s+=cloneNumber+" : "+cloneNum2WinNum[cloneNumber];
                     s+="\n";
                 }
-                Debug.Log(s);
-                Debug.Log(Time.time);
                 nextMove = -1;
                 return;
             }
@@ -571,8 +574,8 @@ public class GameController : MonoBehaviour
                 return;
             }
         }
-        
-        
+
+
         if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)){
             nextMove = 0;
         }
@@ -602,7 +605,7 @@ public class GameController : MonoBehaviour
                 if(endFailedLoop){
                      nextMove = -3;
                 }
-               
+
                 return;
             }
         }
@@ -612,7 +615,7 @@ public class GameController : MonoBehaviour
         }
     }
     bool DoTurn(){
-        
+
         if(nextMove < 0){
             return false;
         }
@@ -641,11 +644,11 @@ public class GameController : MonoBehaviour
                 doClonesMove = true;
                 return true;
             }
-            
+
         }
         //normal movement turn
         Tile currentTile = Services.Grid.tiles[currentPlayer.position];
-        
+
         if(true){
             //you can move there
             Vector2Int newPos = currentPlayer.position+Services.Grid.directions[nextMove];
@@ -668,7 +671,7 @@ public class GameController : MonoBehaviour
             }else{
                 currentPlayer.Move(nextMove);
             }
-            
+
             currentTurn++;
             //now check to see if the player ran into an action point
             bool ranIntoPoint = false;
@@ -688,7 +691,7 @@ public class GameController : MonoBehaviour
     void UndoTurn(TurnState lastTurn){
 
         for(var i = 0; i < lastTurn.playerStates.Count;i++){
-            
+
             //players[i].SetPosition(lastTurn.playerPositions[i]);
             if(players[i].moves[players[i].moves.Count-1] >= 4 && players[i].winning == false){
                 players[i].waitingStatus = 2;
@@ -707,7 +710,7 @@ public class GameController : MonoBehaviour
             if(editMode && players[i].winning){
                 players[i].winning = false;
             }
-            
+
         }
         if(lastTurn.loop == currentLoop-1){
             //you're going back a loop!
@@ -719,9 +722,9 @@ public class GameController : MonoBehaviour
                     turnLimitDisplay[turnLimitDisplay.Count-1].UndoCollect();
                 }
             }
-           
+
             turnLimitDisplay[turnLimitDisplay.Count-1].UndoCollect();
-            
+
         }
         foreach(ActionPoint ap in lastTurn.actionPointStates.Keys){
             if(ap.held != lastTurn.actionPointStates[ap].held){
@@ -849,7 +852,7 @@ public class GameController : MonoBehaviour
             point.flowerIndex = 0;
         }
         MakePlayer(Services.Grid.playerStartPosition);
-        
+
     }
     void NewLoop(Player _player){
         Vector2Int pos = _player.position;
@@ -907,7 +910,7 @@ public class TurnState
         }
     }
 }
-public class TestMoveNode 
+public class TestMoveNode
 {
     public int move;
     public bool won;//did you win with the above move?

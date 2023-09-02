@@ -1,6 +1,0 @@
-level3
-0,1,5
-1,do you think this place is natural?~nor did someone ~p make it?~nor is it both?
-*,*,_
-@2,.,.
-x0,*,_

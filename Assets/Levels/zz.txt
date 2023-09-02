@@ -1,7 +1,0 @@
-_lkgwr
-3,4,3,0
-2,aww its a frog~nhave you ever seen a frog?~nor do you just have the memory?
-_,*,_,*,_
-.,.2,@2,.2,.
-*,.0,x0,.0,*
-.,_,_,_,.

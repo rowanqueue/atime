@@ -5,6 +5,7 @@ using UnityEngine;
 public class Grid : MonoBehaviour
 {
     public Level level;
+    public LevelSelect.LevelPreview levelPreview;
     //runtime
     [HideInInspector]
     public Vector2Int[] directions = new Vector2Int[]{Vector2Int.up,Vector2Int.right,Vector2Int.down,Vector2Int.left};
@@ -17,6 +18,7 @@ public class Grid : MonoBehaviour
     Vector2Int size;
     public Vector2Int playerStartPosition => level.startPosition;
     public Camera camera;
+    public GameObject levelPreviewParent;
     public void ResetGrid(){
         Services.GameController.currentLoop = 0;
         Services.GameController.currentTurn = 0;
@@ -34,20 +36,22 @@ public class Grid : MonoBehaviour
         tiles.Clear();
         actionPoints.Clear();
     }
-    public void LoadLevel(Level l){
+    public void LoadLevel(LevelSelect.LevelPreview lp){
+        levelPreviewParent.SetActive(false);
+        level = new Level(lp.data);
+        levelPreview = lp;
         SaveSystem.Save();
         if(Services.GameController.centerTimeLine == false){
             Services.GameController.timelineArrow.localPosition = Vector2.zero;
         }
         //
         Services.GameController.winTime = -1f;
-        level = l;
         foreach(Exit exit in level.exits.Values){
             exit.TurnOff();
         }
         level.on = true;
         Services.GameController.state = GameState.InLevel;
-        Services.GameController.turnLimit = l.turnLimit;
+        Services.GameController.turnLimit = level.turnLimit;
         foreach(ActionPoint turnPoint in level.turnPoints){
 
             turnPoint.gameObject.transform.parent = Services.GameController.turnLimitParent;
@@ -60,21 +64,28 @@ public class Grid : MonoBehaviour
                 le.gameObject.SetActive(false);
             }
         }
+        Services.Grid.level.InstantCenter();
     }
     public void LoadLevel(Vector2Int pos){
-        if(Services.LevelSelect.v2Level.ContainsKey(pos)){
-            LoadLevel(Services.LevelSelect.v2Level[pos]);
+        if(Services.LevelSelect.v2Preview.ContainsKey(pos)){
+            LoadLevel(Services.LevelSelect.v2Preview[pos]);
         }
     }
     public void LeaveLevel(){
-        //Services.GameController.timelineArrow.localPosition = Vector2.zero;
-        Services.GameController.timelineArrow.localScale = Vector3.zero;
-        Services.GameController.winTime = -1f;
+        //todo: redo leave level
+        levelPreviewParent.SetActive(true);
+        Services.GameController.state = GameState.LevelSelect;
         #if UNITY_EDITOR
         if(level.changed){
             Services.LevelSelect.ResetLevelChanges(level);
         }
         #endif
+        level.Destroy();
+        levelPreview = null;
+        //Services.GameController.timelineArrow.localPosition = Vector2.zero;
+        Services.GameController.timelineArrow.localScale = Vector3.zero;
+        Services.GameController.winTime = -1f;
+       
         Services.GameController.turns.Clear();
         Services.GameController.currentLoop = 0;
         Services.GameController.currentTurn = 0;
@@ -83,10 +94,10 @@ public class Grid : MonoBehaviour
         level.on = false;
         level.Reset();
         level = null;
-        Services.GameController.state = GameState.LevelSelect;
-        foreach(Level le in Services.LevelSelect.levels){
+        
+        /*foreach(Level le in Services.LevelSelect.levels){
             le.gameObject.SetActive(Services.LevelSelect.unlocked[le.index]);
-        }
+        }*/
     }
     public int opposite(int i){
         return (i+2+4)%4;
