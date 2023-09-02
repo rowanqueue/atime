@@ -71,7 +71,6 @@ public class GameController : MonoBehaviour
     public Dictionary<int,int> cloneNum2WinNum = new Dictionary<int, int>();
     public int whichDirection = 0;
     float nextMoveTimeAllowed;
-    public Rectangle turnsAmount;
     // Start is called before the first frame update
     void Awake()
     {
@@ -222,7 +221,6 @@ public class GameController : MonoBehaviour
     }
     void InLevelUpdate()
     {
-        turnsAmount.Width = 0.5f+(0.5f*turnLimit);
         if(Services.Grid.level.gameObject.transform.localScale.x > 0.9f){
             Services.LevelSelect.HandleTutorialText();
         }

@@ -136,6 +136,35 @@ public class Level
         FindExtents();
         FindNeighborsBetweenTiles();
 
+        //make the treetiles
+        foreach(Vector2Int pos in tiles.Keys){
+            for(int i = 0; i < Services.Grid.directions.Length;i++){
+                Vector2Int new_pos = pos+Services.Grid.directions[i];
+                if(tiles.ContainsKey(new_pos)){
+                    continue;
+                }
+                if(treeTiles.ContainsKey(new_pos)){
+                    continue;
+                }
+                AddTreeTile(new_pos);
+            }
+        }
+        for(var j = 0; j < 3;j++){
+            List<Vector2Int> _trees = treeTiles.Keys.ToList();
+            foreach(Vector2Int pos in _trees){
+                for(int i = 0; i < Services.Grid.directions.Length;i++){
+                    Vector2Int new_pos = pos+Services.Grid.directions[i];
+                    if(tiles.ContainsKey(new_pos)){
+                        continue;
+                    }
+                    if(treeTiles.ContainsKey(new_pos)){
+                        continue;
+                    }
+                    AddTreeTile(new_pos,j+1);
+                }
+            }
+        }
+
     }
     public Level(string levelData,string _internal_name){
         gameObject = new GameObject();

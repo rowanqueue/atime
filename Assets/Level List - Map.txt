@@ -1,16 +1,16 @@
+ 																									 
 																									 
 																									 
 																									 
+					j																				 
 																									 
+	aab		aad		aaa		g																		 
 																									 
+	aac						f																		 
 																									 
-			c		d																				 
+							e																		 
 																									 
-	a		b		e																				 
-																									 
-																									 
-																									 
-																									 
+	a		b		c		d																		 
 																									 
 																									 
 																									 

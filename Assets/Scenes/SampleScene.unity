@@ -1875,6 +1875,16 @@ MonoBehaviour:
   - -90
   - -180
   - -270
+  playerPack: {fileID: 11400000, guid: 6942bf624c9580f4e85a4cf537f3c5e1, type: 2}
+  clonePack: {fileID: 11400000, guid: 6582b1a36e18c36438e66ee5a2e8811f, type: 2}
+  clone2Pack: {fileID: 11400000, guid: f5187608f538c7c4ea5eab2280c3c1c3, type: 2}
+  actualWalkSpeed: 0.5
+  flowerSprites: []
+  sideFlowerB: []
+  sideFlowerC: []
+  sideFlowerD: []
+  sideFlowerE: []
+  sideFlowerF: []
 --- !u!4 &1341170393 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8011707806186935900, guid: 28b534eed87d75746878ea35ad6a47ab,
@@ -2474,7 +2484,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  useLevelSheet: 0
+  useLevelSheet: 1
   useJson: 1
   editMode: 1
   haveToWaitToEnd: 1
@@ -2497,6 +2507,10 @@ MonoBehaviour:
   exitPrefab: {fileID: 6653595287076640719, guid: 664a0c3f3f40fc141ba6734f117c585b,
     type: 3}
   linePrefab: {fileID: 7630410347352008073, guid: 28b534eed87d75746878ea35ad6a47ab,
+    type: 3}
+  treeTilePrefab: {fileID: 6135089234920771511, guid: 5ebd8dbb57329184d8ef948196a2036a,
+    type: 3}
+  bushPrefab: {fileID: 5130079100248408093, guid: e7dd67e6f571b6d4a88e38a1ac0d5076,
     type: 3}
   levelPreviewPrefab: {fileID: 2973143566051012383, guid: 0b436b9a50e647a4d915614c57c534cc,
     type: 3}
