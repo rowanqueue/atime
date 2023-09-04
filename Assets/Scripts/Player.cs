@@ -212,7 +212,6 @@ public class Player
                     if(sittingDown){
                         animIndex+=Time.deltaTime*pack.standUpAnimSpeed;
                         int flooredIndex = Mathf.FloorToInt(animIndex);
-                        Debug.Log(flooredIndex);
                         if(flooredIndex >= pack.standUpAnimationDown.Count){
                             animIndex = pack.standUpAnimationDown.Count-1;
                             sittingDown = false;

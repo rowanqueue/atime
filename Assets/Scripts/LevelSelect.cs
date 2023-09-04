@@ -60,7 +60,6 @@ public class LevelSelect : MonoBehaviour
                 string[] line = lines[lines.Length-1-y].Split('\t');
                 for(var x = 0; x < line.Length;x++){
                     Vector2Int pos = new Vector2Int(x,y);
-                    Debug.Log(pos);
                     string level_name = line[x];
                     if(level_name == ""){
                         continue;
@@ -73,7 +72,7 @@ public class LevelSelect : MonoBehaviour
                     }
                     if(level_name == "a"){
                         startPosition = pos;
-                        Camera.main.transform.position = (Vector3)(Vector2)startPosition;
+                        //Camera.main.transform.position = (Vector3)(Vector2)startPosition;
                     }
                     levelsToLoad.Add(level_name,pos);
                 }
