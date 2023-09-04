@@ -249,6 +249,8 @@ public class Level
         FindExtents();
         FindNeighborsBetweenTiles();
 
+        Bounds cameraBounds = FindCameraBounds(Camera.main);
+
         //make the treetiles
         foreach(Vector2Int pos in tiles.Keys){
             for(int i = 0; i < Services.Grid.directions.Length;i++){
@@ -260,6 +262,7 @@ public class Level
                     continue;
                 }
                 AddTreeTile(new_pos);
+                AddFogEffect(new_pos, cameraBounds);
             }
         }
         for(var j = 0; j < 3;j++){
@@ -273,7 +276,9 @@ public class Level
                     if(treeTiles.ContainsKey(new_pos)){
                         continue;
                     }
+                    Debug.Log(new_pos);
                     AddTreeTile(new_pos,j+1);
+                    AddFogEffect(new_pos, cameraBounds);
                 }
             }
         }
@@ -399,6 +404,22 @@ public class Level
         }
         
     }
+    
+    /// <summary>
+    /// Returns the bounds of the camera in world space
+    /// </summary>
+    /// <param name="camera"></param>
+    /// <returns></returns>
+    private Bounds FindCameraBounds(Camera camera)
+    {
+        float screenAspect = (float)Screen.width / (float)Screen.height;
+        float cameraHeight = camera.orthographicSize * 2;
+        Bounds bounds = new Bounds(
+            camera.transform.position,
+            new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
+        return bounds;
+    }
+    
     public void InstantCenter(){
         Vector2 targetPosition = new Vector3(Camera.main.transform.position.x,Camera.main.transform.position.y);
             targetPosition.x-=(extent.x*0.5f);
@@ -524,6 +545,25 @@ public class Level
         treeTiles[pos].Destroy();
         treeTiles.Remove(pos);
     }
+
+    /// <summary>
+    /// Instances a fog effect based on perlin noise
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <param name="depth"></param>
+    /// <param name="cameraBounds"></param>
+    public void AddFogEffect(Vector2Int pos, Bounds cameraBounds)
+    {
+        float fogChance = Random.Range(0f,1f);
+        Debug.Log("Fog chance: " + fogChance + " position: " + pos);
+        if (fogChance < Services.Visuals.fogFrequency)
+        {
+            GameObject fog = GameObject.Instantiate(Services.GameController.fogPrefab, gameObject.transform);
+            fog.transform.localPosition = (Vector2) pos;
+            fog.GetComponent<FogCloudController>().Initialize(-pos.y + 1, cameraBounds.min.x, cameraBounds.max.x);
+        }
+    }
+
     public void AddTile(Vector2Int pos){
         changed = true;
         Vector2Int originChange = Vector2Int.zero;

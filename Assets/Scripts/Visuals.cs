@@ -29,6 +29,10 @@ public class Visuals : MonoBehaviour
     public List<Sprite> sideFlowerD;
     public List<Sprite> sideFlowerE;
     public List<Sprite> sideFlowerF;
+    //
+    public float fogDensity;
+    // The value required from the perlin noise in order for fog to spawn
+    public float fogFrequency;
     public void Start(){
         sideFlowerSprites.Add(sideFlowerB);
         sideFlowerSprites.Add(sideFlowerC);
