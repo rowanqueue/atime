@@ -107,6 +107,7 @@ public class Level
                         tile.spikes[0] = true;
                     }
                 }
+                
                 tile = tiles[pos+Vector2Int.up];
                 if(tile != null){
                     tile.walls[2] = true;
@@ -135,7 +136,7 @@ public class Level
         startMark.transform.localPosition = (Vector2)startPosition;
         FindExtents();
         FindNeighborsBetweenTiles();
-
+        Bounds cameraBounds = FindCameraBounds(Camera.main);
         //make the treetiles
         foreach(Vector2Int pos in tiles.Keys){
             for(int i = 0; i < Services.Grid.directions.Length;i++){
@@ -147,9 +148,10 @@ public class Level
                     continue;
                 }
                 AddTreeTile(new_pos);
+                AddFogEffect(new_pos, cameraBounds);
             }
         }
-        for(var j = 0; j < 3;j++){
+        for(var j = 0; j < 7;j++){
             List<Vector2Int> _trees = treeTiles.Keys.ToList();
             foreach(Vector2Int pos in _trees){
                 for(int i = 0; i < Services.Grid.directions.Length;i++){
@@ -161,6 +163,7 @@ public class Level
                         continue;
                     }
                     AddTreeTile(new_pos,j+1);
+                    AddFogEffect(new_pos, cameraBounds);
                 }
             }
         }
@@ -296,17 +299,6 @@ public class Level
                 }
                 
             }*/
-        }
-        for(var i = 0; i < 4; i++){
-            if(borderNeeded[i] == false){continue;}
-            LineRenderer newBorder = GameObject.Instantiate(Services.GameController.linePrefab,Services.LevelSelect.borderParent).GetComponent<LineRenderer>();
-            newBorder.transform.position = (Vector2)gridPosition;
-            newBorder.positionCount = 2;
-            newBorder.SetPosition(0,(Vector2)Services.Grid.corners[(i-1+4)%4]);
-            newBorder.SetPosition(1,(Vector2)Services.Grid.corners[i]);
-            newBorder.startWidth/=2f;
-            newBorder.endWidth=newBorder.startWidth;
-            Services.LevelSelect.sections[section].edges.Add(newBorder);
         }
 
     }
@@ -555,7 +547,7 @@ public class Level
     public void AddFogEffect(Vector2Int pos, Bounds cameraBounds)
     {
         float fogChance = Random.Range(0f,1f);
-        Debug.Log("Fog chance: " + fogChance + " position: " + pos);
+        //Debug.Log("Fog chance: " + fogChance + " position: " + pos);
         if (fogChance < Services.Visuals.fogFrequency)
         {
             GameObject fog = GameObject.Instantiate(Services.GameController.fogPrefab, gameObject.transform);

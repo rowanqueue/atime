@@ -62,7 +62,7 @@ public class GameController : MonoBehaviour
     public List<int> saveCharacters = new List<int>();
     [HideInInspector]
     public bool resetting;
-    public bool noLimit => Services.LevelSelect.cursorPosition == new Vector2Int(-3,-1);
+    public bool noLimit => Services.LevelSelect.cursorPosition == new Vector2Int(0,0);
     public GameObject startMarkPrefab;
 
     //testGameMode
@@ -73,7 +73,6 @@ public class GameController : MonoBehaviour
     public int whichDirection = 0;
     float nextMoveTimeAllowed;
     public Rectangle turnsAmount;
-
     // Start is called before the first frame update
     void Awake()
     {
@@ -172,7 +171,6 @@ public class GameController : MonoBehaviour
                 SceneManager.LoadScene(0);
             }
         }
-        Services.LevelSelect.borderParent.gameObject.SetActive(state == GameState.LevelSelect);// && editMode == false);
         if(editMode == false){
             if(state == GameState.InLevel){
                 Services.LevelSelect.levelNameDisplay.text = Services.LevelSelect.PrintLevelMoves();
@@ -192,22 +190,46 @@ public class GameController : MonoBehaviour
     }
 
     void LevelSelectUpdate(){
-        int moveCursor = -1;
-        if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)){
-            moveCursor = 0;
+        if(useLevelSheet){
+            if(skipTurn == false){
+                CheckForLevelSelectInput();
+            }
+
+            if(skipTurn){
+                nextMove = 4;
+            }
+            if(nextMove >= 0){
+                bool moved = DoTurnLevelSelect();
+                if(moved){
+                    nextMove = -1;
+                }
+                if(skipTurn){
+                    skipTurn = false;
+                }
+            }
+            Debug.Log(Services.LevelSelect.levelSelectLevel);
+            Services.LevelSelect.levelSelectLevel.DrawLevel();
+            Services.LevelSelect.cursorPosition = Services.LevelSelect.levelSelectLevel.players[0].position;
+        }else{
+            int moveCursor = -1;
+            if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)){
+                moveCursor = 0;
+            }
+            if(Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)){
+                moveCursor = 1;
+            }
+            if(Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)){
+                moveCursor = 2;
+            }
+            if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)){
+                moveCursor = 3;
+            }
+            if(moveCursor != -1){
+                Services.LevelSelect.MoveCursor(moveCursor);
+            }
         }
-        if(Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)){
-            moveCursor = 1;
-        }
-        if(Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)){
-            moveCursor = 2;
-        }
-        if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)){
-            moveCursor = 3;
-        }
-        if(moveCursor != -1){
-            Services.LevelSelect.MoveCursor(moveCursor);
-        }
+        
+        
         if(Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Space)){
             if(Services.LevelSelect.CursorOnLevel()){
                 Services.Grid.LoadLevel(Services.LevelSelect.v2Preview[Services.LevelSelect.cursorPosition]);
@@ -562,6 +584,74 @@ public class GameController : MonoBehaviour
             return;
         }
     }
+    void CheckForLevelSelectInput(){
+        nextMove = -1;
+        Player player = Services.LevelSelect.levelSelectLevel.players[0];
+        if(player.isMoving){
+            return;
+        }
+
+
+        if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)){
+            nextMove = 0;
+        }
+        if(Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)){
+            nextMove = 1;
+        }
+        if(Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)){
+            nextMove = 2;
+        }
+        if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)){
+            nextMove = 3;
+        }
+        if(Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown(KeyCode.Space)){
+            nextMove = 4;
+        }
+    }
+     bool DoTurnLevelSelect(){
+
+        if(nextMove < 0){
+            return false;
+        }
+        Player player = Services.LevelSelect.levelSelectLevel.players[0];
+        Debug.Log(nextMove);
+        if(player.dead){
+            nextMove = 4;
+        }
+        
+        if(nextMove > 3){
+            //its waiting time!
+            //player.Wait();
+            return true;
+        }
+        //normal movement turn
+        Tile currentTile = Services.LevelSelect.levelSelectLevel.tiles[player.position];
+
+        if(true){
+            //you can move there
+            Vector2Int newPos = player.position+Services.Grid.directions[nextMove];
+            bool cannotMove = Services.LevelSelect.levelSelectLevel.tiles.ContainsKey(newPos) == false;
+            //if(cannotMove){return false;}
+            player.AddMove(nextMove);
+            if(cannotMove){
+                player.FailureMove(nextMove);
+            }else{
+                player.Move(nextMove);
+            }
+
+            //now check to see if the player ran into an action point
+            bool ranIntoPoint = false;
+            if(ranIntoPoint){
+                //doLoopSoon = true;
+                return true;
+            }else{
+            }
+            return true;
+        }else{
+            //there is not a tile there
+            return false;
+        }
+    }
 
     void CheckForInput(){
         nextMove = -1;
@@ -605,6 +695,9 @@ public class GameController : MonoBehaviour
                 nextMove = -1;
                 foreach(ActionPoint ap in Services.Grid.actionPoints.Values){
                     if(ap.held){
+                        //THIS IS WHERE EATING IS SET RN
+                        ap.playerHolding.eating = true;
+                        ap.playerHolding.isMoving = true;
                         doLoopSoon = true;
                         TurnState potentialSave = new TurnState();
                         turns.Push(potentialSave);

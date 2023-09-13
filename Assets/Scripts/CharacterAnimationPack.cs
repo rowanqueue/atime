@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CharacterAnimationPack")]
 public class CharacterAnimationPack : ScriptableObject
 {
+    public List<Sprite> introAnimation;
     public List<Sprite> walkAnimationRight;
     public List<Sprite> walkAnimationUp;
     public List<Sprite> walkAnimationDown;

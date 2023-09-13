@@ -22,7 +22,6 @@ public class LevelSelect : MonoBehaviour
     public TextMeshPro levelNameDisplay;
     bool levelMovesCursorOn;
     float levelMovesCursorCountdown;
-    public Transform borderParent;
     public TextMeshPro tutorialTextDisplay;
     int tutorialIndex;
     float nextLetterTime;
@@ -39,6 +38,7 @@ public class LevelSelect : MonoBehaviour
     public bool textEditMode;
     public bool nameEditMode;
     public TextAsset levelMapAsset;
+    public Level levelSelectLevel;
     //level editing sections
     public int sectionSelected = -1;//-1 is none...
     public class LevelPreview{
@@ -47,6 +47,7 @@ public class LevelSelect : MonoBehaviour
         public string name = "";
         public bool won = false;
         public bool unlocked = false;
+        public List<string> unlocks = new List<string>();
         
     }
     public void Initialize(){
@@ -54,6 +55,24 @@ public class LevelSelect : MonoBehaviour
         FindAllLevelAssets();
         Dictionary<string,Vector2Int> levelsToLoad = new Dictionary<string, Vector2Int>();
         if(Services.GameController.useLevelSheet){
+            TextAsset levelSelectAsset = null;
+            foreach(TextAsset textAsset in database.levelTexts){
+                if(textAsset.name == "levelselect"){
+                    levelSelectAsset = textAsset;
+                    break;
+                }
+            }
+            Debug.Log("baba");
+            if(levelSelectAsset != null){
+                LevelJson levelSelectJson = JsonUtility.FromJson<LevelJson>(levelSelectAsset.text);
+                levelSelectLevel = new Level(levelSelectJson);
+                levelSelectLevel.on = true;
+                levelSelectLevel.DrawLevel();
+                levelSelectLevel.gameObject.transform.position = Vector3.zero;
+                Debug.Log("yeeeah");
+            }
+            
+
             string levelMapString = levelMapAsset.text;
             string[] lines = levelMapString.Split('\n');
             for(var y = 0; y < lines.Length;y++){
@@ -74,6 +93,7 @@ public class LevelSelect : MonoBehaviour
                         startPosition = pos;
                         //Camera.main.transform.position = (Vector3)(Vector2)startPosition;
                     }
+                    
                     levelsToLoad.Add(level_name,pos);
                 }
             }
@@ -96,6 +116,7 @@ public class LevelSelect : MonoBehaviour
                     continue;
                 }
                 otherPos = levelsToLoad[levelAsset.name];
+                otherPos-=startPosition;
                     
             }
             
@@ -106,7 +127,11 @@ public class LevelSelect : MonoBehaviour
                 gridPosition = otherPos;
             }
             lp.gameObject = GameObject.Instantiate(Services.GameController.levelPreviewPrefab,(Vector2)gridPosition,Quaternion.identity,Services.Grid.levelPreviewParent.transform);
+            lp.gameObject.GetComponent<LevelPreviewObject>().lp = lp;
             lp.name = levelAsset.name;//lp.data.name;
+            if(lp.name == "a"){
+                lp.unlocks.Add("b");
+            }
             lp.gameObject.GetComponentInChildren<TextMeshPro>().text = lp.name;
             v2Preview.Add(gridPosition,lp);
         }
@@ -115,9 +140,9 @@ public class LevelSelect : MonoBehaviour
         averageExtent/=levels.Count;
         Debug.Log("average extent is "+averageExtent);
         Debug.Log("highest turn limit is: "+highestTurnLimit);
-        cursorPosition = startPosition;
-        cursor.transform.position = (Vector2)startPosition;
-        v2Preview[startPosition].unlocked = true;
+        cursorPosition = Vector2Int.zero;
+        cursor.transform.position = Vector2.zero;
+        v2Preview[Vector2Int.zero].unlocked = true;
         sections.Sort(Section.SortSection);
         foreach(Section section in sections){
             section.ThinkAboutBorders();
@@ -143,6 +168,15 @@ public class LevelSelect : MonoBehaviour
     }
     public void WinLevel(Level le){
         Services.Grid.levelPreview.won = true;
+        for(int i = 0; i < Services.Grid.levelPreview.unlocks.Count;i++){
+            string _name = Services.Grid.levelPreview.unlocks[i];
+            foreach(LevelPreview levelPreview in v2Preview.Values){
+                if(levelPreview.name == _name){
+                    levelPreview.unlocked = true;
+                    break;
+                }
+            }
+        }
         //le.exit.TurnOn();
         numWon++;
         //todo: redo unlock system
@@ -702,6 +736,7 @@ public class LevelSelect : MonoBehaviour
         LevelJson json = l.ConvertLevelToJson();
 
         v2Preview[l.gridPosition].data = json;
+        AssetDatabase.Refresh();
         return;
         string levelString = l.name+'\n';
         levelString+=l.gridPosition.x.ToString()+","+l.gridPosition.y.ToString()+","+l.section.ToString();

@@ -37,6 +37,7 @@ public class Grid : MonoBehaviour
         actionPoints.Clear();
     }
     public void LoadLevel(LevelSelect.LevelPreview lp){
+        Services.LevelSelect.levelSelectLevel.gameObject.SetActive(false);
         levelPreviewParent.SetActive(false);
         level = new Level(lp.data);
         levelPreview = lp;
@@ -94,7 +95,7 @@ public class Grid : MonoBehaviour
         level.on = false;
         level.Reset();
         level = null;
-        
+        Services.LevelSelect.levelSelectLevel.gameObject.SetActive(true);
         /*foreach(Level le in Services.LevelSelect.levels){
             le.gameObject.SetActive(Services.LevelSelect.unlocked[le.index]);
         }*/

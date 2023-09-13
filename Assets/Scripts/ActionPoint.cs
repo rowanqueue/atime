@@ -97,7 +97,6 @@ public class ActionPoint
     public void Grab(Player player){
         held = true;
         playerHolding = player;
-        player.eating = true;
     }
     public void UnGrab(){
         held = false;

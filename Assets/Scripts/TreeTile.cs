@@ -9,6 +9,7 @@ public class TreeTile
     public int depth = 0;
     GameObject gameObject;
     SpriteRenderer tree;
+    SpriteRenderer other;
 
     public TreeTile(Vector2Int position, Transform parent,Level level, int _depth = 0){
         this.depth = _depth;
@@ -16,9 +17,17 @@ public class TreeTile
         gameObject = GameObject.Instantiate(Services.GameController.treeTilePrefab,(Vector2)position,Quaternion.identity,parent);
         gameObject.transform.localPosition = (Vector2)position;
         tree = gameObject.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
+        other = gameObject.transform.GetChild(0).GetChild(1).GetComponent<SpriteRenderer>();
         tree.sortingOrder = -this.position.y;
+        other.sortingOrder = tree.sortingOrder-1;
         if(Random.value < 0.5f){
             tree.flipX = true;
+        }
+        if(Random.value < 0.5f){
+            other.flipX = true;
+        }
+        if(Random.value < 0.9f){
+            other.enabled = false;
         }
         RandomPlacement random = tree.gameObject.AddComponent<RandomPlacement>();
         random.lowest = new Vector2(-0.25f,-0.25f);

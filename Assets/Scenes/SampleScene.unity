@@ -195,6 +195,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Line (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7630410347352008073, guid: 28b534eed87d75746878ea35ad6a47ab,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8011707806186935900, guid: 28b534eed87d75746878ea35ad6a47ab,
         type: 3}
       propertyPath: m_RootOrder
@@ -276,7 +281,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &108498531
 RectTransform:
   m_ObjectHideFlags: 0
@@ -585,6 +590,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Line (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7630410347352008073, guid: 28b534eed87d75746878ea35ad6a47ab,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8011707806186935900, guid: 28b534eed87d75746878ea35ad6a47ab,
         type: 3}
       propertyPath: m_RootOrder
@@ -760,7 +770,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: 20, z: -10}
+  m_LocalPosition: {x: 3.5, y: 3.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 210568663}
@@ -1321,6 +1331,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Line (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7630410347352008073, guid: 28b534eed87d75746878ea35ad6a47ab,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8011707806186935900, guid: 28b534eed87d75746878ea35ad6a47ab,
         type: 3}
       propertyPath: m_RootOrder
@@ -1470,7 +1485,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1129642128
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1651,7 +1666,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1187110436
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1948,6 +1963,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: ded667d46199982409d5d0ebe5582bfa, type: 3}
   - {fileID: 21300000, guid: eb19049167a9c484bbaf1aa2bc7d2ac7, type: 3}
   - {fileID: 21300000, guid: d7803a66bc601fd448fb6fdda7ab0025, type: 3}
+  fogDensity: 1
+  fogFrequency: 0.5
 --- !u!4 &1341170393 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8011707806186935900, guid: 28b534eed87d75746878ea35ad6a47ab,
@@ -2120,7 +2137,6 @@ MonoBehaviour:
   - {fileID: 1888652699}
   cursorPosition: {x: 0, y: 0}
   levelNameDisplay: {fileID: 108498532}
-  borderParent: {fileID: 810772666}
   tutorialTextDisplay: {fileID: 1187110437}
   movingStartPosition: 0
   movingExit: 0
@@ -2454,6 +2470,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Line
       objectReference: {fileID: 0}
+    - target: {fileID: 7630410347352008073, guid: 28b534eed87d75746878ea35ad6a47ab,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8011707806186935900, guid: 28b534eed87d75746878ea35ad6a47ab,
         type: 3}
       propertyPath: m_RootOrder
@@ -2549,7 +2570,7 @@ MonoBehaviour:
   state: 0
   useLevelSheet: 1
   useJson: 1
-  editMode: 1
+  editMode: 0
   haveToWaitToEnd: 1
   endFailedLoop: 0
   cloneCanUseSpawnPortal: 0
@@ -2577,6 +2598,8 @@ MonoBehaviour:
     type: 3}
   levelPreviewPrefab: {fileID: 2973143566051012383, guid: 0b436b9a50e647a4d915614c57c534cc,
     type: 3}
+  fogPrefab: {fileID: 5191738270864915258, guid: 08c4d2702bcf287458ff6177b320491a,
+    type: 3}
   centerTimeLine: 1
   turnLimitParent: {fileID: 650186230}
   timelineArrow: {fileID: 1384409334}
@@ -2603,6 +2626,7 @@ MonoBehaviour:
     type: 3}
   testLevel: 0
   whichDirection: 0
+  turnsAmount: {fileID: 0}
 --- !u!4 &2015332739
 Transform:
   m_ObjectHideFlags: 0

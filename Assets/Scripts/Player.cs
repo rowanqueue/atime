@@ -9,6 +9,7 @@ public class Player
     public Vector2Int spawnPos;
     public Vector2Int position;
     public bool isMoving;
+    public bool spawning;
     public bool completedLoop;
     public int index;
     public int failureDirection = -1;
@@ -37,6 +38,7 @@ public class Player
     public float animIndex;
     public bool eating;
     public bool actuallyEating;
+    public SpriteRenderer poof;
 
     public Player(Vector2Int pos, Transform parent){
         Debug.Log(pos);
@@ -54,6 +56,10 @@ public class Player
         nose = noseCenter.GetComponentInChildren<RegularPolygon>();
         spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
         body.transform.gameObject.SetActive(false);
+        poof = gameObject.transform.GetChild(3).GetComponent<SpriteRenderer>();
+        isMoving = true;
+        spawning = true;
+        spriteRenderer.color = Color.clear;
     }
     public void SetPosition(Vector2Int pos){
         position = pos;
@@ -124,7 +130,17 @@ public class Player
         }
     }
     public void Move(int direction){
+        
         if(direction >= Services.Grid.directions.Length){return;}
+        if(Services.GameController.state == GameState.LevelSelect){
+            position+=Services.Grid.directions[direction];
+            isMoving = true;
+            if(sittingDown){
+                changingSitting = true;
+                animIndex = 0;
+            }
+            return;
+        }
         //physically move, seperate from remembering it
         position+=Services.Grid.directions[direction];
         if(Services.Grid.tiles[position].CanWalk == false){
@@ -176,6 +192,9 @@ public class Player
     }
 
     public void Draw(){
+        if(spawning == false){
+            spriteRenderer.color = Color.white;
+        }
         //nose stuff
         int noseDirection = 2;
         int toCheck = Services.GameController.currentTurn;
@@ -190,6 +209,9 @@ public class Player
                 noseDirection = moves[i];
                 break;
             }
+        }
+        if(Services.GameController.state == GameState.LevelSelect && moves.Count > 0){
+            noseDirection = moves[moves.Count-1];
         }
         noseCenter.transform.localEulerAngles = new Vector3(0,0,Services.Visuals.angles[noseDirection]);
         //end nose stuff
@@ -208,104 +230,139 @@ public class Player
         }
         if(actuallyEating == false){
             if(isMoving){
-                if(changingSitting || (waitToMoveToUndoSitting && sittingDown)){
-                    if(sittingDown){
-                        animIndex+=Time.deltaTime*pack.standUpAnimSpeed;
-                        int flooredIndex = Mathf.FloorToInt(animIndex);
-                        if(flooredIndex >= pack.standUpAnimationDown.Count){
-                            animIndex = pack.standUpAnimationDown.Count-1;
-                            sittingDown = false;
-                            changingSitting = false;
-                            if(waitToMoveToUndoSitting){
-                                waitToMoveToUndoSitting = false;
+                if(spawning){
+                    animIndex+=Time.deltaTime*pack.idleAnimSpeed*2f;
+                    int flooredIndex = Mathf.FloorToInt(animIndex);
+                    if(flooredIndex >= pack.introAnimation.Count){
+                        Debug.Log("aa");
+                        animIndex = pack.introAnimation.Count-1;
+                        spawning = false;
+                        isMoving = false;
+                        flooredIndex = Mathf.FloorToInt(animIndex);
+                    }
+                    spriteRenderer.color = Color.Lerp(new Color(1f,1f,1f,0f),Color.white,animIndex/pack.introAnimation.Count);
+                    poof.sprite = pack.introAnimation[flooredIndex];
+                    if(flooredIndex >= pack.idleAnimationDown.Count){
+                        animIndex = 0;
+                        flooredIndex = 0;
+                    }
+                    switch(noseDirection){
+                        case 0:
+                            spriteRenderer.sprite = pack.idleAnimationUp[flooredIndex];
+                            break;
+                        case 1:
+                            spriteRenderer.sprite = pack.idleAnimationRight[flooredIndex];
+                            break;
+                        case 2:
+                            spriteRenderer.sprite = pack.standingSpriteDown;
+                            spriteRenderer.sprite = pack.idleAnimationDown[flooredIndex];
+                            break;
+                        case 3:
+                            spriteRenderer.flipX = true;
+                            spriteRenderer.sprite = pack.idleAnimationRight[flooredIndex];
+                            break;
+                    }
+                }else{
+                    if(changingSitting || (waitToMoveToUndoSitting && sittingDown)){
+                        if(sittingDown){
+                            animIndex+=Time.deltaTime*pack.standUpAnimSpeed;
+                            int flooredIndex = Mathf.FloorToInt(animIndex);
+                            if(flooredIndex >= pack.standUpAnimationDown.Count){
+                                animIndex = pack.standUpAnimationDown.Count-1;
+                                sittingDown = false;
+                                changingSitting = false;
+                                if(waitToMoveToUndoSitting){
+                                    waitToMoveToUndoSitting = false;
+                                }
+                                flooredIndex = Mathf.FloorToInt(animIndex);
                             }
-                            flooredIndex = Mathf.FloorToInt(animIndex);
+                            switch(noseDirection){
+                                case 0:
+                                    spriteRenderer.sprite = pack.standUpAnimationUp[flooredIndex];
+                                    break;
+                                case 1:
+                                    spriteRenderer.sprite = pack.standUpAnimationRight[flooredIndex];
+                                    break;
+                                case 2:
+                                    spriteRenderer.sprite = pack.standUpAnimationDown[flooredIndex];
+                                    break;
+                                case 3:
+                                    spriteRenderer.flipX = true;
+                                    spriteRenderer.sprite = pack.standUpAnimationRight[flooredIndex];
+                                    break;
+                            }
+                        }else{
+                            animIndex+=Time.deltaTime*pack.standUpAnimSpeed;
+                            int flooredIndex = Mathf.FloorToInt(animIndex);
+                            if(flooredIndex >= pack.sitDownAnimationDown.Count){
+                                animIndex = pack.sitDownAnimationDown.Count-1;
+                                isMoving = false;
+                                sittingDown = true;
+                                changingSitting = false;
+                                flooredIndex = Mathf.FloorToInt(animIndex);
+                            }
+                            switch(noseDirection){
+                                case 0:
+                                    spriteRenderer.sprite = pack.sitDownAnimationUp[flooredIndex];
+                                    break;
+                                case 1:
+                                    spriteRenderer.sprite = pack.sitDownAnimationRight[flooredIndex];
+                                    break;
+                                case 2:
+                                    spriteRenderer.sprite = pack.sitDownAnimationDown[flooredIndex];
+                                    break;
+                                case 3:
+                                    spriteRenderer.flipX = true;
+                                    spriteRenderer.sprite = pack.sitDownAnimationRight[flooredIndex];
+                                    break;
+                            }
+                            
                         }
-                        switch(noseDirection){
-                            case 0:
-                                spriteRenderer.sprite = pack.standUpAnimationUp[flooredIndex];
-                                break;
-                            case 1:
-                                spriteRenderer.sprite = pack.standUpAnimationRight[flooredIndex];
-                                break;
-                            case 2:
-                                spriteRenderer.sprite = pack.standUpAnimationDown[flooredIndex];
-                                break;
-                            case 3:
-                                spriteRenderer.flipX = true;
-                                spriteRenderer.sprite = pack.standUpAnimationRight[flooredIndex];
-                                break;
-                        }
+                        
                     }else{
-                        animIndex+=Time.deltaTime*pack.standUpAnimSpeed;
-                        int flooredIndex = Mathf.FloorToInt(animIndex);
-                        if(flooredIndex >= pack.sitDownAnimationDown.Count){
-                            animIndex = pack.sitDownAnimationDown.Count-1;
-                            isMoving = false;
-                            sittingDown = true;
-                            changingSitting = false;
-                            flooredIndex = Mathf.FloorToInt(animIndex);
-                        }
-                        switch(noseDirection){
-                            case 0:
-                                spriteRenderer.sprite = pack.sitDownAnimationUp[flooredIndex];
-                                break;
-                            case 1:
-                                spriteRenderer.sprite = pack.sitDownAnimationRight[flooredIndex];
-                                break;
-                            case 2:
-                                spriteRenderer.sprite = pack.sitDownAnimationDown[flooredIndex];
-                                break;
-                            case 3:
-                                spriteRenderer.flipX = true;
-                                spriteRenderer.sprite = pack.sitDownAnimationRight[flooredIndex];
-                                break;
+                        if(sittingDown){
+                            switch(noseDirection){
+                                case 0:
+                                    spriteRenderer.sprite = pack.sitDownAnimationUp[pack.sitDownAnimationDown.Count-1];
+                                    break;
+                                case 1:
+                                    spriteRenderer.sprite = pack.sitDownAnimationRight[pack.sitDownAnimationDown.Count-1];
+                                    break;
+                                case 2:
+                                    spriteRenderer.sprite = pack.sitDownAnimationDown[pack.sitDownAnimationDown.Count-1];
+                                    break;
+                                case 3:
+                                    spriteRenderer.flipX = true;
+                                    spriteRenderer.sprite = pack.sitDownAnimationRight[pack.sitDownAnimationDown.Count-1];
+                                    break;
+                            }
+                        }else{
+                            animIndex+=Time.deltaTime*pack.walkAnimSpeed;
+                            int flooredIndex = Mathf.FloorToInt(animIndex);
+                            if(flooredIndex >= pack.walkAnimationRight.Count){
+                                animIndex = 0;
+                                flooredIndex = 0;
+                            }
+                            switch(noseDirection){
+                                case 0:
+                                    spriteRenderer.sprite = pack.walkAnimationUp[flooredIndex];
+                                    break;
+                                case 1:
+                                    spriteRenderer.sprite = pack.walkAnimationRight[flooredIndex];
+                                    break;
+                                case 2:
+                                    spriteRenderer.sprite = pack.walkAnimationDown[flooredIndex];
+                                    break;
+                                case 3:
+                                    spriteRenderer.flipX = true;
+                                    spriteRenderer.sprite = pack.walkAnimationRight[flooredIndex];
+                                    break;
+                            }
                         }
                         
                     }
-                    
-                }else{
-                    if(sittingDown){
-                        switch(noseDirection){
-                            case 0:
-                                spriteRenderer.sprite = pack.sitDownAnimationUp[pack.sitDownAnimationDown.Count-1];
-                                break;
-                            case 1:
-                                spriteRenderer.sprite = pack.sitDownAnimationRight[pack.sitDownAnimationDown.Count-1];
-                                break;
-                            case 2:
-                                spriteRenderer.sprite = pack.sitDownAnimationDown[pack.sitDownAnimationDown.Count-1];
-                                break;
-                            case 3:
-                                spriteRenderer.flipX = true;
-                                spriteRenderer.sprite = pack.sitDownAnimationRight[pack.sitDownAnimationDown.Count-1];
-                                break;
-                        }
-                    }else{
-                        animIndex+=Time.deltaTime*pack.walkAnimSpeed;
-                        int flooredIndex = Mathf.FloorToInt(animIndex);
-                        if(flooredIndex >= pack.walkAnimationRight.Count){
-                            animIndex = 0;
-                            flooredIndex = 0;
-                        }
-                        switch(noseDirection){
-                            case 0:
-                                spriteRenderer.sprite = pack.walkAnimationUp[flooredIndex];
-                                break;
-                            case 1:
-                                spriteRenderer.sprite = pack.walkAnimationRight[flooredIndex];
-                                break;
-                            case 2:
-                                spriteRenderer.sprite = pack.walkAnimationDown[flooredIndex];
-                                break;
-                            case 3:
-                                spriteRenderer.flipX = true;
-                                spriteRenderer.sprite = pack.walkAnimationRight[flooredIndex];
-                                break;
-                        }
-                    }
-                    
                 }
+                
                 
                 
             }else{
@@ -462,6 +519,9 @@ public class Player
                     return;
                 }
                 
+            }
+            if(spawning){
+                return;
             }
             isMoving = false;
             if(failureDirection != -1){

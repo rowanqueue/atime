@@ -12,6 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a423be6dccf1cc245bfab3ef5b52ce5b, type: 3}
   m_Name: PlayerAnimationPack
   m_EditorClassIdentifier: 
+  introAnimation:
+  - {fileID: 21300000, guid: 15bb2bb1c55dc9b4b8df8a38309b3025, type: 3}
+  - {fileID: 21300000, guid: a40fc304bf156b944904fd4b457b6667, type: 3}
+  - {fileID: 21300000, guid: 53724f316a05dd54bade82a425e87130, type: 3}
+  - {fileID: 21300000, guid: d43ea9f96c2f39441845a15efbd1d4cb, type: 3}
+  - {fileID: 21300000, guid: e1f67921e06b04e479d697a8ee2a8225, type: 3}
+  - {fileID: 21300000, guid: 1c48fa6e6e57d8745bdadefebb2a2d10, type: 3}
+  - {fileID: 21300000, guid: 9f1eb71b24388e74eb46e25228cbfa8f, type: 3}
+  - {fileID: 21300000, guid: 85ecc4ca2c4b67c4580c9dfb7f5ec196, type: 3}
+  - {fileID: 21300000, guid: f7046f10c85dfda4cba43adce22144df, type: 3}
+  - {fileID: 21300000, guid: c36357e03888fd44382807cfdff84dda, type: 3}
   walkAnimationRight:
   - {fileID: 21300000, guid: 2a6c7a3194d6b1f45b3baa19330d78be, type: 3}
   - {fileID: 21300000, guid: 1dbf2eb2b77b76b4185d6ada0678d365, type: 3}
