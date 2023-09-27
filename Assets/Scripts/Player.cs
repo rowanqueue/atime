@@ -462,7 +462,7 @@ public class Player
         if(changingSitting){
             return;
         }
-        Debug.Log("A");
+        //Debug.Log("A");
         if(ReferenceEquals(pusher,null) == false){
             if(Vector2.Distance(pusher.gameObject.transform.position,gameObject.transform.position) < 0.25f){
                 pusher = null;

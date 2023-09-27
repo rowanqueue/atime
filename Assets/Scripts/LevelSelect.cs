@@ -619,7 +619,7 @@ public class LevelSelect : MonoBehaviour
                 }else{
                     if(l.treeTiles.ContainsKey(mouseTilePos)){
                         if(l.treeTiles[mouseTilePos].hideTree){
-                            l.treeTiles[mouseTilePos].HideTree(false);
+                            l.treeTiles[mouseTilePos].SetTreeToHidden(false);
                             return;
                         }
                         l.RemoveTreeTile(mouseTilePos);

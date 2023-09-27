@@ -207,7 +207,7 @@ public class GameController : MonoBehaviour
                     skipTurn = false;
                 }
             }
-            Debug.Log(Services.LevelSelect.levelSelectLevel);
+            //Debug.Log(Services.LevelSelect.levelSelectLevel);
             Services.LevelSelect.levelSelectLevel.DrawLevel();
             Services.LevelSelect.cursorPosition = Services.LevelSelect.levelSelectLevel.players[0].position;
         }else{
