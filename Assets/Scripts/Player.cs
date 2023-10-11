@@ -243,7 +243,6 @@ public class Player
                     animIndex+=Time.deltaTime*pack.idleAnimSpeed*2f;
                     int flooredIndex = Mathf.FloorToInt(animIndex);
                     if(flooredIndex >= pack.introAnimation.Count){
-                        Debug.Log("aa");
                         animIndex = pack.introAnimation.Count-1;
                         spawning = false;
                         isMoving = false;
@@ -257,18 +256,18 @@ public class Player
                     }
                     switch(noseDirection){
                         case 0:
-                            spriteRenderer.sprite = pack.idleAnimationUp[flooredIndex];
+                            spriteRenderer.sprite = pack.standingSpriteUp;//pack.idleAnimationUp[flooredIndex];
                             break;
                         case 1:
-                            spriteRenderer.sprite = pack.idleAnimationRight[flooredIndex];
+                            spriteRenderer.sprite = pack.standingSpriteRight; //pack.idleAnimationRight[flooredIndex];
                             break;
                         case 2:
                             spriteRenderer.sprite = pack.standingSpriteDown;
-                            spriteRenderer.sprite = pack.idleAnimationDown[flooredIndex];
+                            //spriteRenderer.sprite = pack.idleAnimationDown[flooredIndex];
                             break;
                         case 3:
                             spriteRenderer.flipX = true;
-                            spriteRenderer.sprite = pack.idleAnimationRight[flooredIndex];
+                            spriteRenderer.sprite = pack.standingSpriteRight; //pack.idleAnimationRight[flooredIndex];
                             break;
                     }
                 }else{
@@ -398,20 +397,21 @@ public class Player
                         animIndex = 0;
                         flooredIndex = 0;
                     }
-                    switch(noseDirection){
+                    switch (noseDirection)
+                    {
                         case 0:
-                            spriteRenderer.sprite = pack.idleAnimationUp[flooredIndex];
+                            spriteRenderer.sprite = pack.standingSpriteUp;//pack.idleAnimationUp[flooredIndex];
                             break;
                         case 1:
-                            spriteRenderer.sprite = pack.idleAnimationRight[flooredIndex];
+                            spriteRenderer.sprite = pack.standingSpriteRight; //pack.idleAnimationRight[flooredIndex];
                             break;
                         case 2:
                             spriteRenderer.sprite = pack.standingSpriteDown;
-                            spriteRenderer.sprite = pack.idleAnimationDown[flooredIndex];
+                            //spriteRenderer.sprite = pack.idleAnimationDown[flooredIndex];
                             break;
                         case 3:
                             spriteRenderer.flipX = true;
-                            spriteRenderer.sprite = pack.idleAnimationRight[flooredIndex];
+                            spriteRenderer.sprite = pack.standingSpriteRight; //pack.idleAnimationRight[flooredIndex];
                             break;
                     }
                 }
