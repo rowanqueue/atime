@@ -21,6 +21,7 @@ public class Visuals : MonoBehaviour
     public CharacterAnimationPack playerPack;
     public CharacterAnimationPack clonePack;
     public CharacterAnimationPack clone2Pack;
+    public CharacterAnimationPack clone3Pack;
     public float actualWalkSpeed = 0.5f;
     public List<Sprite> flowerSprites;
     public List<List<Sprite>> sideFlowerSprites = new List<List<Sprite>>();

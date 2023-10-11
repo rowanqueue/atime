@@ -20,7 +20,7 @@ public class Player
     float timeTurnStarted;
 
     public List<int> moves = new List<int>();
-    
+
     GameObject gameObject;
     Disc head;
     RegularPolygon body;
@@ -41,7 +41,6 @@ public class Player
     public SpriteRenderer poof;
 
     public Player(Vector2Int pos, Transform parent){
-        Debug.Log(pos);
         spawnPos = pos;
         index = 0;//Services.GameController.players.Count;
         position = pos;
@@ -69,6 +68,9 @@ public class Player
         GameObject.Destroy(gameObject);
     }
     public void Reset(){
+        spawning = true;
+        isMoving = true;
+        spriteRenderer.color = Color.clear;
         sittingDown = false;
         dead = false;
         inPit = false;
@@ -121,7 +123,7 @@ public class Player
     }
     public void BePushed(Player pushert,int direction){
         pusher = pushert;
-        Move(direction);
+        Move(direction, true);
         foreach(Player p in Services.GameController.players){
             if(p == this){continue;}
             if(p.position == position){
@@ -129,8 +131,8 @@ public class Player
             }
         }
     }
-    public void Move(int direction){
-        
+    public void Move(int direction, bool pushed = false){
+
         if(direction >= Services.Grid.directions.Length){return;}
         if(Services.GameController.state == GameState.LevelSelect){
             position+=Services.Grid.directions[direction];
@@ -157,7 +159,7 @@ public class Player
             position = new Vector2Int(-10,-10);
         }
         isMoving = true;
-        if(sittingDown){
+        if(sittingDown && pushed == false){
             changingSitting = true;
             animIndex = 0;
         }
@@ -215,15 +217,22 @@ public class Player
         }
         noseCenter.transform.localEulerAngles = new Vector3(0,0,Services.Visuals.angles[noseDirection]);
         //end nose stuff
-        if(Services.GameController.currentLoop != index && moves.Count <= Services.GameController.currentTurn){
-            spriteRenderer.color = new Color(1f,1f,1f,0.5f);
-        }else{
-            spriteRenderer.color = Color.white;
+        if(spawning == false)
+        {
+            if (Services.GameController.currentLoop != index && moves.Count <= Services.GameController.currentTurn)
+            {
+                spriteRenderer.color = new Color(1f, 1f, 1f, 0.5f);
+            }
+            else
+            {
+                spriteRenderer.color = Color.white;
+            }
         }
+
         spriteRenderer.flipX = false;
         CharacterAnimationPack pack = Services.Visuals.playerPack;
         if(Services.GameController.currentLoop != index){
-            pack = Services.Visuals.clone2Pack;
+            pack = Services.Visuals.clone3Pack;
             if(index == Services.GameController.currentLoop-1){
                 pack = Services.Visuals.clonePack;
             }
@@ -316,9 +325,9 @@ public class Player
                                     spriteRenderer.sprite = pack.sitDownAnimationRight[flooredIndex];
                                     break;
                             }
-                            
+
                         }
-                        
+
                     }else{
                         if(sittingDown){
                             switch(noseDirection){
@@ -359,12 +368,12 @@ public class Player
                                     break;
                             }
                         }
-                        
+
                     }
                 }
-                
-                
-                
+
+
+
             }else{
                 if(sittingDown){
                     switch(noseDirection){
@@ -406,12 +415,12 @@ public class Player
                             break;
                     }
                 }
-                
-                
+
+
             }
         }
-        
-        
+
+
         if(winning){
             gameObject.transform.eulerAngles += new Vector3(0,0,10f*(Time.deltaTime/0.016f));
             gameObject.transform.localScale += (Vector3.zero-gameObject.transform.localScale)*0.05f*(Time.deltaTime/0.016f);
@@ -443,7 +452,7 @@ public class Player
                     //cloneNumber.text+="<sprite=4>";
                 }
             }
-            
+
         }
         if(Services.GameController.state == GameState.LevelSelect){
             cloneNumber.text = "";
@@ -462,7 +471,6 @@ public class Player
         if(changingSitting){
             return;
         }
-        //Debug.Log("A");
         if(ReferenceEquals(pusher,null) == false){
             if(Vector2.Distance(pusher.gameObject.transform.position,gameObject.transform.position) < 0.25f){
                 pusher = null;
@@ -480,11 +488,11 @@ public class Player
             legs[0].transform.localPosition =(new Vector3(-0.1f,Mathf.Lerp(-0.2f,-0.05f,t),0f));
             legs[1].transform.localPosition =(new Vector3(0.1f,Mathf.Lerp(-0.05f,-0.2f,t),0f));
         }
-        
+
         if(Vector2.Distance(targetPosition,gameObject.transform.localPosition) < 0.1f){
-            
+
             gameObject.transform.localPosition = targetPosition;
-            
+
             if(eating){
                 if(actuallyEating == false){
                     animIndex = 0;
@@ -500,7 +508,8 @@ public class Player
                     actuallyEating = false;
                     flooredIndex = Mathf.FloorToInt(animIndex);
                 }
-                switch(noseDirection){
+                spriteRenderer.sprite = pack.chompAnimationDown[flooredIndex];
+                /*switch(noseDirection){
                     case 0:
                         spriteRenderer.sprite = pack.chompAnimationUp[flooredIndex];
                         break;
@@ -514,11 +523,11 @@ public class Player
                         spriteRenderer.flipX = true;
                         spriteRenderer.sprite = pack.chompAnimationRight[flooredIndex];
                         break;
-                }
-                if(eating){
+                }*/
+                if (eating){
                     return;
                 }
-                
+
             }
             if(spawning){
                 return;
@@ -537,9 +546,9 @@ public class Player
                 changingSitting = true;
                 isMoving = true;
             }
-            
+
         }
-        
+
         gameObject.transform.localPosition += (targetPosition-gameObject.transform.localPosition).normalized*Services.Visuals.lerpSpeed*Services.Visuals.actualWalkSpeed;
     }
     public void FollowMouse(Vector2 pos){

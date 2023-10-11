@@ -1893,23 +1893,24 @@ MonoBehaviour:
   playerPack: {fileID: 11400000, guid: 6942bf624c9580f4e85a4cf537f3c5e1, type: 2}
   clonePack: {fileID: 11400000, guid: 6582b1a36e18c36438e66ee5a2e8811f, type: 2}
   clone2Pack: {fileID: 11400000, guid: f5187608f538c7c4ea5eab2280c3c1c3, type: 2}
+  clone3Pack: {fileID: 11400000, guid: 0eae36ffd1edd9b4daadd4b800024fe3, type: 2}
   actualWalkSpeed: 0.5
   flowerSprites:
-  - {fileID: 21300000, guid: 1c2b0cf7baf008f46955d6e8cc1d952a, type: 3}
-  - {fileID: 21300000, guid: 719c9cc041ba29c4c915fe4e0c730d5c, type: 3}
-  - {fileID: 21300000, guid: e560786dd27f62b45bba50759f14f92c, type: 3}
-  - {fileID: 21300000, guid: 0d2f8205c64cda14a8976aedcb6c86bb, type: 3}
-  - {fileID: 21300000, guid: edc86f8d4000b424493172924b052973, type: 3}
-  - {fileID: 21300000, guid: aadb919602092cf458f463f67a238926, type: 3}
-  - {fileID: 21300000, guid: 65049ee21df15dd49b781dc47aacfa9f, type: 3}
-  - {fileID: 21300000, guid: bec3854c517167f438b219c6422faf30, type: 3}
-  - {fileID: 21300000, guid: c52535cc47d0bcb48a11d545e29c3632, type: 3}
-  - {fileID: 21300000, guid: e9395557f8770824087ae8489f4cf0a3, type: 3}
-  - {fileID: 21300000, guid: 7b3f92828190544488ab3b2546ef52c5, type: 3}
-  - {fileID: 21300000, guid: 8dd58cf370c5c6641b47858819efb8d7, type: 3}
-  - {fileID: 21300000, guid: b3b8c657cf8250249895c4504a98b3a1, type: 3}
-  - {fileID: 21300000, guid: d9096eb94056d724183b45dc0787fc50, type: 3}
-  - {fileID: 21300000, guid: 9a8a4d7342f4ab14ca912c4e3c1af641, type: 3}
+  - {fileID: 21300000, guid: 3535e1d86b5fcd5499da63a2ac50ac30, type: 3}
+  - {fileID: 21300000, guid: 9fd18e44291695847bfd75eeb0e5569c, type: 3}
+  - {fileID: 21300000, guid: 28c7b92f51927ee4b90ad7d19fe8e769, type: 3}
+  - {fileID: 21300000, guid: 455b2d76b79b904468a54b13d29348d5, type: 3}
+  - {fileID: 21300000, guid: 868c2427ec57e584aba79eba4f1b71e1, type: 3}
+  - {fileID: 21300000, guid: d5b609f6f735f23499ee4c698eaaf7ac, type: 3}
+  - {fileID: 21300000, guid: 756a86ce363bad84eaa69a4fa72b43e5, type: 3}
+  - {fileID: 21300000, guid: 7e2a00f072186a84a82a3d2a7fac6376, type: 3}
+  - {fileID: 21300000, guid: ff6801699a66d6e4892b753def0038a7, type: 3}
+  - {fileID: 21300000, guid: 1d3fc9e89124d044da4b9ad993a5543c, type: 3}
+  - {fileID: 21300000, guid: f4c84c7c1e8a92043a8c5d73e9e09450, type: 3}
+  - {fileID: 21300000, guid: a4ee844c9ecab3b41a1a33c92ec811f1, type: 3}
+  - {fileID: 21300000, guid: cbca47deee273f249b82308d6ea6638d, type: 3}
+  - {fileID: 21300000, guid: 1e411e73a41e7f44e89300518190aca7, type: 3}
+  - {fileID: 21300000, guid: 8336fb6a621d0064eb410f3f1c467712, type: 3}
   sideFlowerB:
   - {fileID: 21300000, guid: 4b68462fbce793c4db73b0a35703ed14, type: 3}
   - {fileID: 21300000, guid: ae36d9ea80b51d149afaa759f7cc221c, type: 3}

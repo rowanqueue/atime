@@ -303,7 +303,6 @@ public class GameController : MonoBehaviour
         if(players.Count == 1){doClonesMove = false;}
         //bhandle making your clones go in order
         if(doClonesMove){
-            Debug.Log("boil boil and troible");
             //its clone moving time!
             bool done = players[currentPlayerIndex].isMoving == false;
             for(int i = 0; i < players.Count;i++){
@@ -436,9 +435,7 @@ public class GameController : MonoBehaviour
                 NewLoop();
                 doClonesMove = true;
                 currentPlayerIndex = currentLoop;
-
             }
-
         }
         Services.Grid.level.DrawLevel();
         DrawTurnLimit();
@@ -614,7 +611,6 @@ public class GameController : MonoBehaviour
             return false;
         }
         Player player = Services.LevelSelect.levelSelectLevel.players[0];
-        Debug.Log(nextMove);
         if(player.dead){
             nextMove = 4;
         }
@@ -901,11 +897,6 @@ public class GameController : MonoBehaviour
             if(cannotMove){return;}
             players[index].Move(players[index].moves[currentTurn]);
             CheckForGrab();
-        }else{
-            if(players[index].sittingDown == false){
-                players[index].changingSitting = true;
-                players[index].isMoving = true;
-            }
         }
     }
 
