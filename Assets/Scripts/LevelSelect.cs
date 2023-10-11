@@ -62,14 +62,12 @@ public class LevelSelect : MonoBehaviour
                     break;
                 }
             }
-            Debug.Log("baba");
             if(levelSelectAsset != null){
                 LevelJson levelSelectJson = JsonUtility.FromJson<LevelJson>(levelSelectAsset.text);
                 levelSelectLevel = new Level(levelSelectJson);
                 levelSelectLevel.on = true;
                 levelSelectLevel.DrawLevel();
                 levelSelectLevel.gameObject.transform.position = Vector3.zero;
-                Debug.Log("yeeeah");
             }
             
 

@@ -41,7 +41,6 @@ public class Player
     public SpriteRenderer poof;
 
     public Player(Vector2Int pos, Transform parent){
-        Debug.Log(pos);
         spawnPos = pos;
         index = 0;//Services.GameController.players.Count;
         position = pos;
@@ -69,6 +68,9 @@ public class Player
         GameObject.Destroy(gameObject);
     }
     public void Reset(){
+        spawning = true;
+        isMoving = true;
+        spriteRenderer.color = Color.clear;
         sittingDown = false;
         dead = false;
         inPit = false;
@@ -121,7 +123,7 @@ public class Player
     }
     public void BePushed(Player pushert,int direction){
         pusher = pushert;
-        Move(direction);
+        Move(direction, true);
         foreach(Player p in Services.GameController.players){
             if(p == this){continue;}
             if(p.position == position){
@@ -129,7 +131,7 @@ public class Player
             }
         }
     }
-    public void Move(int direction){
+    public void Move(int direction, bool pushed = false){
         
         if(direction >= Services.Grid.directions.Length){return;}
         if(Services.GameController.state == GameState.LevelSelect){
@@ -157,7 +159,7 @@ public class Player
             position = new Vector2Int(-10,-10);
         }
         isMoving = true;
-        if(sittingDown){
+        if(sittingDown && pushed == false){
             changingSitting = true;
             animIndex = 0;
         }
@@ -215,15 +217,22 @@ public class Player
         }
         noseCenter.transform.localEulerAngles = new Vector3(0,0,Services.Visuals.angles[noseDirection]);
         //end nose stuff
-        if(Services.GameController.currentLoop != index && moves.Count <= Services.GameController.currentTurn){
-            spriteRenderer.color = new Color(1f,1f,1f,0.5f);
-        }else{
-            spriteRenderer.color = Color.white;
+        if(spawning == false)
+        {
+            if (Services.GameController.currentLoop != index && moves.Count <= Services.GameController.currentTurn)
+            {
+                spriteRenderer.color = new Color(1f, 1f, 1f, 0.5f);
+            }
+            else
+            {
+                spriteRenderer.color = Color.white;
+            }
         }
+        
         spriteRenderer.flipX = false;
         CharacterAnimationPack pack = Services.Visuals.playerPack;
         if(Services.GameController.currentLoop != index){
-            pack = Services.Visuals.clone2Pack;
+            pack = Services.Visuals.clone3Pack;
             if(index == Services.GameController.currentLoop-1){
                 pack = Services.Visuals.clonePack;
             }
@@ -462,7 +471,6 @@ public class Player
         if(changingSitting){
             return;
         }
-        Debug.Log("A");
         if(ReferenceEquals(pusher,null) == false){
             if(Vector2.Distance(pusher.gameObject.transform.position,gameObject.transform.position) < 0.25f){
                 pusher = null;
@@ -500,7 +508,8 @@ public class Player
                     actuallyEating = false;
                     flooredIndex = Mathf.FloorToInt(animIndex);
                 }
-                switch(noseDirection){
+                spriteRenderer.sprite = pack.chompAnimationDown[flooredIndex];
+                /*switch(noseDirection){
                     case 0:
                         spriteRenderer.sprite = pack.chompAnimationUp[flooredIndex];
                         break;
@@ -514,8 +523,8 @@ public class Player
                         spriteRenderer.flipX = true;
                         spriteRenderer.sprite = pack.chompAnimationRight[flooredIndex];
                         break;
-                }
-                if(eating){
+                }*/
+                if (eating){
                     return;
                 }
                 

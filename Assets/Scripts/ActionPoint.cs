@@ -84,9 +84,6 @@ public class ActionPoint
         
     }
     public bool CanGrab(){
-        Debug.Log(Services.GameController.currentTurn);
-        Debug.Log(timer);
-        Debug.Log(Services.GameController.currentTurn >= timer);
         if(Services.GameController.currentTurn >= timer){
             return true;
         }else{
@@ -207,7 +204,7 @@ public class ActionPoint
         circle.endColor = circle.startColor;
 
         if(collected == false){
-            flowerIndex+=Time.deltaTime*10f;
+            flowerIndex += Time.deltaTime * 10f * Random.Range(0f,2f);
             int flooredIndex = Mathf.FloorToInt(flowerIndex);
             if(flooredIndex >= Services.Visuals.flowerSprites.Count){
                 flowerIndex =Services.Visuals.flowerSprites.Count-1;
