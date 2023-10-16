@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a423be6dccf1cc245bfab3ef5b52ce5b, type: 3}
   m_Name: Clone2_Pack
   m_EditorClassIdentifier: 
+  introAnimation: []
   walkAnimationRight:
   - {fileID: 21300000, guid: 67064384080090d429b53d2f68434d1a, type: 3}
   - {fileID: 21300000, guid: 500a447915d02234589ca9cc9699fc92, type: 3}
@@ -24,6 +25,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 44c08d03c2cdc164bb4ffd6286183ba1, type: 3}
   - {fileID: 21300000, guid: 0803698d3c293e84aa84ec66d96be7ba, type: 3}
   - {fileID: 21300000, guid: ad7906ce7fed0764a931dc9f9eca49b6, type: 3}
+  failWalkAnimationUp: []
   walkAnimSpeed: 5
   standingSpriteRight: {fileID: 21300000, guid: d3f928fb8ffaabb45a9cc55af3668b4c,
     type: 3}
@@ -63,6 +65,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 81d95d6971378a54680baab194f9cc94, type: 3}
   - {fileID: 21300000, guid: 7f84b871497a87c4fb7adfcd642066cc, type: 3}
   idleAnimSpeed: 3.5
+  surpriseAnimation: []
+  surpriseAnimSpeed: 0
   sitDownAnimationDown:
   - {fileID: 21300000, guid: 09b606700a55bde44ac372798607b6f0, type: 3}
   - {fileID: 21300000, guid: ba95261c6ee00e245a311155c6d5b7cc, type: 3}
@@ -175,4 +179,4 @@ MonoBehaviour:
   chompAnimationDown: []
   chompAnimationRight: []
   chompAnimationUp: []
-  chompAnimSpeed: 5
+  chompAnimSpeed: 10

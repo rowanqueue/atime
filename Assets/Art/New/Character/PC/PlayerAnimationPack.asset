@@ -35,7 +35,17 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 5df87a56b7680cb41a6d65eb3aa72a59, type: 3}
   - {fileID: 21300000, guid: 9e3856ccc902fae4780b8a7caeeffee1, type: 3}
   - {fileID: 21300000, guid: 73abd2655a47d6249b257b686654dd59, type: 3}
-  walkAnimSpeed: 5
+  failWalkAnimationUp:
+  - {fileID: 21300000, guid: afea4a79fd78c424caf038faf475cf3e, type: 3}
+  - {fileID: 21300000, guid: 567ef848e16290d4fa27fb60f8784c37, type: 3}
+  - {fileID: 21300000, guid: 1fbf463c74122a24eaa97c753cc63288, type: 3}
+  - {fileID: 21300000, guid: 104f9a064d3520648a46f8ed96811872, type: 3}
+  - {fileID: 21300000, guid: 049f4f8dbca265543bb13c38c3999eac, type: 3}
+  - {fileID: 21300000, guid: 6c801cd99dd62d746b8652063ce8ac9f, type: 3}
+  - {fileID: 21300000, guid: aed8ba25406135446991dee419ad822f, type: 3}
+  - {fileID: 21300000, guid: 121312de00d8af84eb0e2b86200d521c, type: 3}
+  - {fileID: 21300000, guid: db710d10670247845ac333dac71cd04c, type: 3}
+  walkAnimSpeed: 10
   standingSpriteRight: {fileID: 21300000, guid: 1d828402a1f08c8479d90c28a4491390,
     type: 3}
   standingSpriteUp: {fileID: 21300000, guid: 767bccb8e86bee44f9f3b8fc6b07153f, type: 3}
@@ -74,6 +84,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 48f12e9a34fccf7439828a6f8072614a, type: 3}
   - {fileID: 21300000, guid: a6d4166d241e388489c629d680370ac0, type: 3}
   idleAnimSpeed: 6
+  surpriseAnimation: []
+  surpriseAnimSpeed: 0
   sitDownAnimationDown:
   - {fileID: 21300000, guid: 06437da483a2f0b439e3ae532c4fe029, type: 3}
   - {fileID: 21300000, guid: b774e61d3b949c848afbfc53bb5841be, type: 3}

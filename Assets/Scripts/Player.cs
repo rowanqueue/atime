@@ -13,6 +13,8 @@ public class Player
     public bool completedLoop;
     public int index;
     public int failureDirection = -1;
+    public bool finishingFailure = false;
+    public bool justPushed = false;
     public int waitingStatus;//0: not waiting, 1: turning
     public bool sittingDown;
     public bool changingSitting;
@@ -123,6 +125,8 @@ public class Player
     }
     public void BePushed(Player pushert,int direction){
         pusher = pushert;
+        //justPushed = true;
+        animIndex = 0;
         Move(direction, true);
         foreach(Player p in Services.GameController.players){
             if(p == this){continue;}
@@ -232,24 +236,61 @@ public class Player
         spriteRenderer.flipX = false;
         CharacterAnimationPack pack = Services.Visuals.playerPack;
         if(Services.GameController.currentLoop != index){
-            pack = Services.Visuals.clone3Pack;
-            if(index == Services.GameController.currentLoop-1){
+            //THIS is for when there are more clones than levels, so oldest clones are always the most fucked up image
+            int distance_from_player = -1+Services.GameController.currentLoop - index;
+            Debug.Log(distance_from_player);
+            if (distance_from_player >= Services.Visuals.clonePacks.Count)
+            {
+                pack = Services.Visuals.clonePacks[Services.Visuals.clonePacks.Count - 1];
+            }
+            else
+            {
+                pack = Services.Visuals.clonePacks[distance_from_player];
+            }
+            //pack = Services.Visuals.clone3Pack;
+            /*if(index == Services.GameController.currentLoop-1)
+            {
                 pack = Services.Visuals.clonePack;
             }
+            if (index == Services.GameController.currentLoop - 2)
+            {
+                pack = Services.Visuals.clone2Pack;
+            }*/
         }
+        Debug.Log(pack.name);
+        if (justPushed)
+        {
+            List<Sprite> surpriseAnim = pack.surpriseAnimation;
+            if(pack.surpriseAnimation.Count <= 0)
+            {
+                surpriseAnim = Services.Visuals.clonePacks[0].surpriseAnimation;
+            }
+            animIndex += Time.deltaTime * Services.Visuals.clonePacks[0].surpriseAnimSpeed;
+            int flooredIndex = Mathf.FloorToInt(animIndex);
+            if (flooredIndex >= surpriseAnim.Count)
+            {
+                animIndex = surpriseAnim.Count - 1;
+                justPushed = false;
+                flooredIndex = Mathf.FloorToInt(animIndex);
+            }
+            spriteRenderer.sprite = surpriseAnim[flooredIndex];
+            
+            return;
+        }
+        Debug.Log("blah");
         if(actuallyEating == false){
             if(isMoving){
                 if(spawning){
                     animIndex+=Time.deltaTime*pack.idleAnimSpeed*2f;
                     int flooredIndex = Mathf.FloorToInt(animIndex);
-                    if(flooredIndex >= pack.introAnimation.Count){
-                        animIndex = pack.introAnimation.Count-1;
+                    if(flooredIndex >= Services.Visuals.playerPack.introAnimation.Count){
+                        animIndex = Services.Visuals.playerPack.introAnimation.Count-1;
                         spawning = false;
                         isMoving = false;
                         flooredIndex = Mathf.FloorToInt(animIndex);
                     }
-                    spriteRenderer.color = Color.Lerp(new Color(1f,1f,1f,0f),Color.white,animIndex/pack.introAnimation.Count);
-                    poof.sprite = pack.introAnimation[flooredIndex];
+                    spriteRenderer.color = Color.Lerp(new Color(1f,1f,1f,0f),Color.white,animIndex/ Services.Visuals.playerPack.introAnimation.Count);
+                    poof.sprite = Services.Visuals.playerPack.introAnimation[flooredIndex];
                     if(flooredIndex >= pack.idleAnimationDown.Count){
                         animIndex = 0;
                         flooredIndex = 0;
@@ -345,27 +386,40 @@ public class Player
                                     break;
                             }
                         }else{
+                            //WALKING SHIT
+                            List<Sprite> walkAnim = pack.walkAnimationDown;
+                            if((failureDirection != -1 || finishingFailure) && noseDirection == 0 && pack.failWalkAnimationUp.Count > 0)
+                            {
+                                walkAnim = pack.failWalkAnimationUp;
+
+                            }
+                            else
+                            {
+                                switch (noseDirection)
+                                {
+                                    case 0:
+                                        walkAnim = pack.walkAnimationUp;
+                                        break;
+                                    case 1:
+                                        walkAnim = pack.walkAnimationRight;
+                                        break;
+                                    case 2:
+                                        walkAnim = pack.walkAnimationDown ;
+                                        break;
+                                    case 3:
+                                        spriteRenderer.flipX = true;
+                                        walkAnim = pack.walkAnimationRight;
+                                        break;
+                                }
+                            }
                             animIndex+=Time.deltaTime*pack.walkAnimSpeed;
                             int flooredIndex = Mathf.FloorToInt(animIndex);
-                            if(flooredIndex >= pack.walkAnimationRight.Count){
+                            if(flooredIndex >= walkAnim.Count){
                                 animIndex = 0;
                                 flooredIndex = 0;
                             }
-                            switch(noseDirection){
-                                case 0:
-                                    spriteRenderer.sprite = pack.walkAnimationUp[flooredIndex];
-                                    break;
-                                case 1:
-                                    spriteRenderer.sprite = pack.walkAnimationRight[flooredIndex];
-                                    break;
-                                case 2:
-                                    spriteRenderer.sprite = pack.walkAnimationDown[flooredIndex];
-                                    break;
-                                case 3:
-                                    spriteRenderer.flipX = true;
-                                    spriteRenderer.sprite = pack.walkAnimationRight[flooredIndex];
-                                    break;
-                            }
+                            spriteRenderer.sprite = walkAnim[flooredIndex];
+                            
                         }
                         
                     }
@@ -472,7 +526,9 @@ public class Player
             return;
         }
         if(ReferenceEquals(pusher,null) == false){
-            if(Vector2.Distance(pusher.gameObject.transform.position,gameObject.transform.position) < 0.25f){
+            if(Vector2.Distance(pusher.gameObject.transform.position,gameObject.transform.position) < 0.9f/*0.25f*/){
+                justPushed = true;
+                animIndex = 0;
                 pusher = null;
             }else{
                 return;
@@ -498,17 +554,21 @@ public class Player
                     animIndex = 0;
                 }
                 actuallyEating = true;
-                animIndex+=Time.deltaTime*pack.chompAnimSpeed;
+                List<Sprite> chompAnim = pack.chompAnimationDown;
+                if (chompAnim.Count <= 0)
+                {
+                    chompAnim = Services.Visuals.clonePacks[0].chompAnimationDown;
+                }
+                animIndex +=Time.deltaTime*pack.chompAnimSpeed;
                 int flooredIndex = Mathf.FloorToInt(animIndex);
-                Debug.Log(flooredIndex.ToString()+" : "+pack.chompAnimationRight.Count);
-                if(flooredIndex > pack.chompAnimationRight.Count-1){
+                if(flooredIndex > chompAnim.Count-1){
                     Debug.Log("DONE!");
-                    animIndex = pack.chompAnimationRight.Count-1;
+                    animIndex = chompAnim.Count-1;
                     eating = false;
                     actuallyEating = false;
                     flooredIndex = Mathf.FloorToInt(animIndex);
                 }
-                spriteRenderer.sprite = pack.chompAnimationDown[flooredIndex];
+                spriteRenderer.sprite = chompAnim[flooredIndex];
                 /*switch(noseDirection){
                     case 0:
                         spriteRenderer.sprite = pack.chompAnimationUp[flooredIndex];
@@ -535,8 +595,11 @@ public class Player
             isMoving = false;
             if(failureDirection != -1){
                 failureDirection = -1;
+                finishingFailure = true;
                 isMoving = true;
+                return;
             }
+            finishingFailure = false;
             if(isMoving == false && sittingDown == false){
                 legs[0].transform.localPosition =new Vector3(-0.1f,-0.2f,0f);
                 legs[1].transform.localPosition =new Vector3(0.1f,-0.2f,0f);

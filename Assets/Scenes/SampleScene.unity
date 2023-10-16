@@ -1891,9 +1891,10 @@ MonoBehaviour:
   - -180
   - -270
   playerPack: {fileID: 11400000, guid: 6942bf624c9580f4e85a4cf537f3c5e1, type: 2}
-  clonePack: {fileID: 11400000, guid: 6582b1a36e18c36438e66ee5a2e8811f, type: 2}
-  clone2Pack: {fileID: 11400000, guid: f5187608f538c7c4ea5eab2280c3c1c3, type: 2}
-  clone3Pack: {fileID: 11400000, guid: 0eae36ffd1edd9b4daadd4b800024fe3, type: 2}
+  clonePacks:
+  - {fileID: 11400000, guid: 6582b1a36e18c36438e66ee5a2e8811f, type: 2}
+  - {fileID: 11400000, guid: f5187608f538c7c4ea5eab2280c3c1c3, type: 2}
+  - {fileID: 11400000, guid: 0eae36ffd1edd9b4daadd4b800024fe3, type: 2}
   actualWalkSpeed: 0.5
   flowerSprites:
   - {fileID: 21300000, guid: 3535e1d86b5fcd5499da63a2ac50ac30, type: 3}

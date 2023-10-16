@@ -9,6 +9,7 @@ public class CharacterAnimationPack : ScriptableObject
     public List<Sprite> walkAnimationRight;
     public List<Sprite> walkAnimationUp;
     public List<Sprite> walkAnimationDown;
+    public List<Sprite> failWalkAnimationUp;
     public float walkAnimSpeed = 5f;
     public Sprite standingSpriteRight;
     public Sprite standingSpriteUp;
@@ -16,7 +17,10 @@ public class CharacterAnimationPack : ScriptableObject
     public List<Sprite> idleAnimationDown;
     public List<Sprite> idleAnimationRight;
     public List<Sprite> idleAnimationUp;
+    
     public float idleAnimSpeed = 3.5f;
+    public List<Sprite> surpriseAnimation;
+    public float surpriseAnimSpeed;
     public List<Sprite> sitDownAnimationDown;
     public List<Sprite> sitDownAnimationRight;
     public List<Sprite> sitDownAnimationUp;
