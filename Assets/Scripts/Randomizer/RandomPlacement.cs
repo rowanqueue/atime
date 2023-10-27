@@ -9,7 +9,6 @@ public class RandomPlacement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("B");
         transform.localPosition= new Vector3(Random.Range(lowest.x,highest.x),Random.Range(lowest.y,highest.y),0f);
         Destroy(this);
     }

@@ -36,7 +36,7 @@ public class TreeTile
         //check for stuff north of you
         bool moreBushChance = false;
         if(level.tiles.ContainsKey(position+Vector2Int.up) || level.tiles.ContainsKey(position+Vector2Int.up*2)){
-            HideTree(true);
+            SetTreeToHidden(true);
             moreBushChance = true;
             
         }else if(level.tiles.ContainsKey(position+Vector2Int.up*3)){
@@ -65,11 +65,13 @@ public class TreeTile
             bush.GetComponent<SpriteRenderer>().sortingOrder = -position.y;
         }
     }
+
     public void Destroy(){
         GameObject.Destroy(gameObject);
     }
-    public void HideTree(bool yes){
-        hideTree = yes;
-        tree.enabled = !yes;
+
+    public void SetTreeToHidden(bool deactivate){
+        hideTree = deactivate;
+        tree.enabled = !deactivate;
     }
 }

@@ -22,7 +22,7 @@ public class Player
     float timeTurnStarted;
 
     public List<int> moves = new List<int>();
-    
+
     GameObject gameObject;
     Disc head;
     RegularPolygon body;
@@ -136,7 +136,7 @@ public class Player
         }
     }
     public void Move(int direction, bool pushed = false){
-        
+
         if(direction >= Services.Grid.directions.Length){return;}
         if(Services.GameController.state == GameState.LevelSelect){
             position+=Services.Grid.directions[direction];
@@ -232,7 +232,7 @@ public class Player
                 spriteRenderer.color = Color.white;
             }
         }
-        
+
         spriteRenderer.flipX = false;
         CharacterAnimationPack pack = Services.Visuals.playerPack;
         if(Services.GameController.currentLoop != index){
@@ -365,9 +365,9 @@ public class Player
                                     spriteRenderer.sprite = pack.sitDownAnimationRight[flooredIndex];
                                     break;
                             }
-                            
+
                         }
-                        
+
                     }else{
                         if(sittingDown){
                             switch(noseDirection){
@@ -421,12 +421,12 @@ public class Player
                             spriteRenderer.sprite = walkAnim[flooredIndex];
                             
                         }
-                        
+
                     }
                 }
-                
-                
-                
+
+
+
             }else{
                 if(sittingDown){
                     switch(noseDirection){
@@ -469,12 +469,12 @@ public class Player
                             break;
                     }
                 }
-                
-                
+
+
             }
         }
-        
-        
+
+
         if(winning){
             gameObject.transform.eulerAngles += new Vector3(0,0,10f*(Time.deltaTime/0.016f));
             gameObject.transform.localScale += (Vector3.zero-gameObject.transform.localScale)*0.05f*(Time.deltaTime/0.016f);
@@ -506,7 +506,7 @@ public class Player
                     //cloneNumber.text+="<sprite=4>";
                 }
             }
-            
+
         }
         if(Services.GameController.state == GameState.LevelSelect){
             cloneNumber.text = "";
@@ -544,11 +544,11 @@ public class Player
             legs[0].transform.localPosition =(new Vector3(-0.1f,Mathf.Lerp(-0.2f,-0.05f,t),0f));
             legs[1].transform.localPosition =(new Vector3(0.1f,Mathf.Lerp(-0.05f,-0.2f,t),0f));
         }
-        
+
         if(Vector2.Distance(targetPosition,gameObject.transform.localPosition) < 0.1f){
-            
+
             gameObject.transform.localPosition = targetPosition;
-            
+
             if(eating){
                 if(actuallyEating == false){
                     animIndex = 0;
@@ -587,7 +587,7 @@ public class Player
                 if (eating){
                     return;
                 }
-                
+
             }
             if(spawning){
                 return;
@@ -609,9 +609,9 @@ public class Player
                 changingSitting = true;
                 isMoving = true;
             }
-            
+
         }
-        
+
         gameObject.transform.localPosition += (targetPosition-gameObject.transform.localPosition).normalized*Services.Visuals.lerpSpeed*Services.Visuals.actualWalkSpeed;
     }
     public void FollowMouse(Vector2 pos){

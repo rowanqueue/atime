@@ -38,6 +38,7 @@ public class Level
     public int sectionExit;//-1 if pos does not have one lol
     public string spoken = "";
     public string timer_key = "abcdef";
+
     public Level(LevelJson levelJson){
         //this is created only for the new level select
         //this is created only to be PLAYED
@@ -136,39 +137,11 @@ public class Level
         startMark.transform.localPosition = (Vector2)startPosition;
         FindExtents();
         FindNeighborsBetweenTiles();
-        Bounds cameraBounds = FindCameraBounds(Camera.main);
-        //make the treetiles
-        foreach(Vector2Int pos in tiles.Keys){
-            for(int i = 0; i < Services.Grid.directions.Length;i++){
-                Vector2Int new_pos = pos+Services.Grid.directions[i];
-                if(tiles.ContainsKey(new_pos)){
-                    continue;
-                }
-                if(treeTiles.ContainsKey(new_pos)){
-                    continue;
-                }
-                AddTreeTile(new_pos);
-                AddFogEffect(new_pos, cameraBounds);
-            }
-        }
-        for(var j = 0; j < 7;j++){
-            List<Vector2Int> _trees = treeTiles.Keys.ToList();
-            foreach(Vector2Int pos in _trees){
-                for(int i = 0; i < Services.Grid.directions.Length;i++){
-                    Vector2Int new_pos = pos+Services.Grid.directions[i];
-                    if(tiles.ContainsKey(new_pos)){
-                        continue;
-                    }
-                    if(treeTiles.ContainsKey(new_pos)){
-                        continue;
-                    }
-                    AddTreeTile(new_pos,j+1);
-                    AddFogEffect(new_pos, cameraBounds);
-                }
-            }
-        }
-
+        // Created a function so I dont have to edit it in both constructors
+        CreateSurroundingTrees(7);
+       
     }
+
     public Level(string levelData,string _internal_name){
         gameObject = new GameObject();
         gameObject.transform.parent = Services.Grid.transform;
@@ -251,42 +224,94 @@ public class Level
         startMark.transform.localPosition = (Vector2)startPosition;
         FindExtents();
         FindNeighborsBetweenTiles();
+        CreateSurroundingTrees(3);
+    }
 
+    /// <summary>
+    /// Creates the trees on empty tiles surronding the level
+    /// the amount of iterations is how far the tree line is
+    /// </summary>
+    /// <param name="treeDepth"></param>
+    private void CreateSurroundingTrees(int treeIterations)
+    {
         Bounds cameraBounds = FindCameraBounds(Camera.main);
 
-        //make the treetiles
-        foreach(Vector2Int pos in tiles.Keys){
-            for(int i = 0; i < Services.Grid.directions.Length;i++){
-                Vector2Int new_pos = pos+Services.Grid.directions[i];
-                if(tiles.ContainsKey(new_pos)){
+        // Goes through each tile and checks every direction
+        foreach (Vector2Int tilePosition in tiles.Keys)
+        {
+            for (int i = 0; i < Services.Grid.directions.Length; i++)
+            {
+                Vector2Int adjacentPosition = tilePosition + Services.Grid.directions[i];
+                // if there is a level relevant object there stop
+                if (tiles.ContainsKey(adjacentPosition))
+                {
                     continue;
                 }
-                if(treeTiles.ContainsKey(new_pos)){
+                // If a tree is there don't place a tree
+                if (treeTiles.ContainsKey(adjacentPosition))
+                {
                     continue;
                 }
-                AddTreeTile(new_pos);
-                AddFogEffect(new_pos, cameraBounds);
+                AddTreeTile(adjacentPosition);
             }
         }
-        for(var j = 0; j < 3;j++){
+
+        // Goes through the tree tiles and places fog where needed
+        foreach (Vector2Int treePosition in treeTiles.Keys)
+        {
+            int adjacentTreeTileCount = 0;
+            for (int i = 0; i < Services.Grid.directions.Length; i++)
+            {
+                Vector2Int adjacentPosition = treePosition + Services.Grid.directions[i];
+                // if there is a level relevant object there stop
+                if (tiles.ContainsKey(adjacentPosition))
+                {
+                    continue;
+                }
+                // If a tree is there don't place a tree
+                if (treeTiles.ContainsKey(adjacentPosition))
+                {
+                    adjacentTreeTileCount++;
+                }
+            }
+
+            if( adjacentTreeTileCount > 2)
+            {
+                AddFogEffect(treePosition, cameraBounds, 0);
+            }
+            else
+            {
+                AddFogEffect(treePosition, cameraBounds, -1);
+            }
+        }
+
+        // Goes through each tree position and looks at each of its neighbors
+        // When it finds an empty tile it places a tree 
+        // It then repeats the process and all the trees look at their neighbors again
+        // could probably be a recursive funtion
+        for (var j = 0; j < treeIterations; j++)
+        {
             List<Vector2Int> _trees = treeTiles.Keys.ToList();
-            foreach(Vector2Int pos in _trees){
-                for(int i = 0; i < Services.Grid.directions.Length;i++){
-                    Vector2Int new_pos = pos+Services.Grid.directions[i];
-                    if(tiles.ContainsKey(new_pos)){
+            foreach (Vector2Int treePosition in _trees)
+            {
+                for (int i = 0; i < Services.Grid.directions.Length; i++)
+                {
+                    Vector2Int adjacentPosition = treePosition + Services.Grid.directions[i];
+                    if (tiles.ContainsKey(adjacentPosition))
+                    {
                         continue;
                     }
-                    if(treeTiles.ContainsKey(new_pos)){
+                    if (treeTiles.ContainsKey(adjacentPosition))
+                    {
                         continue;
                     }
-                    Debug.Log(new_pos);
-                    AddTreeTile(new_pos,j+1);
-                    AddFogEffect(new_pos, cameraBounds);
+                    AddTreeTile(adjacentPosition, j + 1);
+                    AddFogEffect(adjacentPosition, cameraBounds, j + 1);
                 }
             }
         }
-        
     }
+
     //like the borders/lines between levels in leve select
     public void ThinkAboutBorders(){
         //if(careAboutBorders == false){return;}
@@ -483,8 +508,10 @@ public class Level
             exit.Draw();
         }
     }
+
     //LEVEL EDITING SHIT
     #if UNITY_EDITOR
+
     void ReworkOrigin(Vector2Int change){
         List<Tile> tempTiles = new List<Tile>();
         foreach(Tile tile in tiles.Values){
@@ -524,35 +551,42 @@ public class Level
         //Debug.Log(startPosition);
         startMark.transform.localPosition = (Vector2)startPosition;
     }
-    public void AddTreeTile(Vector2Int pos,int depth = 0){
-        if(treeTiles.ContainsKey(pos)){
-            if(treeTiles[pos].hideTree == false){
-                treeTiles[pos].HideTree(true);
+
+    public void AddTreeTile(Vector2Int pos,int depth = 0)
+    {
+        // If there is a tree here already
+        if(treeTiles.ContainsKey(pos))
+        {
+            // if hide tree is false then hide the tree??
+            if(treeTiles[pos].hideTree == false)
+            {
+                treeTiles[pos].SetTreeToHidden(true);
             }
             return;
         }
         treeTiles.Add(pos,new TreeTile(pos,gameObject.transform,this,depth));
     }
+
     public void RemoveTreeTile(Vector2Int pos){
         treeTiles[pos].Destroy();
         treeTiles.Remove(pos);
     }
 
     /// <summary>
-    /// Instances a fog effect based on perlin noise
+    /// Instances a fog effect based on fog frequency
+    /// depending on its distance from the level tiles different fog with be instanced
     /// </summary>
     /// <param name="pos"></param>
-    /// <param name="depth"></param>
+    /// <param name="levelDepth"></param>
     /// <param name="cameraBounds"></param>
-    public void AddFogEffect(Vector2Int pos, Bounds cameraBounds)
+    public void AddFogEffect(Vector2Int pos, Bounds cameraBounds, int levelDepth = 0)
     {
         float fogChance = Random.Range(0f,1f);
-        //Debug.Log("Fog chance: " + fogChance + " position: " + pos);
-        if (fogChance < Services.Visuals.fogFrequency)
+        if (fogChance < Services.Visuals.fogFrequency || levelDepth > 0)
         {
             GameObject fog = GameObject.Instantiate(Services.GameController.fogPrefab, gameObject.transform);
             fog.transform.localPosition = (Vector2) pos;
-            fog.GetComponent<FogCloudController>().Initialize(-pos.y + 1, cameraBounds.min.x, cameraBounds.max.x);
+            fog.GetComponent<FogCloudController>().Initialize(-pos.y + 1, cameraBounds.min.x, cameraBounds.max.x, levelDepth);
         }
     }
 
@@ -939,6 +973,7 @@ public class Level
     }
     #endif
 }
+
 [System.Serializable]
 public class LevelJson{
     public string internal_name;
