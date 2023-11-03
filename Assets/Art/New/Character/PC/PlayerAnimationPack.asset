@@ -35,17 +35,18 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 5df87a56b7680cb41a6d65eb3aa72a59, type: 3}
   - {fileID: 21300000, guid: 9e3856ccc902fae4780b8a7caeeffee1, type: 3}
   - {fileID: 21300000, guid: 73abd2655a47d6249b257b686654dd59, type: 3}
-  failWalkAnimationUp:
-  - {fileID: 21300000, guid: afea4a79fd78c424caf038faf475cf3e, type: 3}
-  - {fileID: 21300000, guid: 567ef848e16290d4fa27fb60f8784c37, type: 3}
-  - {fileID: 21300000, guid: 1fbf463c74122a24eaa97c753cc63288, type: 3}
-  - {fileID: 21300000, guid: 104f9a064d3520648a46f8ed96811872, type: 3}
-  - {fileID: 21300000, guid: 049f4f8dbca265543bb13c38c3999eac, type: 3}
-  - {fileID: 21300000, guid: 6c801cd99dd62d746b8652063ce8ac9f, type: 3}
-  - {fileID: 21300000, guid: aed8ba25406135446991dee419ad822f, type: 3}
-  - {fileID: 21300000, guid: 121312de00d8af84eb0e2b86200d521c, type: 3}
-  - {fileID: 21300000, guid: db710d10670247845ac333dac71cd04c, type: 3}
   walkAnimSpeed: 10
+  failWalkAnimationUp:
+  - {fileID: 21300000, guid: 409bbf076416bcc449c01c316f0a1f9c, type: 3}
+  - {fileID: 21300000, guid: 98feb4610365c7a4298fd3fc64d1c80a, type: 3}
+  - {fileID: 21300000, guid: a5566f4e54ff4ff43ab56bf060dbfe83, type: 3}
+  - {fileID: 21300000, guid: e6170d6a4e424e5488a768594bc1c958, type: 3}
+  - {fileID: 21300000, guid: 623a8be1ccd11ba48912ca6cb2fcbd05, type: 3}
+  - {fileID: 21300000, guid: 0e96198bee707c246aa7d999a52c72e3, type: 3}
+  - {fileID: 21300000, guid: ada61297a44b62d4690b110f9f9258f6, type: 3}
+  - {fileID: 21300000, guid: c1e448e0edc219f4893fd319d2527fcc, type: 3}
+  - {fileID: 21300000, guid: da868d95c91238840aada6a1925ba9f5, type: 3}
+  failWalkAnimSpeed: 20
   standingSpriteRight: {fileID: 21300000, guid: 1d828402a1f08c8479d90c28a4491390,
     type: 3}
   standingSpriteUp: {fileID: 21300000, guid: 767bccb8e86bee44f9f3b8fc6b07153f, type: 3}

@@ -129,7 +129,7 @@ MonoBehaviour:
   fogSprite: {fileID: 6225350884669252013}
   speedMin: 1
   speedMax: 2
-  frontalFogColor: {r: 0.90196085, g: 0.90196085, b: 0.90196085, a: 0.49803922}
+  frontalFogColor: {r: 0.32700002, g: 0.32700002, b: 0.32700002, a: 0.49803922}
   lightFogColor: {r: 0.90199995, g: 0.90199995, b: 0.90199995, a: 0.8509804}
   midFogColor: {r: 0.95199996, g: 0.95199996, b: 0.95199996, a: 0.8666667}
   heavyFogColor: {r: 0.95199996, g: 0.95199996, b: 0.95199996, a: 1}

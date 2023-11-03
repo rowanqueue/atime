@@ -257,7 +257,6 @@ public class Player
                 pack = Services.Visuals.clone2Pack;
             }*/
         }
-        Debug.Log(pack.name);
         if (justPushed)
         {
             List<Sprite> surpriseAnim = pack.surpriseAnimation;
@@ -388,7 +387,7 @@ public class Player
                         }else{
                             //WALKING SHIT
                             List<Sprite> walkAnim = pack.walkAnimationDown;
-                            if((failureDirection != -1 || finishingFailure) && noseDirection == 0 && pack.failWalkAnimationUp.Count > 0)
+                            if(finishingFailure && noseDirection == 0 && pack.failWalkAnimationUp.Count > 0)
                             {
                                 walkAnim = pack.failWalkAnimationUp;
 

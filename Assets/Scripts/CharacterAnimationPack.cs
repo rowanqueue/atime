@@ -9,8 +9,9 @@ public class CharacterAnimationPack : ScriptableObject
     public List<Sprite> walkAnimationRight;
     public List<Sprite> walkAnimationUp;
     public List<Sprite> walkAnimationDown;
-    public List<Sprite> failWalkAnimationUp;
     public float walkAnimSpeed = 5f;
+    public List<Sprite> failWalkAnimationUp;
+    public float failWalkAnimSpeed = 5f;
     public Sprite standingSpriteRight;
     public Sprite standingSpriteUp;
     public Sprite standingSpriteDown;
