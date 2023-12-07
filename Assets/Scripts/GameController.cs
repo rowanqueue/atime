@@ -116,6 +116,10 @@ public class GameController : MonoBehaviour
 
     // Update is called once per frame
     void Update(){
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
         if(Input.GetKeyDown(KeyCode.Y)){
             /*if(testLevel == false && state == GameState.InLevel){
                 parentNode = new TestMoveNode(-1,0,0,false,null);

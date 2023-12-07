@@ -51,9 +51,10 @@ public class LevelSelect : MonoBehaviour
         
     }
     public void Initialize(){
+        Dictionary<string, Vector2Int> levelsToLoad = new Dictionary<string, Vector2Int>();
         #if UNITY_EDITOR
         FindAllLevelAssets();
-        Dictionary<string,Vector2Int> levelsToLoad = new Dictionary<string, Vector2Int>();
+        #endif
         if(Services.GameController.useLevelSheet){
             TextAsset levelSelectAsset = null;
             foreach(TextAsset textAsset in database.levelTexts){
@@ -91,13 +92,10 @@ public class LevelSelect : MonoBehaviour
                         startPosition = pos;
                         //Camera.main.transform.position = (Vector3)(Vector2)startPosition;
                     }
-                    
                     levelsToLoad.Add(level_name,pos);
                 }
             }
         }
-        
-        #endif
         sectionSelected = -1;
         sections = new List<Section>();
         levels = new List<Level>();

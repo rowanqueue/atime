@@ -552,43 +552,6 @@ public class Level
         startMark.transform.localPosition = (Vector2)startPosition;
     }
 
-    public void AddTreeTile(Vector2Int pos,int depth = 0)
-    {
-        // If there is a tree here already
-        if(treeTiles.ContainsKey(pos))
-        {
-            // if hide tree is false then hide the tree??
-            if(treeTiles[pos].hideTree == false)
-            {
-                treeTiles[pos].SetTreeToHidden(true);
-            }
-            return;
-        }
-        treeTiles.Add(pos,new TreeTile(pos,gameObject.transform,this,depth));
-    }
-
-    public void RemoveTreeTile(Vector2Int pos){
-        treeTiles[pos].Destroy();
-        treeTiles.Remove(pos);
-    }
-
-    /// <summary>
-    /// Instances a fog effect based on fog frequency
-    /// depending on its distance from the level tiles different fog with be instanced
-    /// </summary>
-    /// <param name="pos"></param>
-    /// <param name="levelDepth"></param>
-    /// <param name="cameraBounds"></param>
-    public void AddFogEffect(Vector2Int pos, Bounds cameraBounds, int levelDepth = 0)
-    {
-        float fogChance = Random.Range(0f,1f);
-        if (fogChance < Services.Visuals.fogFrequency || levelDepth > 0)
-        {
-            GameObject fog = GameObject.Instantiate(Services.GameController.fogPrefab, gameObject.transform);
-            fog.transform.localPosition = (Vector2) pos;
-            fog.GetComponent<FogCloudController>().Initialize(-pos.y + 1, cameraBounds.min.x, cameraBounds.max.x, levelDepth);
-        }
-    }
 
     public void AddTile(Vector2Int pos){
         changed = true;
@@ -691,36 +654,8 @@ public class Level
         }
         
     }
-    public void AddPit(Vector2Int pos){
-        changed = true;
-        tiles[pos].AddPit();
-    }
-    public void RemovePit(Vector2Int pos){
-        changed = true;
-        tiles[pos].RemovePit();
-    }
-    public void AddSpores(Vector2Int pos){
-        if(tiles[pos].hasSpores){
-            return;
-        }
-        changed = true;
-        tiles[pos].AddSpores();
-    }
-    public void RemoveSpores(Vector2Int pos){
-        changed = true;
-        tiles[pos].RemoveSpores();
-    }
-    public void AddSpawnPortal(Vector2Int pos){
-        if(tiles[pos].hasSpawnPortal){
-            return;
-        }
-        changed = true;
-        tiles[pos].AddSpawnPortal();
-    }
-    public void RemoveSpawnPortal(Vector2Int pos){
-        changed = true;
-        tiles[pos].RemoveSpawnPortal();
-    }
+    
+    
     public void MoveExit(Exit exit, Vector2Int pos){
         changed = true;
         exits.Remove(exit.position);
@@ -968,10 +903,84 @@ public class Level
         Debug.Log(s);
         return s;
     }
+#endif
     public void Destroy(){
         GameObject.Destroy(gameObject);
     }
-    #endif
+    public void AddPit(Vector2Int pos)
+    {
+        changed = true;
+        tiles[pos].AddPit();
+    }
+    public void RemovePit(Vector2Int pos)
+    {
+        changed = true;
+        tiles[pos].RemovePit();
+    }
+    public void AddSpores(Vector2Int pos)
+    {
+        if (tiles[pos].hasSpores)
+        {
+            return;
+        }
+        changed = true;
+        tiles[pos].AddSpores();
+    }
+    public void RemoveSpores(Vector2Int pos)
+    {
+        changed = true;
+        tiles[pos].RemoveSpores();
+    }
+    public void AddSpawnPortal(Vector2Int pos)
+    {
+        if (tiles[pos].hasSpawnPortal)
+        {
+            return;
+        }
+        changed = true;
+        tiles[pos].AddSpawnPortal();
+    }
+    public void RemoveSpawnPortal(Vector2Int pos)
+    {
+        changed = true;
+        tiles[pos].RemoveSpawnPortal();
+    }
+    public void AddTreeTile(Vector2Int pos, int depth = 0)
+    {
+        // If there is a tree here already
+        if (treeTiles.ContainsKey(pos))
+        {
+            // if hide tree is false then hide the tree??
+            if (treeTiles[pos].hideTree == false)
+            {
+                treeTiles[pos].SetTreeToHidden(true);
+            }
+            return;
+        }
+        treeTiles.Add(pos, new TreeTile(pos, gameObject.transform, this, depth));
+    }
+    public void RemoveTreeTile(Vector2Int pos)
+    {
+        treeTiles[pos].Destroy();
+        treeTiles.Remove(pos);
+    }
+    /// <summary>
+    /// Instances a fog effect based on fog frequency
+    /// depending on its distance from the level tiles different fog with be instanced
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <param name="levelDepth"></param>
+    /// <param name="cameraBounds"></param>
+    public void AddFogEffect(Vector2Int pos, Bounds cameraBounds, int levelDepth = 0)
+    {
+        float fogChance = Random.Range(0f, 1f);
+        if (fogChance < Services.Visuals.fogFrequency || levelDepth > 0)
+        {
+            GameObject fog = GameObject.Instantiate(Services.GameController.fogPrefab, gameObject.transform);
+            fog.transform.localPosition = (Vector2)pos;
+            fog.GetComponent<FogCloudController>().Initialize(-pos.y + 1, cameraBounds.min.x, cameraBounds.max.x, levelDepth);
+        }
+    }
 }
 
 [System.Serializable]
