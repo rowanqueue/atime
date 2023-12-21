@@ -52,4 +52,46 @@ public class Visuals : MonoBehaviour
         if(Vector3.Distance(start,finish) < 0.01f){return finish;}
         return start += (finish-start)*lerpSpeed;
     }
+
+    #region EASING HOLE
+    /// <summary>
+    /// Easing fuctions using https://easings.net/
+    /// </summary>
+    /// <param name="style"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    public float GetEasedValue(EasingStyle style, float x)
+    {
+        switch (style)
+        {
+            case EasingStyle.Linear:
+                return x;
+            case EasingStyle.EaseIn:
+                return x * x;
+            case EasingStyle.EaseOut:
+                return 1 - (1 - x) * (1 - x);
+            case EasingStyle.EaseInEaseOut:
+                return x < 0.5 ? 2 * x * x : 1 - Mathf.Pow(-2 * x + 2, 2) / 2;
+            default:
+                return x;
+
+            // Fuckit ill do the rest later
+        }
+    }
+    #endregion
+
+}
+
+public enum EasingStyle
+{
+    Linear,
+    EaseIn,
+    EaseOut,
+    EaseInEaseOut,
+    EaseInElastic,
+    EaseOutElastic,
+    EaseInEaseOutElastic,
+    EaseInBack,
+    EaseOutBack,
+    EaseInEaseOutBack
 }

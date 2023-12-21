@@ -276,7 +276,7 @@ public class Player
             
             return;
         }
-        Debug.Log("blah");
+        
         if(actuallyEating == false){
             if(isMoving){
                 if(spawning){

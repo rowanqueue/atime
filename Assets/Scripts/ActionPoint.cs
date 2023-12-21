@@ -6,7 +6,7 @@ using Shapes;
 
 public class ActionPoint
 {
-    
+    public ActionPointView view;
     public bool on = true;
     public bool collected = false;//its a part of the turn structure now
     public bool held = false;//its being held by a player
@@ -30,9 +30,18 @@ public class ActionPoint
     public float flowerIndex;
     public SpriteRenderer orb;
 
-    public ActionPoint(Vector2Int gridPosition,Transform parent){//starts in the level
+    /// <summary>
+    /// Use when starting in level
+    /// </summary>
+    /// <param name="gridPosition"></param>
+    /// <param name="parent"></param>
+    public ActionPoint(Vector2Int gridPosition,Transform parent)
+    {
         this.gridPosition = gridPosition;
         gameObject = GameObject.Instantiate(Services.GameController.actionPointPrefab,(Vector2)gridPosition,Quaternion.identity,parent);
+        view = gameObject.transform.GetComponent<ActionPointView>();
+        view.InitializeView(ActionPointStates.InLevel);
+
         circle = gameObject.transform.GetChild(0).GetComponent<LineRenderer>();
         outerWidth = circle.startWidth;
         index = -1;
@@ -57,11 +66,20 @@ public class ActionPoint
         }
         orb = gameObject.transform.GetChild(2).GetComponent<SpriteRenderer>();
     }
-    public ActionPoint(int index, Transform parent){//starts already had
+
+    /// <summary>
+    /// Use when point starts in UI
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="parent"></param>
+    public ActionPoint(int index, Transform parent)
+    {
         startedAsTurn = true;
         this.index = index;
         collected = true;
         gameObject = GameObject.Instantiate(Services.GameController.actionPointPrefab,(Vector2)gridPosition,Quaternion.identity,parent);
+        view = gameObject.transform.GetComponent<ActionPointView>();
+        view.InitializeView(ActionPointStates.InUI);
         circle = gameObject.transform.GetChild(0).GetComponent<LineRenderer>();
         outerWidth = circle.startWidth;
         text = gameObject.GetComponentInChildren<TextMeshPro>();
@@ -70,9 +88,19 @@ public class ActionPoint
         //get rid of leftbehind
         leftBehind.gameObject.SetActive(false);
     }
-    public ActionPoint(Transform parent){//created mid-game by pack of points
+
+    /// <summary>
+    /// Use when created by multi action points in the UI???
+    /// </summary>
+    /// <param name="parent"></param>
+    public ActionPoint(Transform parent)
+    {
+        
+
         createdMidGame = true;
         gameObject = GameObject.Instantiate(Services.GameController.actionPointPrefab,(Vector2)gridPosition,Quaternion.identity,parent);
+        view = gameObject.transform.GetComponent<ActionPointView>();
+        view.InitializeView(ActionPointStates.InUI);
         circle = gameObject.transform.GetChild(0).GetComponent<LineRenderer>();
         outerWidth = circle.startWidth;
         index = -1;
@@ -81,8 +109,8 @@ public class ActionPoint
         orb = gameObject.transform.GetChild(3).GetComponent<SpriteRenderer>();
         //Get rid of leftbehind
         leftBehind.gameObject.SetActive(false);
-        
     }
+
     public bool CanGrab(){
         if(Services.GameController.currentTurn >= timer){
             return true;
@@ -90,15 +118,18 @@ public class ActionPoint
             return false;
         }
     }
+
     //
     public void Grab(Player player){
         held = true;
         playerHolding = player;
     }
+
     public void UnGrab(){
         held = false;
         playerHolding = null;
     }
+
     public void Collect(){
         held = false;
         Services.Grid.actionPoints.Remove(gridPosition);
@@ -116,6 +147,7 @@ public class ActionPoint
             }
         }
     }
+
     public void UndoCollect(){
         on = true;
         if(createdMidGame){
@@ -131,6 +163,7 @@ public class ActionPoint
         Services.GameController.turnLimit--;
         
     }
+
     public void Draw()
     {
         if(startedAsTurn == false && createdMidGame == false){
@@ -183,7 +216,6 @@ public class ActionPoint
             circle.SetPosition(1,Services.Visuals.LerpVector(circle.GetPosition(1),Vector2.zero));
         }
         
-        
         if(held){
             Vector2 targetPosition = Vector2.zero;
             targetPosition.y = -0.15f+Mathf.Cos(Time.time*3f)*0.04f;
@@ -195,9 +227,9 @@ public class ActionPoint
             circle.sortingLayerName = "Point";
             circle.sortingOrder = 1;
             if(collected){
-                gameObject.transform.localPosition += (new Vector3(index*0.5f,0,0)-gameObject.transform.localPosition)*Services.Visuals.lerpSpeed;
+                gameObject.transform.localPosition += (new Vector3(index*0.5f,0,0) - gameObject.transform.localPosition)*Services.Visuals.lerpSpeed;
             }else{
-                gameObject.transform.localPosition += ((Vector3)(Vector2)gridPosition-gameObject.transform.localPosition)*Services.Visuals.lerpSpeed;
+                gameObject.transform.localPosition += ((Vector3)(Vector2)gridPosition - gameObject.transform.localPosition) * Services.Visuals.lerpSpeed;
             }
         }
         circle.endWidth = circle.startWidth;
@@ -231,9 +263,8 @@ public class ActionPoint
             orb.enabled = true;
             orb.sortingLayerName = "UI";
         }
-        
-        
     }
+
     public void InstantShrink(){
         float targetWidth = innerWidth*gameObject.transform.parent.localScale.x;
         if(!on){
@@ -247,6 +278,7 @@ public class ActionPoint
             gameObject.transform.localPosition = (Vector2)gridPosition;
         }
     }
+
     public void Show(){
         circle.enabled = true;
     }
@@ -258,7 +290,10 @@ public class ActionPoint
         GameObject.Destroy(leftBehind.gameObject);
         GameObject.Destroy(gameObject);
     }
+
+
 }
+
 public class ActionPointState
 {
     public bool held;

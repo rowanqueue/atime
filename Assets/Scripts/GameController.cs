@@ -659,7 +659,6 @@ public class GameController : MonoBehaviour
             return;
         }
         if(currentPlayer.isMoving){
-            Debug.Log("babab");
             return;
         }
         foreach(Player p in players){

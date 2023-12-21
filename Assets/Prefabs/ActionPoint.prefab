@@ -867,6 +867,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8105273230570018662}
+  - component: {fileID: 2833445068384133034}
   m_Layer: 0
   m_Name: ActionPoint
   m_TagString: Untagged
@@ -892,6 +893,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2833445068384133034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8105273230570018660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa0854c7f58c03649b55ddd0dbd3cef8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 0
+  orbSprite: {fileID: 2415644023251591655}
+  bounceDistance: 0.07
+  bounceRate: 2
 --- !u!1 &8518498575235293311
 GameObject:
   m_ObjectHideFlags: 0
